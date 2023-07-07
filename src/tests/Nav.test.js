@@ -21,6 +21,7 @@ describe('Nav Component Rendering', () => {
         expect(homeLink).not.toBeInTheDocument();
         });
     
+    // this test is currently failing -
     test('renders report missing link on medium screens or larger', () => {
         render(
         <MemoryRouter initialEntries={['/']}>
