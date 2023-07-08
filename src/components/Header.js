@@ -1,41 +1,23 @@
 import { NavLink } from "react-router-dom";
-// import { useLocation } from 'react-router-dom';
-// import HamburgerMenu from './HamburgerMenu';
-import { useMediaQuery } from 'react-responsive';
+import { Nav } from "./Nav";
 
 export function Header() {
-    // const location = useLocation();
-    // if (location.pathname !== '/') {
-    //     return null; // Hide the header on routes other than "/"
-    // }
 
-    // const isHomePage = location.pathname === "/";
-    const isMdScreenOrLarger = useMediaQuery({ minWidth: 768 });
-
-    return (
-        <div>
-        {isMdScreenOrLarger ? (
-        <div className="flex items-center align-middle justify-between">
-            <NavLink
-                to="/"
-                className="text-6xl pt-5 text-semibold align-middle hover:scale-105 transition-transform duration-300"
-            >
-                Hope Hunters
-            </NavLink>
-        </div>) : 
-        (
-            <div className="flex items-center align-middle justify-between">
-            <NavLink
-                to="/"
-                className="text-lg font-extralight align-middle hover:scale-105 transition-transform duration-300"
-            >
-                Hope Hunters
-            </NavLink>
-            <div className="">
-                {/* <HamburgerMenu /> */}
-            </div>
-        </div>
-        )}
-        </div>
-    );
+  return (
+    <div>
+      <div className="flex items-center justify-between">
+        {/* Render Hope Hunters header at all times with redirect to homepage */}
+        <NavLink
+          to="/"
+          className="text-6xl text-semibold align-middle hover:scale-105 transition-transform duration-300"
+        >
+          Hope Hunters
+        </NavLink>
+        {/* Render nav component in header at all times */}
+        <Nav />
+      </div>
+    </div>
+  );
 }
+
+export default Header;

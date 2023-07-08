@@ -10,10 +10,10 @@ function App() {
         {/* {location.pathname !== '/' ? <HomeHeader /> : ""} */}
         {/* <Header /> */}
         <Routes>
-          <Route path="/" element={<Nav />}/>
           <Route element={<PageLayout />}>
-            <Route path="/report" element={<Nav />} />
-            <Route path="/login" element={<Nav />} />
+            <Route path="/" element=""/>
+            <Route path="/report" element="" />
+            <Route path="/login" element="" />
             <Route path="/signup" element="" />
             <Route path="/dashboard" element="" />
           </Route>
