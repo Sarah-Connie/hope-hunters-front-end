@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Nav from './components/Nav';
+import { PageLayout } from './pages/PageLayout';
 
 function App() {
   return (
@@ -10,7 +11,7 @@ function App() {
         {/* <Header /> */}
         <Routes>
           <Route path="/" element={<Nav />}/>
-          <Route element="">
+          <Route element={<PageLayout />}>
             <Route path="/report" element={<Nav />} />
             <Route path="/login" element={<Nav />} />
             <Route path="/signup" element="" />

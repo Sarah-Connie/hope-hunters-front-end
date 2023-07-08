@@ -13,7 +13,8 @@ export function Nav() {
     <div>
         {/* on med/lg screens, show only report a missing link and/or home link */}
         {isMdScreenOrLarger ? (
-            <ul className="">
+            <div>
+            <ul className="bg-blue-300">
                 {/* Show home link when not on homepage */}
                 <li>
                     {isNotHomePage && (
@@ -28,9 +29,11 @@ export function Nav() {
                 <NavLink to="/report">Report a Missing Person</NavLink>
                 </li>
             </ul>
+            </div>
         ) : (
         // on small screens, show login and signup links and/or home link 
-            <ul>
+        <div>
+            <ul className="bg-blue-300">
                 {!isHomePage && (
                     <li>
                     <NavLink to="/">
@@ -48,6 +51,7 @@ export function Nav() {
                     <NavLink to="/signup">Sign Up</NavLink>
                 </li>
             </ul>
+        </div>
         )}
     </div>
   );
