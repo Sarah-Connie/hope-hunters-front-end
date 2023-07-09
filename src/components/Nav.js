@@ -14,7 +14,7 @@ export function Nav() {
         {/* on med/lg screens, show only report a missing link and/or home link */}
         {isMdScreenOrLarger ? (
             <div className="">
-            <ul className="text-3xl bg-blue-300 flex flex-row px-5">
+            <ul className="text-3xl flex flex-row px-5">
                 {/* Show home link when not on homepage */}
                 {!isHomePage && (
                   <li className="mr-10">
