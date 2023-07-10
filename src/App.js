@@ -1,14 +1,10 @@
-import logo from './logo.svg';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Nav from './components/Nav';
 import { PageLayout } from './pages/PageLayout';
 
 function App() {
   return (
     <BrowserRouter>
-        {/* {location.pathname !== '/' ? <HomeHeader /> : ""} */}
-        {/* <Header /> */}
         <Routes>
           <Route element={<PageLayout />}>
             <Route path="/" element=""/>

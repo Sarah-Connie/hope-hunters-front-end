@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function HamburgerMenu() {
+function HamburgerMenu({isLoggedIn}) {
 
 const [isNavOpen, setIsNavOpen] = useState(false);
 
@@ -43,8 +43,8 @@ return (
                     <line x1="6" y1="6" x2="18" y2="18" />
                     </svg>
                 </div>
-                <ul className="flex flex-col items-center justify-between min-h-[250px] font-poppins font-extralight text-xl">
-                    <li className="border-b border-black mb-8 uppercase">
+                <ul className="flex flex-col items-center justify-between min-h-[250px] text-xl">
+                    {/* <li className="border-b border-black mb-8 uppercase">
                     <a href="/login">Login</a>
                     </li>
                     <li className="border-b border-black my-8 uppercase">
@@ -52,7 +52,29 @@ return (
                     </li>
                     <li className="border-b border-black my-8 uppercase">
                     <a href="/">Home</a>
-                    </li>
+                    </li> */}
+                     {isLoggedIn ? (
+                <>
+                  <li className="border-b border-black mb-8 uppercase">
+                    <a href="/dashboard">Dashboard</a>
+                  </li>
+                  <li className="border-b border-black my-8 uppercase">
+                    <a href="/logout">Logout</a>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className="border-b border-black mb-8 uppercase">
+                    <a href="/login">Login</a>
+                  </li>
+                  <li className="border-b border-black my-8 uppercase">
+                    <a href="/signup">Sign Up</a>
+                  </li>
+                  <li className="border-b border-black my-8 uppercase">
+                    <a href="/">Home</a>
+                  </li>
+                </>
+              )}
                 </ul>
             </div>
         </section>

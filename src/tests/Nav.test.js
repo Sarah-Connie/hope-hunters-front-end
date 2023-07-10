@@ -1,11 +1,17 @@
 import {render, screen} from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
 import Nav from '../components/Nav';
+
+jest.mock('react-responsive', () => ({
+    useMediaQuery: jest.fn(),
+  }));
+
 
 // test suite for the nav component - testing navlinks are rendering as required
 // checking against screensize and against route, independently
 describe('Nav Component Rendering Tests', () => {
-    test('renders login and sign up links on small screens only', () => {
+    test('renders login, sign up, and home links on small screens only', () => {
         render(
         <MemoryRouter>
             <Nav />
@@ -14,16 +20,17 @@ describe('Nav Component Rendering Tests', () => {
     
         const loginLink = screen.getByText('Login');
         const signUpLink = screen.getByText('Sign Up');
-        // const homeLink = screen.queryByText('Home');
+        const homeLink = screen.queryByText('Home');
     
         expect(loginLink).toBeInTheDocument();
         expect(signUpLink).toBeInTheDocument();
-        // expect(homeLink).not.toBeInTheDocument();
+        expect(homeLink).toBeInTheDocument();
         });
     
-    // this test is currently failing 
-    // the report a missing person link is only meant to show on md screens -
+    // the report a missing person link is only meant to show on md/lg screens -
     test('renders report missing link on medium screens or larger', () => {
+        useMediaQuery.mockReturnValueOnce(true); 
+        
         render(
         <MemoryRouter initialEntries={['/']}>
             <Nav />
@@ -39,15 +46,64 @@ describe('Nav Component Rendering Tests', () => {
         expect(signUpLink).not.toBeInTheDocument();
     });
     
-    test('renders home link when not on home page', () => {
+    test('renders home link when not on home page (applicable to md/lg screens only)', () => {
         render(
-        <MemoryRouter initialEntries={['/some-page']}>
-            <Nav />
+            <MemoryRouter initialEntries={["/other"]}>
+              <Nav />
+            </MemoryRouter>
+          );
+        
+          const homeLink = screen.getByText("Home");
+          expect(homeLink).toBeInTheDocument();
+    });
+
+    // for md/lg screens only - 
+    test('renders dashboard and logout when logged in (md/lg screens)', () => {
+        useMediaQuery.mockReturnValueOnce(true); 
+
+        render(
+            <MemoryRouter>
+              <Nav isLoggedIn={true}/>
+            </MemoryRouter>
+          );
+        
+          const dashLink = screen.getByText("Dashboard");
+          const logoutLink = screen.getByText("Logout");
+          expect(dashLink).toBeInTheDocument();
+          expect(logoutLink).toBeInTheDocument();
+    });
+    
+    // for small screens only - 
+    test('renders login and signup links when user is not logged in', () => {
+        useMediaQuery.mockReturnValueOnce(true); 
+
+        render(
+        <MemoryRouter>
+            <Nav isLoggedIn={false} />
+        </MemoryRouter>
+        );
+        const loginLink = screen.getByRole('link', { href: '/login' });
+        expect(loginLink).toBeInTheDocument();
+    
+        const signupLink = screen.getByRole('link', { href: '/signup' });
+        expect(signupLink).toBeInTheDocument();
+      });
+    
+    // for small screens only
+    test('does not render login and signup links when user is logged in', () => {
+        useMediaQuery.mockReturnValueOnce(true); 
+
+        render(
+        <MemoryRouter>
+            <Nav isLoggedIn={true} />
         </MemoryRouter>
         );
     
-        const homeLink = screen.getByText('Home');
+        const loginLink = screen.queryByText("Login");
+        const signUpLink = screen.queryByText("Sign Up");
     
-        expect(homeLink).toBeInTheDocument();
+        expect(loginLink).not.toBeInTheDocument();
+        expect(signUpLink).not.toBeInTheDocument();
     });
+
 });
