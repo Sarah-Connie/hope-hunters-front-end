@@ -110,8 +110,11 @@ describe('Nav Component Rendering Tests', () => {
 
 });
 
+// Test suite to ensure all links routing to correct path
 describe('Nav Component Link to Path Tests', () => {
-    test('navigates to the login route when clicking login link', () => {
+    
+    //md to large screens only
+    test('navigates to the report route when clicking report a missing person link', () => {
         useMediaQuery.mockReturnValueOnce(true); 
 
         render(
@@ -124,6 +127,36 @@ describe('Nav Component Link to Path Tests', () => {
         userEvent.click(link);
       
         expect(window.location.pathname).toBe("/report");
+      });
+
+      test('navigates to the home route when clicking logout link', () => {
+        useMediaQuery.mockReturnValueOnce(true); 
+
+        render(
+        <Router>
+          <Nav isLoggedIn={true}/>
+        </Router>
+        );
+      
+        const link = screen.getByText(/logout/i);
+        userEvent.click(link);
+      
+        expect(window.location.pathname).toBe("/");
+      });
+
+      test('navigates to the dashboard route when clicking dashboard link', () => {
+        useMediaQuery.mockReturnValueOnce(true); 
+
+        render(
+        <Router>
+          <Nav isLoggedIn={true}/>
+        </Router>
+        );
+      
+        const link = screen.getByText(/dashboard/i);
+        userEvent.click(link);
+      
+        expect(window.location.pathname).toBe("/dashboard");
       });
 
       
