@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { useMediaQuery } from 'react-responsive';
 import userEvent from '@testing-library/user-event';
 import Nav from '../components/Nav';
+import HamburgerMenu from '../components/HamburgerMenu';
 
 jest.mock('react-responsive', () => ({
     useMediaQuery: jest.fn(),
@@ -159,7 +160,21 @@ describe('Nav Component Link to Path Tests', () => {
         expect(window.location.pathname).toBe("/dashboard");
       });
 
-      
+      test('navigates to home route when clicking home link', () => {
+        useMediaQuery.mockReturnValueOnce(true); 
 
+        render(
+        <Router>
+          <Nav isLoggedIn={true}/>
+        </Router>
+        );
+      
+        const link = screen.getByText(/home/i);
+        userEvent.click(link);
+      
+        expect(window.location.pathname).toBe("/");
+      });
+
+      
 
 })
