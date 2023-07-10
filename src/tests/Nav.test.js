@@ -1,6 +1,8 @@
 import {render, screen} from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { BrowserRouter as Router } from "react-router-dom";
 import { useMediaQuery } from 'react-responsive';
+import userEvent from '@testing-library/user-event';
 import Nav from '../components/Nav';
 
 jest.mock('react-responsive', () => ({
@@ -107,3 +109,24 @@ describe('Nav Component Rendering Tests', () => {
     });
 
 });
+
+describe('Nav Component Link to Path Tests', () => {
+    test('navigates to the login route when clicking login link', () => {
+        useMediaQuery.mockReturnValueOnce(true); 
+
+        render(
+        <Router>
+          <Nav />
+        </Router>
+        );
+      
+        const link = screen.getByText(/report a missing person/i);
+        userEvent.click(link);
+      
+        expect(window.location.pathname).toBe("/report");
+      });
+
+      
+
+
+})

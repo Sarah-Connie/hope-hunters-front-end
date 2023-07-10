@@ -26,7 +26,18 @@ describe("Header Component Rendering Tests", () => {
     expect(navElement).toBeInTheDocument();
   });
 
-  it("navigates to the homepage when clicking the Hope Hunters header", () => {
+  it("displays the correct navigational link in the Header component", () => {
+    render(
+      <Router>
+        <Header />
+      </Router>
+    );
+
+    const homeLink = screen.getByRole("link", { name: /Hope Hunters/i });
+    expect(homeLink).toBeInTheDocument();
+  });
+
+  it("navigates to the homepage when clicking the Hope Hunters wording", () => {
     render(
       <Router>
         <Header />
@@ -37,17 +48,6 @@ describe("Header Component Rendering Tests", () => {
     userEvent.click(headerElement);
 
     expect(window.location.pathname).toBe("/");
-  });
-
-  it("displays the correct navigational link in the Header component", () => {
-    render(
-      <Router>
-        <Header />
-      </Router>
-    );
-
-    const homeLink = screen.getByRole("link", { name: /Hope Hunters/i });
-    expect(homeLink).toBeInTheDocument();
   });
 
 });
