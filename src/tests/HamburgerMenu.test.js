@@ -8,7 +8,7 @@ import userEvent from '@testing-library/user-event';
 
 describe('Hamburger Menu Component Link to Path Tests', () => {
 
-test('navigates to login route when clicking login link', () => {
+    test('navigates to login route when clicking login link', () => {
     render(
     <Router>
       <HamburgerMenu/>

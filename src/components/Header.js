@@ -5,7 +5,7 @@ export function Header() {
 
   return (
     <div>
-      <div className="flex items-center justify-between bg-blue-300 w-screen p-6">
+      <div className="flex items-center justify-between bg-blue text-white w-screen p-6">
         {/* Render Hope Hunters header at all times with redirect to homepage */}
         <NavLink
           to="/"
