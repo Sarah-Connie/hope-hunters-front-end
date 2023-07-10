@@ -24,9 +24,9 @@ function HamburgerMenu({ isLoggedIn }) {
             className="space-y-2 transition-all duration-300"
             onClick={() => setIsNavOpen((prev) => !prev)}
           >
-            <span className="block h-0.5 w-8 bg-black"></span>
-            <span className="block h-0.5 w-8 bg-black"></span>
-            <span className="block h-0.5 w-8 bg-black"></span>
+            <span className="block h-0.5 w-8 bg-white"></span>
+            <span className="block h-0.5 w-8 bg-white"></span>
+            <span className="block h-0.5 w-8 bg-white"></span>
           </div>
 
           <div className={isNavOpen ? "showMenuNav" : "hideMenuNav"}>
@@ -47,7 +47,7 @@ function HamburgerMenu({ isLoggedIn }) {
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </div>
-            <ul className="flex flex-col items-center justify-between min-h-[250px] text-xl">
+            <ul className="flex flex-col items-center justify-between min-h-[250px] text-xl text-black ">
               {isLoggedIn ? (
                 <>
                   <li className="border-b border-black mb-8 uppercase">

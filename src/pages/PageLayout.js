@@ -1,5 +1,5 @@
 import { Header } from "../components/Header"
-// import { Footer } from "../components/Footer";
+import { Footer } from "../components/Footer";
 import { Outlet } from "react-router-dom";
 
 
@@ -9,7 +9,7 @@ export function PageLayout(){
         <div className="flex flex-col h-screen justify-between">
             <Header />
             <Outlet/>
-            {/* <Footer /> */}
+            <Footer />
         </div>
     );
 }

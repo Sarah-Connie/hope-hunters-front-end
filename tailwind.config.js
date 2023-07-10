@@ -9,6 +9,9 @@ module.exports = {
         'orange': '#D94E00',
         'amber': '#D97B00',
     },
+    fontFamily: {
+      main: ['"Public Sans"', 'sans-serif'],
+    },
   },
   plugins: [],
   },

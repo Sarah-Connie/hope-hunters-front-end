@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { PageLayout } from "../pages/PageLayout";
-import { BrowserRouter as Router, Outlet } from "react-router-dom";
+import { BrowserRouter as Router} from "react-router-dom";
 
 describe("PageLayout Component Tests", () => {
 

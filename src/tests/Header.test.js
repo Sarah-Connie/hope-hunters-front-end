@@ -11,7 +11,7 @@ describe("Header Component Rendering Tests", () => {
       </Router>
     );
 
-    const headerElement = screen.getByText(/Hope Hunters/i);
+    const headerElement = screen.getByText(/Hope Helpers/i);
     expect(headerElement).toBeInTheDocument();
   });
 
@@ -33,7 +33,7 @@ describe("Header Component Rendering Tests", () => {
       </Router>
     );
 
-    const homeLink = screen.getByRole("link", { name: /Hope Hunters/i });
+    const homeLink = screen.getByRole("link", { name: /Hope Helpers/i });
     expect(homeLink).toBeInTheDocument();
   });
 
@@ -44,7 +44,7 @@ describe("Header Component Rendering Tests", () => {
       </Router>
     );
 
-    const headerElement = screen.getByText(/Hope Hunters/i);
+    const headerElement = screen.getByText(/Hope Helpers/i);
     userEvent.click(headerElement);
 
     expect(window.location.pathname).toBe("/");
