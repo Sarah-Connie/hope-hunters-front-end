@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { Header } from "../components/Header"
 
 describe("Header Component Rendering Tests", () => {
-  test("renders the Hope Hunters header element", () => {
+  test("renders the Hope Helpers header element", () => {
     render(
       <Router>
         <Header />
@@ -37,7 +37,7 @@ describe("Header Component Rendering Tests", () => {
     expect(homeLink).toBeInTheDocument();
   });
 
-  test("navigates to the homepage when clicking the Hope Hunters wording", () => {
+  test("navigates to the homepage when clicking the Hope Helpers wording", () => {
     render(
       <Router>
         <Header />

@@ -29,7 +29,7 @@ describe('Footer Component Render Tests', () => {
       <Footer />
     </Router>
     );
-    const copyrightText = screen.getByText(/Copyright Sarah Landis and Connie Jacques. 2023./i);
+    const copyrightText = screen.getByText(/Sarah Landis and Connie Jacques 2023. All rights reserved./i);
     expect(copyrightText).toBeInTheDocument();
   });
 

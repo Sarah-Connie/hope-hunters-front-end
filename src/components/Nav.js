@@ -7,7 +7,7 @@ export function Nav({isLoggedIn}) {
   const location = useLocation();
   const isMdScreenOrLarger = useMediaQuery({ minWidth: 768 });
 
-  const linkStyle = "hover:scale-105 transition-transform duration-300"
+  const linkStyle = "p-2 border hover:scale-105 transition-transform duration-300"
   const isHomePage = location.pathname === "/";
 
   return (
@@ -39,7 +39,7 @@ export function Nav({isLoggedIn}) {
                     // else if user is a public user, show below link
                     // /report route directs to page with login and signup forms
                 <li className={`${linkStyle}`}>
-                    <NavLink to="/report">Report a Missing Person</NavLink>
+                    <NavLink to="/report">Report Missing Person</NavLink>
                 </li>
                 )}
                 </ul>

@@ -40,7 +40,7 @@ describe('Nav Component Rendering Tests', () => {
         </MemoryRouter>
         );
     
-        const reportLink = screen.getByText(/report a missing person/i);
+        const reportLink = screen.getByText(/report missing person/i);
         const loginLink = screen.queryByText('Login');
         const signUpLink = screen.queryByText('Sign Up');
     
@@ -124,7 +124,7 @@ describe('Nav Component Link to Path Tests', () => {
         </Router>
         );
       
-        const link = screen.getByText(/report a missing person/i);
+        const link = screen.getByText(/report missing person/i);
         userEvent.click(link);
       
         expect(window.location.pathname).toBe("/report");

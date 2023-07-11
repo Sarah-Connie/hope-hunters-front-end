@@ -5,7 +5,7 @@ import logo from "../assets/images/logo.png";
 export function Header() {
   return (
     <div>
-      <div className="flex items-center justify-between bg-blue font-main text-white w-screen p-4 md:p-0">
+      <div className="flex items-center justify-between bg-blue font-main text-white w-screen pr-6 md:p-0">
         <div className="flex items-center md:space-x-1">
           <img src={logo} alt="Logo" className="h-20 w-20 md:h-32 md:w-32" />
           <NavLink

@@ -7,7 +7,7 @@ export function Footer() {
    const isMdScreenOrLarger = useMediaQuery({ minWidth: 768 });
 
   return (
-    <div className="bg-blue font-main text-white w-screen px-6">
+    <div className="bg-blue font-main text-white w-screen md:px-6">
 
         {isMdScreenOrLarger ? (
         <div className="flex items-center justify-between h-full">
