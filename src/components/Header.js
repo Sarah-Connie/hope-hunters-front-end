@@ -10,7 +10,7 @@ export function Header() {
           <img src={logo} alt="Logo" className="h-20 w-20 md:h-32 md:w-32" />
           <NavLink
             to="/"
-            className="font-bold italic text-2xl md:text-5xl align-middle hover:scale-105 transition-transform duration-300"
+            className="font-extrabold text-2xl md:text-5xl align-middle hover:scale-105 transition-transform duration-300"
           >
             Hope Helpers
           </NavLink>
