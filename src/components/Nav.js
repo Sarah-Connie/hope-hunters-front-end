@@ -12,7 +12,7 @@ export function Nav({isLoggedIn}) {
 
   return (
     <div>
-        {/* on med/lg screens, show only report a missing link and/or home link */}
+        {/* on med/lg screens, show only report missing link and/or home link */}
         {isMdScreenOrLarger ? (
             <div className="">
                 <ul className="text-3xl flex flex-row px-5">
