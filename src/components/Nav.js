@@ -21,22 +21,22 @@ export function Nav({isLoggedIn}) {
                     <NavLink to="/">Home</NavLink>
                   </li>
                 )}
-                {/* report a missing person link shown by default. 
-                /Report route to render the login and signup form. */}
-                {/* <li>
-                  <NavLink to="/report">Report a Missing Person</NavLink>
-                </li> */}
+
+                {/* if user is logged in, show dashboard, logout, and/or home link from above */}
                 {isLoggedIn ? (
-              <>
+            <>
                 <li className="mr-10">
                   <NavLink to="/dashboard">Dashboard</NavLink>
                 </li>
-                {/* ensure adjustment to appropriately log user out but direct to homepage */}
+                {/* add adjustment to appropriately log user out but direct to homepage 
+                need to wait until login functionality is coded */}
                 <li>
                   <NavLink to="/">Logout</NavLink>
                 </li>
               </>
             ) : (
+                // else if user is a public user, show below link
+                // /report route directs to page with login and signup forms
               <li>
                 <NavLink to="/report">Report a Missing Person</NavLink>
               </li>

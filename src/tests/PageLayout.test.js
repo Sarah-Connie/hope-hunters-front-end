@@ -10,7 +10,7 @@ describe("PageLayout Component Tests", () => {
         <PageLayout />
     </Router>
     );
-    const headerElement = screen.getByText(/Hope Hunters/i);
+    const headerElement = screen.getByText(/Hope Helpers/i);
     expect(headerElement).toBeInTheDocument();
   });
 

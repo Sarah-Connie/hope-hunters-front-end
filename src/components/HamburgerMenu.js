@@ -47,7 +47,9 @@ function HamburgerMenu({ isLoggedIn }) {
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </div>
-            <ul className="flex flex-col items-center justify-between min-h-[250px] text-xl text-black ">
+            <ul className="flex flex-col items-center justify-between min-h-[250px] text-xl text-black">
+              {/* if user is logged in display only dashboard and logout links.
+              conditional home link rendered thru general nav */}
               {isLoggedIn ? (
                 <>
                   <li className="border-b border-black mb-8 uppercase">
@@ -69,6 +71,7 @@ function HamburgerMenu({ isLoggedIn }) {
                 </>
               ) : (
                 <>
+                {/* else render login, signup, and home links by default */}
                   <li className="border-b border-black mb-8 uppercase">
                     <NavLink
                       to="/login"
