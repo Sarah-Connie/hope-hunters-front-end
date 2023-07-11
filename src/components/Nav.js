@@ -15,6 +15,7 @@ export function Nav({isLoggedIn}) {
         {/* on med/lg screens, show only report missing link and/or home link */}
         {isMdScreenOrLarger ? (
             <div className="">
+                {/* possibly change to 2xl depending on how other links render when loggedin */}
                 <ul className="text-3xl flex flex-row px-5">
                     {/* Show home link when not on homepage */}
                     {!isHomePage && (

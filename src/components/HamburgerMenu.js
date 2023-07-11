@@ -20,6 +20,7 @@ function HamburgerMenu({ isLoggedIn }) {
     <div className="lg:hidden flex items-center justify-between py-8">
       <nav>
         <section className="flex md:hidden">
+          {/* styling for the hamburger "icon" */}
           <div
             className="space-y-2 transition-all duration-300"
             onClick={() => setIsNavOpen((prev) => !prev)}
@@ -34,8 +35,9 @@ function HamburgerMenu({ isLoggedIn }) {
               className="absolute top-0 right-0 px-8 py-8"
               onClick={() => setIsNavOpen(false)}
             >
+              {/* styling for the x icon */}
               <svg
-                className="h-8 w-8 text-black"
+                className="h-8 w-8 text-white"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -47,12 +49,12 @@ function HamburgerMenu({ isLoggedIn }) {
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </div>
-            <ul className="flex flex-col items-center justify-between min-h-[250px] text-xl text-black">
+            <ul className="flex flex-col items-center justify-between min-h-[250px] text-xl text-white">
               {/* if user is logged in display only dashboard and logout links.
               conditional home link rendered thru general nav */}
               {isLoggedIn ? (
                 <>
-                  <li className="border-b border-black mb-8 uppercase">
+                  <li className="border-b border-white mb-8 uppercase">
                     <NavLink
                       to="/dashboard"
                       onClick={handleLinkClick}
@@ -60,7 +62,7 @@ function HamburgerMenu({ isLoggedIn }) {
                       Dashboard
                     </NavLink>
                   </li>
-                  <li className="border-b border-black my-8 uppercase">
+                  <li className="border-b border-white my-8 uppercase">
                     <NavLink
                       to="/"
                       onClick={handleLinkClick}
@@ -72,7 +74,7 @@ function HamburgerMenu({ isLoggedIn }) {
               ) : (
                 <>
                 {/* else render login, signup, and home links by default */}
-                  <li className="border-b border-black mb-8 uppercase">
+                  <li className="border-b border-white mb-8 uppercase">
                     <NavLink
                       to="/login"
                       onClick={handleLinkClick}
@@ -80,7 +82,7 @@ function HamburgerMenu({ isLoggedIn }) {
                       Login
                     </NavLink>
                   </li>
-                  <li className="border-b border-black my-8 uppercase">
+                  <li className="border-b border-white my-8 uppercase">
                     <NavLink
                       to="/signup"
                       onClick={handleLinkClick}
@@ -88,7 +90,7 @@ function HamburgerMenu({ isLoggedIn }) {
                       Sign Up
                     </NavLink>
                   </li>
-                  <li className="border-b border-black my-8 uppercase">
+                  <li className="border-b border-white my-8 uppercase">
                     <NavLink
                       to="/"
                       onClick={handleLinkClick}
@@ -113,7 +115,7 @@ function HamburgerMenu({ isLoggedIn }) {
           height: 100vh;
           top: 0;
           left: 0;
-          background: white;
+          background: #05548B;
           z-index: 10;
           display: flex;
           flex-direction: column;
