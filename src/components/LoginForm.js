@@ -3,7 +3,7 @@
 export function LoginForm(){
     return (
         <div>
-            <div className="font-main flex justify-center text-2xl pb-8"><p>Login Below</p></div>
+            <div className="font-main font-bold flex justify-center text-2xl pb-8 pt-8"><p>Login Below</p></div>
             <form
                 className="font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4"
             >

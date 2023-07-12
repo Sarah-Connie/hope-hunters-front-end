@@ -3,7 +3,7 @@ import { LoginForm } from "../components/LoginForm";
 
 export function ReportPage(){
     return (
-        <div className="flex flex-row w-screen justify-evenly">
+        <div className="flex w-screen justify-evenly">
             <LoginForm />
             <SignupForm />
         </div>
