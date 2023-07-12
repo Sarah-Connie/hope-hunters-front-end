@@ -1,11 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export function SignupForm() {
   const [selectedOption, setSelectedOption] = useState("");
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+
+  useEffect(() => {
+    validateEmail();
+  }, [email, selectedOption]);
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const validateEmail = () => {
+    // Regular expression pattern for validating the email domain
+    const domainPattern = /@police\.nsw\.gov\.au$/i;
+
+    if (selectedOption === "police_user" && !domainPattern.test(email)) {
+      setEmailError("Email domain is incorrect.");
+    } else {
+      setEmailError("");
+    }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    validateEmail();
+  };
+
 
   const renderAdditionalFields = () => {
     if (selectedOption === "police_user") {
@@ -52,7 +79,8 @@ export function SignupForm() {
       <div className="font-main font-bold flex justify-center text-2xl pb-8 pt-8">
         <p>Become a Member</p>
       </div>
-      <form className="font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4">
+      <form className="font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4"
+       onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Name:
@@ -74,8 +102,13 @@ export function SignupForm() {
             id="email"
             type="email"
             name="user_email"
+            value={email}
+            onChange={handleEmailChange}
             required
           />
+          {emailError && (
+            <p className="text-red-500 text-sm">{emailError}</p>
+          )}
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
