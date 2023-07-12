@@ -3,9 +3,9 @@
 export function SignupForm(){
 return (
     <div>
-        <div className="font-main w-1/2 flex justify-center text-2xl pb-8"><p>Become a Member</p></div>
+        <div className="font-main flex justify-center text-2xl pb-8"><p>Become a Member</p></div>
         <form
-            className="bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4 w-1/2"
+            className="font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4"
         >
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -45,7 +45,7 @@ return (
             </div>
             <div className="flex items-center justify-center">
               <input
-                className="bg-lightblue hover:bg-sky-400 hover:scale-105 ease-out duration-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-96 h-16"
+                className="bg-lightblue hover:bg-orange hover:scale-105 ease-out duration-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-96 h-16"
                 type="submit"
                 value="Sign Up"
               />
