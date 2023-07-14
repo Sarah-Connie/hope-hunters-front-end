@@ -21,18 +21,26 @@ export function LoginForm(){
     
         try {
         //add DB url
-          const response = await fetch("", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email: userEmail, password: userPassword }),
-          });
+          // const response = await fetch("", {
+          //   method: "POST",
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //   },
+          //   body: JSON.stringify({ email: userEmail, password: userPassword }),
+          // });
+          const response = {
+            status: 200,
+            json: () => {
+              return {email: userEmail, password: userPassword,
+              jwt: {token:"fakeTokenHereForTesting"}}
+            }
+          };
+    
     
           if (response.status === 200) {
             const responseData = await response.json();
     
-            if (responseData && responseData.token) {
+            if (responseData && responseData.jwt) {
               // User login successful
               // if verification is successful, proceed with storing the token
               if (
@@ -40,8 +48,8 @@ export function LoginForm(){
                 responseData.password === userPassword
               ) {
                 // store the token in local storage or cookie
-                localStorage.setItem("jwt", responseData.jwt);
-    
+                localStorage.setItem("jwt", JSON.stringify(responseData.jwt));
+
                 // route user to their user dashboard
                 console.log("Login successful");
                 navigate("/dashboard");
@@ -87,6 +95,7 @@ export function LoginForm(){
                     id="email"
                     type="email"
                     name="email"
+                    value={userEmail}
                     onChange={emailUpdate}
                     required
                   />
@@ -101,6 +110,7 @@ export function LoginForm(){
                     id="password"
                     type="password"
                     name="password"
+                    value={userPassword}
                     onChange={passwordUpdate}
                     required
                   />
@@ -108,12 +118,12 @@ export function LoginForm(){
                 {error && (
                 <p className="text-red-500 text-sm mb-4">{error}</p>
                 )}
-                <div className="flex items-center justify-center">
-                  <input
+                <div className="flex items-center justify-center pt-4">
+                  <button
                     className="bg-lightblue hover:bg-orange hover:scale-105 ease-out duration-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-96 h-16"
                     type="submit"
-                    value="Login"
-                  />
+                    disabled={!!error} // disable the button if there is an error
+                  >Login</button>
                 </div>
             </form>
         </div>
