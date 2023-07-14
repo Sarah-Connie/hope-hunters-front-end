@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen} from '@testing-library/react';
 import LoginForm from '../components/LoginForm';
-import { BrowserRouter as Router, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router} from 'react-router-dom';
 
 
 describe ('Login Form Component Rendering', () => {

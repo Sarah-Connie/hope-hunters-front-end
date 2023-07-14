@@ -28,6 +28,8 @@ export function LoginForm(){
           //   },
           //   body: JSON.stringify({ email: userEmail, password: userPassword }),
           // });
+
+          // mock response for development with correct credentials
           const response = {
             status: 200,
             json: () => {
@@ -35,7 +37,7 @@ export function LoginForm(){
               jwt: {token:"fakeTokenHereForTesting"}}
             }
           };
-    
+
     
           if (response.status === 200) {
             const responseData = await response.json();

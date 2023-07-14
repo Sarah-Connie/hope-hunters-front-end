@@ -4,6 +4,7 @@ import { PageLayout } from './pages/PageLayout';
 import { ReportPage } from './pages/ReportPage';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
+import UpdateUserForm from './components/UpdateUserDetailsForm';
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
             <Route path="/report" element={<ReportPage />}/>
             <Route path="/login" element={<LoginForm />} />
             <Route path="/signup" element={<SignupForm />} />
-            <Route path="/dashboard" element="" />
+            <Route path="/dashboard" element={<UpdateUserForm />} />
           </Route>
         </Routes>
     </BrowserRouter>
