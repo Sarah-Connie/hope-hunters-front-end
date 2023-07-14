@@ -45,25 +45,29 @@ export function LoginForm(){
                 // route user to their user dashboard
                 console.log("Login successful");
                 navigate("/dashboard");
-              } else {
-                // either invalid email or invalid password
-                if (responseData.email !== userEmail) {
-                  setError("Invalid email.");
-                } else {
-                  setError("Invalid password.");
+              } 
+            } else if (response.status === 401) {
+                const responseData = await response.json();
+        
+                if (responseData.error === "User not found.") {
+                    // if user email not found in the database
+                    setError("Email not found. Please sign up instead.");
                 }
-              }
+                else if (responseData.error === "Incorrect password.") {
+                    // if user password not found in the database
+                    setError("Incorrect password. Please try again.");
+                }
+                // if no jwt returned
+                else {
+                    setError("Please confirm your email account before attempting login.");
+                }
             }
-          } else {
-            // User login failed (error status code)
-            setError("Error: " + response.statusText);
           }
         } catch (error) {
-          // Error occurred during the fetch request
           console.error("Error:", error);
           setError("An error occurred during login. Please try again.");
         }
-      };
+    };
     
     return (
         <div>
