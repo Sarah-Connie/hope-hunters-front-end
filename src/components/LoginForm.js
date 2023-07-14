@@ -15,11 +15,12 @@ export function LoginForm(){
     const passwordUpdate=(event)=>{ 
         setUserPassword(event.target.value)
     }
-
+    
     const handleSubmit = async (event) => {
         event.preventDefault();
     
         try {
+        //add DB url
           const response = await fetch("", {
             method: "POST",
             headers: {
@@ -33,20 +34,24 @@ export function LoginForm(){
     
             if (responseData && responseData.token) {
               // User login successful
-              // If the verification is successful, proceed with storing the token
+              // if verification is successful, proceed with storing the token
               if (
                 responseData.email === userEmail &&
                 responseData.password === userPassword
               ) {
-                // Store the token in local storage or cookie
+                // store the token in local storage or cookie
                 localStorage.setItem("jwt", responseData.token);
     
                 // route user to their user dashboard
                 console.log("Login successful");
                 navigate("/dashboard");
               } else {
-                // User login failed (invalid credentials)
-                setError("Invalid email or password. Please try again");
+                // either invalid email or invalid password
+                if (responseData.email !== userEmail) {
+                  setError("Invalid email.");
+                } else {
+                  setError("Invalid password.");
+                }
               }
             }
           } else {
