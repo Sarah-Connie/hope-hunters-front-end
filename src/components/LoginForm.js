@@ -2,8 +2,8 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 
 export function LoginForm(){
-    const [userEmail,setUserEmail]=useState()
-    const [userPassword,setUserPassword]=useState()
+    const [userEmail,setUserEmail]=useState("")
+    const [userPassword,setUserPassword]=useState("")
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
@@ -63,7 +63,8 @@ export function LoginForm(){
                 }
             }
           }
-        } catch (error) {
+        }
+         catch (error) {
           console.error("Error:", error);
           setError("An error occurred during login. Please try again.");
         }
@@ -84,7 +85,7 @@ export function LoginForm(){
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="email"
                     type="email"
-                    name="user_email"
+                    name="email"
                     onChange={emailUpdate}
                     required
                   />
@@ -97,7 +98,7 @@ export function LoginForm(){
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="password"
                     type="password"
-                    name="user_password"
+                    name="password"
                     onChange={passwordUpdate}
                     required
                   />

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 
 export function SignupForm() {
   const [selectedOption, setSelectedOption] = useState(null)
-//   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [error, setError] = useState("");
 
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
@@ -94,16 +94,19 @@ export function SignupForm() {
     })
       .then((response) => {
         if (response.status === 200) {
-          // form submission successful
-          alert("You have been added to the system!");
-        } else {
-          // form submission failed
-          alert("Failed to add user to the system.");
+          // form submission successful, render component
+          verificationSent(true);
+        } else if (response.status === 400) {
+          // email already exists
+          setError("Email address is already associated with an account. Please login instead.");
+        }
+        else {
+            setError("An error occurred during form submission. Please try again.");
         }
       })
       .catch((error) => {
         console.error("Error:", error);
-        alert("An error occurred during form submission. Please try again.");
+        setError("An error occurred and your registration could not be submitted. Please try again.");
       });
   };
 
@@ -118,6 +121,7 @@ export function SignupForm() {
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
+              name="stationName"
               onChange={stationNameUpdate}
               required
             />
@@ -129,6 +133,7 @@ export function SignupForm() {
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
+              name="policeAreaCommand"
               onChange={policeAreaCommandUpdate}
               required
             />
@@ -140,6 +145,7 @@ export function SignupForm() {
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
+              name="policeDistrict"
               onChange={policeDistrictUpdate}
               required
             />
@@ -165,7 +171,7 @@ export function SignupForm() {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="signup-name"
                 type="text"
-                name="user_name"
+                name="fullName"
                 onChange={userNameUpdate}
                 required
             />
@@ -178,7 +184,7 @@ export function SignupForm() {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="signup-email"
                 type="email"
-                name="user_email"
+                name="email"
                 value={userEmail}
                 onChange={handleEmailChange}
                 required
@@ -195,7 +201,7 @@ export function SignupForm() {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="signup-password"
                 type="password"
-                name="user_password"
+                name="password"
                 onChange={passwordUpdate}
                 required
             />
@@ -230,6 +236,9 @@ export function SignupForm() {
             </div>
             </div>
             {renderPoliceFields()}
+            {error && (
+                <p className="text-red-500 text-sm mb-4">{error}</p>
+            )}
             <div className="flex items-center justify-center">
             <input
                 className="bg-lightblue hover:bg-orange hover:scale-105 ease-out duration-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-96 h-16"
@@ -244,22 +253,22 @@ export function SignupForm() {
 
     const renderVerificationSentMessage = () => {
         return (
-        <div className="font-main font-bold flex justify-center text-2xl pb-8 pt-8">
-            <p>Your email verification has been sent! Please confirm to verify your account.</p>
+        <div className="font-main flex justify-center text-center text-lg md:text-2xl">
+            <p className="">A verification link has been sent to your email! Please confirm to verify your account.</p>
         </div>
         );
     };
 
     return (
         <div>
-        <div className="font-main font-bold flex justify-center text-2xl pb-8 pt-8">
-            <p>Become a Member</p>
-        </div>
-        {verificationSent ? (
-            renderVerificationSentMessage()
-        ) : (
-            renderForm()
-        )}
+            <div className="font-main font-bold flex justify-center text-2xl pb-8 pt-8">
+                <p>Become a Member</p>
+            </div>
+            {verificationSent ? (
+                renderVerificationSentMessage()
+            ) : (
+                renderForm()
+            )}
         </div>
     );
 }
