@@ -12,6 +12,9 @@ export function SignupForm() {
   const [policeAreaCommand, setPoliceAreaCommand] = useState("");
   const [policeDistrict, setPoliceDistrict] = useState("");
 
+  const [verificationSent, setVerificationSent] = useState(false);
+
+
   const userNameUpdate = (event) => {
     setUserName(event.target.value);
   };
@@ -75,6 +78,12 @@ export function SignupForm() {
       policeDistrict: policeDistrict,
     };
 
+    // delay so render appears after email has been sent
+    setTimeout(() => {
+        setVerificationSent(true);
+    }, 2000);
+
+    
     //add db url
     fetch("", {
       method: "POST",
@@ -141,98 +150,119 @@ export function SignupForm() {
     return null;
   };
 
-  return (
-    <div>
-      <div className="font-main font-bold flex justify-center text-2xl pb-8 pt-8">
-        <p>Become a Member</p>
-      </div>
-      <form
-        className="font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4"
-        onSubmit={handleSubmit}
-      >
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Name:
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="signup-name"
-            type="text"
-            name="user_name"
-            onChange={userNameUpdate}
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Email:
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="signup-email"
-            type="email"
-            name="user_email"
-            value={userEmail}
-            onChange={handleEmailChange}
-            required
-          />
-          {emailError && (
-            <p className="text-red-500 text-sm">{emailError}</p>
-          )}
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Password:
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="signup-password"
-            type="password"
-            name="user_password"
-            onChange={passwordUpdate}
-            required
-          />
-        </div>
-        <div className="mb-4 flex flex-row justify-evenly">
-          <label className="block text-gray-700 text-sm font-bold">
-            Police Account?
-          </label>
-          <div>
-            <label>
-              <input
-                type="radio"
-                value="police_user"
-                checked={selectedOption === "police_user"}
-                onChange={handleOptionChange}
-                required
-              />{" "}
-              Yes
+
+    const renderForm = () => {
+        return(
+        <form
+            className="font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4"
+            onSubmit={handleSubmit}
+        >
+            <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+                Name:
             </label>
-          </div>
-          <div>
-            <label>
-              <input
-                type="radio"
-                value=""
-                checked={selectedOption === ""}
-                onChange={handleOptionChange}
+            <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="signup-name"
+                type="text"
+                name="user_name"
+                onChange={userNameUpdate}
                 required
-              />{" "}
-              No
+            />
+            </div>
+            <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+                Email:
             </label>
-          </div>
+            <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="signup-email"
+                type="email"
+                name="user_email"
+                value={userEmail}
+                onChange={handleEmailChange}
+                required
+            />
+            {emailError && (
+                <p className="text-red-500 text-sm">{emailError}</p>
+            )}
+            </div>
+            <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+                Password:
+            </label>
+            <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="signup-password"
+                type="password"
+                name="user_password"
+                onChange={passwordUpdate}
+                required
+            />
+            </div>
+            <div className="mb-4 flex flex-row justify-evenly">
+            <label className="block text-gray-700 text-sm font-bold">
+                Police Account?
+            </label>
+            <div>
+                <label>
+                <input
+                    type="radio"
+                    value="police_user"
+                    checked={selectedOption === "police_user"}
+                    onChange={handleOptionChange}
+                    required
+                />{" "}
+                Yes
+                </label>
+            </div>
+            <div>
+                <label>
+                <input
+                    type="radio"
+                    value=""
+                    checked={selectedOption === ""}
+                    onChange={handleOptionChange}
+                    required
+                />{" "}
+                No
+                </label>
+            </div>
+            </div>
+            {renderPoliceFields()}
+            <div className="flex items-center justify-center">
+            <input
+                className="bg-lightblue hover:bg-orange hover:scale-105 ease-out duration-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-96 h-16"
+                type="submit"
+                value="Sign Up"
+            />
+            </div>
+        </form>
+        );
+    };
+  
+
+    const renderVerificationSentMessage = () => {
+        return (
+        <div className="font-main font-bold flex justify-center text-2xl pb-8 pt-8">
+            <p>Your email verification has been sent! Please confirm to verify your account.</p>
         </div>
-        {renderPoliceFields()}
-        <div className="flex items-center justify-center">
-          <input
-            className="bg-lightblue hover:bg-orange hover:scale-105 ease-out duration-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-96 h-16"
-            type="submit"
-            value="Sign Up"
-          />
+        );
+    };
+
+    return (
+        <div>
+        <div className="font-main font-bold flex justify-center text-2xl pb-8 pt-8">
+            <p>Become a Member</p>
         </div>
-      </form>
-    </div>
-  );
+        {verificationSent ? (
+            renderVerificationSentMessage()
+        ) : (
+            renderForm()
+        )}
+        </div>
+    );
 }
+
 
 export default SignupForm;
