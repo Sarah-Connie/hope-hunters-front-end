@@ -40,7 +40,7 @@ export function LoginForm(){
                 responseData.password === userPassword
               ) {
                 // store the token in local storage or cookie
-                localStorage.setItem("jwt", responseData.token);
+                localStorage.setItem("jwt", responseData.jwt);
     
                 // route user to their user dashboard
                 console.log("Login successful");
@@ -78,7 +78,8 @@ export function LoginForm(){
                 onSubmit={handleSubmit}
             >
                 <div className="mb-4">
-                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                  <label htmlFor="email"
+                  className="block text-gray-700 text-sm font-bold mb-2">
                     Email:
                   </label>
                   <input
@@ -91,7 +92,8 @@ export function LoginForm(){
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                  <label htmlFor="password"
+                  className="block text-gray-700 text-sm font-bold mb-2">
                     Password:
                   </label>
                   <input
