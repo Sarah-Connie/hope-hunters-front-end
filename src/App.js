@@ -5,6 +5,7 @@ import { ReportPage } from './pages/ReportPage';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import UpdateUserForm from './components/UpdateUserDetailsForm';
+import { Dashboard } from './pages/Dashboard';
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
             <Route path="/report" element={<ReportPage />}/>
             <Route path="/login" element={<LoginForm />} />
             <Route path="/signup" element={<SignupForm />} />
-            <Route path="/dashboard" element={<UpdateUserForm />} />
+            <Route path="/dashboard" element={<Dashboard />} />
           </Route>
         </Routes>
     </BrowserRouter>
