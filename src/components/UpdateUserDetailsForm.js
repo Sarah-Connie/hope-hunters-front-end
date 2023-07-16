@@ -80,6 +80,9 @@ export function UpdateUserForm() {
 
   return (
     <div>
+        <p className="flex justify-center w-2/5 font-main font-semibold text-xl">
+            Update Account Details
+        </p>
         <form className="flex flex-col w-2/5 font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4 ml-10"
         onSubmit={handleSubmit}>
         {/* disable ability to change account name */}
