@@ -2,6 +2,7 @@ import SignupForm from "../components/SignupForm";
 import RenderFormButton from "../components/RenderFormButton";
 import UpdateUserForm from "../components/UpdateUserDetailsForm";
 import { useState } from "react";
+import NewMPForm from "../components/NewMPForm";
 
 export function Dashboard() {
   const [showUpdateAccountForm, setShowUpdateAccountForm] = useState(false);
@@ -19,7 +20,7 @@ export function Dashboard() {
   };
 
   const handleNewReportButtonClick = () => {
-    setShowUpdateReportForm(true);
+    setShowUpdateReportForm(false);
     setShowUpdateAccountForm(false);
     setShowNewReportForm(true);
   };
@@ -49,7 +50,7 @@ export function Dashboard() {
           buttonText="File New Report"
         />
       )}
-      {showNewReportForm && ""}
+      {showNewReportForm && <NewMPForm />}
 
     </div>
   );
