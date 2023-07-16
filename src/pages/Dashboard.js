@@ -1,27 +1,23 @@
-import SignupForm from "../components/SignupForm";
 import RenderFormButton from "../components/RenderFormButton";
 import UpdateUserForm from "../components/UpdateUserDetailsForm";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import NewMPForm from "../components/NewMPForm";
 
 export function Dashboard() {
   const [showUpdateAccountForm, setShowUpdateAccountForm] = useState(false);
   const [showUpdateReportForm, setShowUpdateReportForm] = useState(false);
-  const [showNewReportForm, setShowNewReportForm] = useState(false);
-  const [newMPFormRendered, setNewMPFormRendered] = useState(false);
+  const [showNewReportForm, setShowNewReportForm] = useState(true);
 
   const handleUpdateAccountButtonClick = () => {
     setShowUpdateAccountForm(true);
     setShowUpdateReportForm(false);
     setShowNewReportForm(false);
-
   };
 
   const handleUpdateReportButtonClick = () => {
     setShowUpdateAccountForm(false);
     setShowUpdateReportForm(true);
     setShowNewReportForm(false);
-
   };
 
   const handleNewReportButtonClick = () => {
@@ -30,40 +26,37 @@ export function Dashboard() {
     setShowNewReportForm(true);
   };
 
-  useEffect(() => {
-    if (!newMPFormRendered) {
-      setShowNewReportForm(true);
-      setNewMPFormRendered(true);
-    }
-  }, [newMPFormRendered]);
-
   return (
-    <div>
-        <div className="flex flex-col grid-cols-2">
-            <div>
-            {!showUpdateAccountForm && (
+    <div className="grid grid-cols-2 gap-4">
+    {/* left column */}
+      <div className="col-span-1 mr-5">
+        {showUpdateAccountForm && <UpdateUserForm />}
+        {showUpdateReportForm && ""}
+        {showNewReportForm && <NewMPForm />}
+      </div>
+    {/* right column */}
+        <div className="col-span-1 flex flex-col justify-end">
+            <div className="flex flex-row space-x-4 mb-4">
+                    {!showUpdateAccountForm && (
+                    <RenderFormButton
+                        onClick={handleUpdateAccountButtonClick}
+                        buttonText="Update Account"
+                    />
+                    )}
+            
+                
+                {!showUpdateReportForm && (
                 <RenderFormButton
-                onClick={handleUpdateAccountButtonClick}
-                buttonText="Update Account"
+                    onClick={handleUpdateReportButtonClick}
+                    buttonText="Update Report"
                 />
-            )}
-            {showUpdateAccountForm && <UpdateUserForm />}
-
-            {!showUpdateReportForm && (
+                )}
+                {!showNewReportForm && (
                 <RenderFormButton
-                onClick={handleUpdateReportButtonClick}
-                buttonText="Update Report"
+                    onClick={handleNewReportButtonClick}
+                    buttonText="File New Report"
                 />
-            )}
-            {showUpdateReportForm && <SignupForm />}
-
-            {!showNewReportForm && (
-                <RenderFormButton
-                onClick={handleNewReportButtonClick}
-                buttonText="File New Report"
-                />
-            )}
-            {showNewReportForm && <NewMPForm />}
+                )}
             </div>
         </div>
     </div>

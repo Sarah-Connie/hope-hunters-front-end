@@ -92,8 +92,8 @@ export function NewMPForm() {
 
   return (
     <div>
-      <p className="flex justify-center w-2/5 font-main font-semibold text-xl">New Missing Person Report</p>
-      <form className="flex flex-col w-2/5 font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4 ml-10"
+      <p className="flex justify-center w-full font-main font-semibold text-2xl my-4 ml-5">New Missing Person Report</p>
+      <form className="flex flex-col w-full font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4 ml-5"
       onSubmit={handleSubmit}>
         <div className="flex justify-center font-main text-xl pb-4">General Information</div>
         <div className="mb-4">
@@ -265,7 +265,7 @@ export function NewMPForm() {
             <option value="ACT">ACT</option>
           </select>
         </div>
-        <div className="flex justify-center font-main text-xl py-4">Unique Details</div>
+        <div className="flex justify-center font-main text-xl py-4">Appearance</div>
         <div className="flex flex-row mb-4 space-x-4">
           <label className="text-gray-700 text-sm font-bold mb-2"
           htmlFor="hairColour">Hair Colour:</label>

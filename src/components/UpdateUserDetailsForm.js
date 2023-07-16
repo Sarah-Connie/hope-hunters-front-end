@@ -8,6 +8,7 @@ export function UpdateUserForm() {
     const [userName, setUserName] = useState("");
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [stationName, setStationName] = useState("");
     const [policeAreaCommand, setPoliceAreaCommand] = useState("");
     const [policeDistrict, setPoliceDistrict] = useState("");
@@ -31,6 +32,12 @@ export function UpdateUserForm() {
 
   const passwordUpdate = (event) => {
     setUserPassword(event.target.value);
+    setError("");
+  };
+
+  const confirmPasswordUpdate = (event) => {
+    setConfirmPassword(event.target.value);
+    setError("");
   };
 
   const stationNameUpdate = (event) => {
@@ -47,13 +54,17 @@ export function UpdateUserForm() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (userPassword !== confirmPassword) {
+            setError("Passwords do not match. Please try again.");
+            return;
+        }
         
         try {
             // updated user details object
             const updatedUserDetails = {
             // name: userName,
             email: userEmail,
-            password: userPassword,
+            password: confirmPassword,
             stationName: stationName,
             policeAreaCommand: policeAreaCommand,
             policeDistrict: policeDistrict,
@@ -80,10 +91,10 @@ export function UpdateUserForm() {
 
   return (
     <div>
-        <p className="flex justify-center w-2/5 font-main font-semibold text-xl">
+        <p className="flex justify-center w-full font-main font-semibold text-2xl ml-5 my-4">
             Update Account Details
         </p>
-        <form className="flex flex-col w-2/5 font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4 ml-10"
+        <form className="flex flex-col w-full font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4 ml-5"
         onSubmit={handleSubmit}>
         {/* disable ability to change account name */}
           {/* <div className="mb-4">
@@ -99,6 +110,7 @@ export function UpdateUserForm() {
             onChange={userNameUpdate}
             required />
           </div> */}
+          <div className="flex justify-center font-main text-xl">Enter your details below:</div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="email">
@@ -125,6 +137,23 @@ export function UpdateUserForm() {
             onChange={passwordUpdate}
             required />
           </div>
+          <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="confirmPassword"
+          >
+            Confirm Password:
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            value={confirmPassword}
+            onChange={confirmPasswordUpdate}
+            required
+          />
+        </div>
           {isPoliceUser && (
             <>
               <div className="mb-4">
@@ -171,6 +200,9 @@ export function UpdateUserForm() {
               </div>
             </>
           )}
+          {error && (
+                <p className="text-red-500 text-sm mb-4">{error}</p>
+            )}
           <div className="flex items-center justify-center pt-4">
             <button
             className="bg-lightblue hover:bg-orange hover:scale-105 ease-out duration-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-96 h-16"
