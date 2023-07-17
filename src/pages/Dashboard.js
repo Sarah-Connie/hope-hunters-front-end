@@ -54,6 +54,8 @@ export function Dashboard() {
 
   return (
   <div>
+    {/* featch user's name details from returned db object */}
+    <div className="flex justify-center font-main font-bold text-3xl pt-4">Hi {`$userName`}, welcome back to your Dashboard.</div>
     {isMdScreenOrLarger ? (
     <div className="md:p-4 lg:p-2 grid grid-cols-2 gap-4">
       {/* left column 

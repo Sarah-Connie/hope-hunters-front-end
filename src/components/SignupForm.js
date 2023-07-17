@@ -121,6 +121,7 @@ export function SignupForm() {
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
+              id="stationName"
               name="stationName"
               onChange={stationNameUpdate}
               required
@@ -133,6 +134,7 @@ export function SignupForm() {
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
+              id="policeAreaCommand"
               name="policeAreaCommand"
               onChange={policeAreaCommandUpdate}
               required
@@ -145,6 +147,7 @@ export function SignupForm() {
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
+              id="policeDistrict"
               name="policeDistrict"
               onChange={policeDistrictUpdate}
               required
@@ -172,7 +175,7 @@ export function SignupForm() {
             </label>
             <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="signup-name"
+                id="fullName"
                 type="text"
                 name="fullName"
                 onChange={userNameUpdate}
@@ -185,7 +188,7 @@ export function SignupForm() {
             </label>
             <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="signup-email"
+                id="email"
                 type="email"
                 name="email"
                 value={userEmail}
@@ -202,7 +205,7 @@ export function SignupForm() {
             </label>
             <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="signup-password"
+                id="password"
                 type="password"
                 name="password"
                 onChange={passwordUpdate}
@@ -218,6 +221,7 @@ export function SignupForm() {
                 <input
                     type="radio"
                     value="police_user"
+                    id="police"
                     checked={selectedOption === "police_user"}
                     onChange={handleOptionChange}
                     required
@@ -229,6 +233,7 @@ export function SignupForm() {
                 <label>
                 <input
                     type="radio"
+                    id="general"
                     value=""
                     checked={selectedOption === ""}
                     onChange={handleOptionChange}

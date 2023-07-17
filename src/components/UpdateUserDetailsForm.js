@@ -54,43 +54,43 @@ export function UpdateUserForm() {
     setPoliceDistrict(event.target.value);
   };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        if (userPassword !== confirmPassword) {
-            setError("Passwords do not match. Please try again.");
-            return;
+  const handleSubmit = async (event) => {
+      event.preventDefault();
+      if (userPassword !== confirmPassword) {
+          setError("Passwords do not match. Please try again.");
+          return;
+      }
+      
+      try {
+          // updated user details object
+          const updatedUserDetails = {
+          // name: userName,
+          email: userEmail,
+          password: confirmPassword,
+          stationName: stationName,
+          policeAreaCommand: policeAreaCommand,
+          policeDistrict: policeDistrict,
+          };
+      
+          const response = await fetch("", {
+          method: "PUT",
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedUserDetails),
+          });
+      
+          if (response.ok) {
+              console.log("User details updated successfully.");
+              verifySent(true);
+          } else {
+              console.error("Failed to update user details.");
+              setError("Failed to update user details.")
+          }
+      } catch (error) {
+          console.error("Error:", error);
         }
-        
-        try {
-            // updated user details object
-            const updatedUserDetails = {
-            // name: userName,
-            email: userEmail,
-            password: confirmPassword,
-            stationName: stationName,
-            policeAreaCommand: policeAreaCommand,
-            policeDistrict: policeDistrict,
-            };
-        
-            const response = await fetch("", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(updatedUserDetails),
-            });
-        
-            if (response.ok) {
-                console.log("User details updated successfully.");
-                verifySent(true);
-            } else {
-                console.error("Failed to update user details.");
-                setError("Failed to update user details.")
-            }
-        } catch (error) {
-            console.error("Error:", error);
-        }
-        };
+    };
         
 const updateDetailsForm = () => {
   return (

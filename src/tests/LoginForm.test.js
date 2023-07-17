@@ -12,7 +12,7 @@ describe ('Login Form Component Rendering', () => {
       </Router>
     );
 
-    expect(screen.getByText('Login Below')).toBeInTheDocument();
+    expect(screen.getByText('Please login below.')).toBeInTheDocument();
     expect(screen.getByLabelText('Email:')).toBeInTheDocument();
     expect(screen.getByLabelText('Password:')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Login' })).toBeInTheDocument();
