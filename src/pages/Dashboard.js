@@ -36,7 +36,7 @@ export function Dashboard() {
       </div>
     {/* right column */}
         <div className="col-span-1 flex flex-col justify-end">
-            <div className="flex flex-row space-x-4 mb-4">
+            <div className="flex flex-row space-x-5 mb-4 mr-5">
                     {!showUpdateAccountForm && (
                     <RenderFormButton
                         onClick={handleUpdateAccountButtonClick}

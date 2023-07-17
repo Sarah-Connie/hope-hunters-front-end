@@ -23,6 +23,11 @@ export function NewMPForm() {
   const [gender, setGender] = useState("");
   const [distinctiveFeatures, setDistinctiveFeatures] = useState("");
   const [amberAlert, setAmberAlert] = useState(false);
+  const [verifySent, setVerifySent] = useState(false);
+  const [error, setError] = useState("");
+
+
+  const currentDate = new Date().toISOString().split("T")[0];
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -63,7 +68,38 @@ export function NewMPForm() {
       amberAlert,
     };
 
-    // TODO: Send the newMissingPerson object to the backend for saving
+    // TODO: Crosscheck route and server statuses 
+    // Send the newMissingPerson object to the backend for saving
+    // add db url
+    fetch("", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newMissingPerson),
+      })
+        .then((response) => {
+          if (response.status === 200) {
+            // form submission successful, render component
+            verifySent(true);
+          } else if (response.status === 400) {
+            // check backend server error
+            setError("");
+          }
+          else {
+            setError("An error occurred during form submission. Please try again.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          setError("An error occurred and your form could not be submitted. Please try again.");
+        });
+
+     // delay so render appears after form has been successfully "sent" to backend
+    setTimeout(() => {
+        setVerifySent(true);
+    }, 2000);
+
 
     // Reset the form fields
     setFullName("");
@@ -90,6 +126,7 @@ export function NewMPForm() {
     setAmberAlert(false);
   };
 
+  const newMPForm = () => {
   return (
     <div>
       <p className="flex justify-center w-full font-main font-semibold text-2xl my-4 ml-5">New Missing Person Report</p>
@@ -116,6 +153,8 @@ export function NewMPForm() {
             type="number"
             id="ageNumber"
             value={ageNumber}
+            min={1}
+            max={110}
             onChange={(e) => setAgeNumber(e.target.value)}
             required
           />
@@ -158,6 +197,7 @@ export function NewMPForm() {
             type="date"
             id="dateLastSeen"
             value={dateLastSeen}
+            max={currentDate}
             onChange={(e) => setDateLastSeen(e.target.value)}
           />
           <label className="flex items-center text-gray-700 text-sm font-bold mb-2"
@@ -177,6 +217,8 @@ export function NewMPForm() {
             type="number"
             id="currentAgeNumber"
             value={currentAgeNumber}
+            min={1}
+            max={110}
             onChange={(e) => setCurrentAgeNumber(e.target.value)}
           />
           <label className="text-gray-700 text-sm font-bold mb-2"
@@ -317,6 +359,7 @@ export function NewMPForm() {
             type="number"
             id="heightNumber"
             value={heightNumber}
+            min={1}
             onChange={(e) => setHeightNumber(e.target.value)}
           />
           <label className="text-gray-700 text-sm font-bold mb-2 flex items-center"
@@ -326,6 +369,7 @@ export function NewMPForm() {
             type="number"
             id="weightNumber"
             value={weightNumber}
+            min={1}
             onChange={(e) => setWeightNumber(e.target.value)}
           />
           <label className="text-gray-700 text-sm font-bold mb-2 flex items-center"
@@ -359,6 +403,9 @@ export function NewMPForm() {
             onChange={(e) => setPhotoURL(e.target.value)}
           />
         </div>
+        {error && (
+            <p className="text-red-500 text-sm mb-4">{error}</p>
+        )}
         <div className="flex items-center justify-center">
             <button 
                 className="bg-lightblue hover:bg-orange hover:scale-105 ease-out duration-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-96 h-16"
@@ -368,6 +415,26 @@ export function NewMPForm() {
       </form>
     </div>
   );
+
 }
+
+const renderSuccessMessage = () => {
+    return (
+    <div className="font-main flex justify-center text-center text-lg md:text-2xl">
+        <p className="w-1/2">Thank you. <br/><br/> Your missing person report has successfully been submitted.</p>
+    </div>
+    );
+    };
+
+return (
+    <div>
+        {verifySent ? (
+            renderSuccessMessage()
+        ) : (
+            newMPForm()
+        )}
+    </div>
+);
+        };
 
 export default NewMPForm;
