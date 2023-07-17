@@ -1,9 +1,11 @@
 import React from "react";
 import { useState } from "react";
+import SuccessMsg from "./SuccessMsg";
 
 export function UpdateUserForm() {
     const [emailError, setEmailError] = useState("");
     const [error, setError] = useState("");
+    const [verifySent, setVerifySent] = useState(false);
 
     const [userName, setUserName] = useState("");
     const [userEmail, setUserEmail] = useState("");
@@ -79,22 +81,24 @@ export function UpdateUserForm() {
             });
         
             if (response.ok) {
-            console.log("User details updated successfully.");
+                console.log("User details updated successfully.");
+                verifySent(true);
             } else {
-            console.error("Failed to update user details.");
+                console.error("Failed to update user details.");
+                setError("Failed to update user details.")
             }
         } catch (error) {
             console.error("Error:", error);
         }
         };
         
-
+const updateDetailsForm = () => {
   return (
     <div>
-        <p className="flex justify-center w-full font-main font-semibold text-2xl ml-5 my-4">
+        <p className="flex justify-center w-full font-main font-semibold text-2xl lg:ml-5 my-4">
             Update Account Details
         </p>
-        <form className="flex flex-col w-full font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4 ml-5"
+        <form className="flex flex-col w-full font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4 lg:ml-5"
         onSubmit={handleSubmit}>
         {/* disable ability to change account name */}
           {/* <div className="mb-4">
@@ -110,13 +114,13 @@ export function UpdateUserForm() {
             onChange={userNameUpdate}
             required />
           </div> */}
-          <div className="flex justify-center font-main text-xl">Enter your details below:</div>
+          <div className="flex justify-center font-main text-xl mb-4">Enter your details below</div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="email">
                 Email:
             </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+            <input className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
             type="email" 
             id="email" 
             name="email" 
@@ -129,7 +133,7 @@ export function UpdateUserForm() {
             htmlFor="password">
                 Password:
             </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+            <input className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
             type="password" 
             id="password" 
             name="password" 
@@ -145,7 +149,7 @@ export function UpdateUserForm() {
             Confirm Password:
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="password"
             id="confirmPassword"
             name="confirmPassword"
@@ -161,7 +165,7 @@ export function UpdateUserForm() {
                   Station Name:
                 </label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="text"
                   id="stationName"
                   name="stationName"
@@ -175,7 +179,7 @@ export function UpdateUserForm() {
                   Police Area Command:
                 </label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="text"
                   id="policeAreaCommand"
                   name="policeAreaCommand"
@@ -189,7 +193,7 @@ export function UpdateUserForm() {
                   Police District:
                 </label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   type="text"
                   id="policeDistrict"
                   name="policeDistrict"
@@ -214,6 +218,25 @@ export function UpdateUserForm() {
     </div>
   );
 }
+
+// const renderSuccessMessage = () => {
+//     return (
+//     <div className="font-main flex justify-center text-center text-lg md:text-2xl">
+//         <p className="w-1/2">Thank you. <br/><br/> Your account details have successfully been updated.</p>
+//     </div>
+//     );
+//     };
+
+return (
+    <div>
+        {verifySent ? (
+            <SuccessMsg message={"Thank you. Your account details have successfully been updated."} />
+            ) : (
+            updateDetailsForm()
+        )}
+    </div>
+);
+        };
 
 
 export default UpdateUserForm;
