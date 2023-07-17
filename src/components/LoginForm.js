@@ -82,11 +82,15 @@ export function LoginForm(){
     
     return (
         <div className="p-4">
-            <div className="font-main font-bold flex text-center justify-center text-2xl pb-8 pt-8"><p>Welcome Back<br/>Please login below.</p></div>
+            <div className="font-main font-bold flex text-center justify-center text-2xl pb-8 pt-8"><p>Welcome Back<br/></p>
+            </div>
             <form
                 className="font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4"
                 onSubmit={handleSubmit}
             >
+              <p className="flex font-main italic font-semibold text-xl pb-4 ">
+              Please login below.
+          </p>
                 <div className="mb-4">
                   <label htmlFor="email"
                   className="block text-gray-700 text-sm font-bold mb-2">

@@ -163,6 +163,9 @@ export function SignupForm() {
             className="font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4"
             onSubmit={handleSubmit}
         >
+          <p className="flex font-main italic font-semibold text-xl pb-4 ">
+          Enter your details below to signup.
+          </p>
             <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
                 Name:
@@ -262,7 +265,7 @@ export function SignupForm() {
     return (
         <div className="p-4">
             <div className="font-main font-bold flex text-center justify-center text-2xl pb-8 pt-8">
-                <p>Become a Member<br/>Enter your details below to signup.</p>
+                <p>Become a Member<br/></p>
             </div>
             {verificationSent ? (
                 renderVerificationSentMessage()
