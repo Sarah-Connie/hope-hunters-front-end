@@ -7,7 +7,7 @@ export function Nav({isLoggedIn}) {
   const location = useLocation();
   const isMdScreenOrLarger = useMediaQuery({ minWidth: 768 });
 
-  const linkStyle = "p-2 border hover:scale-105 transition-transform duration-300"
+  const linkStyle = "flex items-center p-2 border hover:scale-105 transition-transform duration-300"
   const isHomePage = location.pathname === "/";
 
   return (
@@ -16,7 +16,7 @@ export function Nav({isLoggedIn}) {
         {isMdScreenOrLarger ? (
             <div className="">
                 {/* possibly change to 2xl depending on how other links render when loggedin */}
-                <ul className="text-3xl flex flex-row px-5">
+                <ul className="text-3xl flex flex-row px-5 text-center">
                     {/* Show home link when not on homepage */}
                     {!isHomePage && (
                     <li className={`mr-10 ${linkStyle}`}>

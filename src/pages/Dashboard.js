@@ -46,50 +46,52 @@ export function Dashboard() {
       // For larger screens, set showNewReportForm to true on mount
       // so that the newMP form is rendered by default
       setShowNewReportForm(true);
+      setShowUpdateReportForm(false);
+      setShowUpdateAccountForm(false);
     }
   }, [isMdScreenOrLarger]);
 
 
   return (
-    <div>
+  <div>
     {isMdScreenOrLarger ? (
-        <div className="p-2 grid grid-cols-2 gap-4">
-    {/* left column 
-        space to render any given selected form
-    */}
+    <div className="md:p-4 lg:p-2 grid grid-cols-2 gap-4">
+      {/* left column 
+          space to render any given selected form
+      */}
       <div className="col-span-1 mr-5">
         {showUpdateAccountForm && <UpdateUserForm />}
         {showUpdateReportForm && ""}
         {showNewReportForm && <NewMPForm />}
       </div>
-    {/* right column 
-        buttons shown depending which form is rendered at the time
-    */}
-    <div className="col-span-1 flex flex-col justify-end">
-        <div className="flex flex-row space-x-5 mb-4 mr-5">
-            {/* if updateaccount form state is false (not showing), show button instead */}
-            {!showUpdateAccountForm && (
-            <RenderFormButton
-                onClick={handleUpdateAccountButtonClick}
-                buttonText="Update Account"
-            />
-            )}
-            {/* if updatereport form state is false (not showing), show button instead */}
-            {!showUpdateReportForm && (
-            <RenderFormButton
-                onClick={handleUpdateReportButtonClick}
-                buttonText="Update Report"
-            />
-            )}
-            {/* if newreport form state is false (not showing), show button instead */}
-            {!showNewReportForm && (
-            <RenderFormButton
-                onClick={handleNewReportButtonClick}
-                buttonText="File New Report"
-            />
-            )}
-        </div>
-    </div>
+      {/* right column 
+          buttons shown depending which form is rendered at the time
+      */}
+      <div className="col-span-1 flex flex-col justify-end">
+          <div className="flex flex-row space-x-5 mb-4 mr-5">
+              {/* if updateaccount form state is false (not showing), show button instead */}
+              {!showUpdateAccountForm && (
+              <RenderFormButton
+                  onClick={handleUpdateAccountButtonClick}
+                  buttonText="Update Account"
+              />
+              )}
+              {/* if updatereport form state is false (not showing), show button instead */}
+              {!showUpdateReportForm && (
+              <RenderFormButton
+                  onClick={handleUpdateReportButtonClick}
+                  buttonText="Update Report"
+              />
+              )}
+              {/* if newreport form state is false (not showing), show button instead */}
+              {!showNewReportForm && (
+              <RenderFormButton
+                  onClick={handleNewReportButtonClick}
+                  buttonText="File New Report"
+              />
+              )}
+          </div>
+      </div>
     </div> ) : ( 
     <div className="p-4">
         <div className="flex w-1/2 space-x-1">
@@ -126,11 +128,9 @@ export function Dashboard() {
             />
             )}
         </div>
-       
     </div>
-
     )
-    }
-    </div>
+  }
+  </div>
   );
 }

@@ -260,9 +260,9 @@ export function SignupForm() {
     };
 
     return (
-        <div>
-            <div className="font-main font-bold flex justify-center text-2xl pb-8 pt-8">
-                <p>Become a Member</p>
+        <div className="p-4">
+            <div className="font-main font-bold flex text-center justify-center text-2xl pb-8 pt-8">
+                <p>Become a Member<br/>Enter your details below to signup.</p>
             </div>
             {verificationSent ? (
                 renderVerificationSentMessage()

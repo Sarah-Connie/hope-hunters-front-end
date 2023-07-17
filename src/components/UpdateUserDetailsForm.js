@@ -114,7 +114,7 @@ const updateDetailsForm = () => {
             onChange={userNameUpdate}
             required />
           </div> */}
-          <div className="flex justify-center font-main text-xl mb-4">Enter your details below</div>
+          <div className="flex justify-center font-main text-xl mb-4">Enter your details below.</div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="email">
