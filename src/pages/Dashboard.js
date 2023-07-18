@@ -87,6 +87,17 @@ export function Dashboard() {
     }
   };
 
+  const handleNewMPReportButtonClick = () => {
+    setShowUpdateAccountForm(false);
+    setShowUpdateReportForm(false);
+    setShowNewReportForm(true);
+  }
+
+  const handleUpdateDetailsButtonClick = () => {
+    setShowUpdateAccountForm(true);
+    setShowUpdateReportForm(false);
+    setShowNewReportForm(false);
+  }
   
   useEffect(() => {
     setReports(data);
@@ -144,13 +155,13 @@ export function Dashboard() {
               </div>
               {!showUpdateAccountForm && (
                 <RenderFormButton
-                  onClick={() => setShowUpdateAccountForm(true)}
+                  onClick={handleUpdateDetailsButtonClick}
                   buttonText="Update Account"
                 />
               )}
               {!showNewReportForm && (
                 <RenderFormButton
-                  onClick={() => setShowNewReportForm(true)}
+                  onClick={handleNewMPReportButtonClick}
                   buttonText="File New Report"
                 />
               )}
@@ -187,7 +198,7 @@ export function Dashboard() {
           <div className="flex flex-row relative space-x-1">
             {!showUpdateAccountForm && (
               <RenderFormButton
-                onClick={() => setShowUpdateAccountForm(true)}
+                onClick={handleUpdateDetailsButtonClick}
                 buttonText="Update Account"
               />
             )}
