@@ -141,21 +141,26 @@ export function Dashboard() {
           </div>
 
           <div className="col-span-1 flex flex-col">
-            <div className="flex flex-row space-x-5 mb-4 mr-5">
+            {/* <div className="flex flex-row space-x-5 mb-4 mr-5"> */}
+            <div>
               <div>
                 {reports.map((report) => (
-                  <div key={report.reportId} className="flex">
+                  <div key={report.reportId} className="flex flex-row">
+                     <div className="w-96 h-96">
+                      <div className="aspect-w-1 aspect-h-1">
+                        <img src={report.photoURL} alt="Missing Person" className="object-cover" />
+                      </div>
+                    </div>
                     <div>
                       <p>{report.fullName}</p>
                       <p>{report.ageNumber}</p>
                     </div>
-                    <div>
-                      <img src={report.photoURL} alt="Missing Person" />
-                    </div>
-                    <div>
+                    
+                    <div className="flex flex-col w-1/5">
                     <RenderFormButton
                       onClick={() => handleUpdateReportButtonClick(report.reportId)}
                       buttonText="Update Report"
+                      
                     />
                     </div>
                   </div>
@@ -174,7 +179,7 @@ export function Dashboard() {
                     buttonText="File New Report"
                   />
                 )}
-            </div>
+              </div>
             </div>
           </div>
         </div>
