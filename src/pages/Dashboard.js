@@ -65,7 +65,6 @@ const data = [
   },
 ];
 
-
 export function Dashboard() {
   const [reports, setReports] = useState([]);
   const [selectedReport, setSelectedReport] = useState(null);
@@ -75,15 +74,14 @@ export function Dashboard() {
   const [showUpdateAccountForm, setShowUpdateAccountForm] = useState(false);
   const [showUpdateReportForm, setShowUpdateReportForm] = useState(false);
   const [showNewReportForm, setShowNewReportForm] = useState(isMdScreenOrLarger);
-  const [deleteAccount, setDeleteAccount] = useState(false)
-
+  const [deleteAccount, setDeleteAccount] = useState(false);
+   
   // const [error, setError] = useState("");
 
   const handleUpdateReportButtonClick = (reportId) => {
     const report = reports.find((report) => report.reportId === reportId);
     if (report) {
       setSelectedReport(report);
-
       setShowUpdateAccountForm(false);
       setShowUpdateReportForm(true);
       setShowNewReportForm(false);
@@ -107,22 +105,22 @@ export function Dashboard() {
     setShowUpdateAccountForm(false);
     setShowUpdateReportForm(false);
     setShowNewReportForm(true);
-  }
+  };
 
   const handleUpdateDetailsButtonClick = () => {
     setShowUpdateAccountForm(true);
     setShowUpdateReportForm(false);
     setShowNewReportForm(false);
     setDeleteAccount(false);
-  }
+  };
 
   const handleDeleteAccountButtonClick = () => {
     setShowUpdateAccountForm(false);
     setShowUpdateReportForm(false);
     setShowNewReportForm(false);
     setDeleteAccount(true);
-  }
-  
+  };
+
   useEffect(() => {
     setReports(data);
   }, []);
@@ -151,22 +149,21 @@ export function Dashboard() {
 
   return (
     <div>
-      <div className="flex justify-center text-center font-main font-bold text-3xl pt-4">
-        {/* Hi {existingMPData.fullName},<br /> Welcome back to your Dashboard. */}
+      <div className="pt-4 flex justify-center text-center font-main font-bold text-2xl md:text-3xl">
+        {/* Hi {existingMPData.fullName},<br /> welcome back.*/}
+        Hi, welcome back.
       </div>
 
       {isMdScreenOrLarger ? (
-        <div className="md:p-4 lg:p-2 grid grid-cols-2 gap-4 space-x-5">
-          {/* <div className="col-span-1 mr-5"> */}
-          <div>
+        <div className="p-4 mt-5 lg:p-2 grid grid-cols-2 gap-4 space-x-5">
+          <div id="#">
             {showUpdateAccountForm && <UpdateUserForm />}
             {showUpdateReportForm && <UpdateMPForm existingMPData={selectedReport} />}
             {showNewReportForm && <NewMPForm />}
           </div>
+          <div className="flex flex-col p-2">
+          <p className="flex justify-center font-main font-semibold text-3xl pt-3">Your Active Reports</p>
 
-          {/* <div className="col-span-1 flex flex-col"> */}
-            {/* <div className="flex flex-row space-x-5 mb-4 mr-5"> */}
-              <div className="flex flex-col p-2">
                 {reports.map((report) => (
                   <div className="mt-5" 
                   key={report.reportId}
@@ -220,7 +217,7 @@ export function Dashboard() {
                 </div>
       ) : (
         <div className="p-4">
-          <div className="flex w-1/2 space-x-1">
+          <div className="flex w-1/2 space-x-1 p-2">
             {!showNewReportForm && (
               <RenderFormButton
                 onClick={() => setShowNewReportForm(true)}
@@ -230,33 +227,57 @@ export function Dashboard() {
           </div>
           <div>
             {showUpdateAccountForm && <UpdateUserForm />}
-            {showUpdateReportForm && <UpdateMPForm existingMPData={selectedReport}/>}
+            {showUpdateReportForm && <UpdateMPForm existingMPData={selectedReport} />}
             {showNewReportForm && <NewMPForm />}
           </div>
           <div>
-            {reports.map((report) => (
-              <div key={report.reportId}>
-                <p>{report.fullName}</p>
-                <p>{report.ageNumber}</p>
+            <div className="flex flex-col p-2">
+              <p className="flex justify-center font-main font-semibold text-2xl pt-3">Your Active Reports</p>
+              {reports.map((report) => (
+                <div className="mt-5" key={report.reportId}>
+                  <div className="flex flex-row">
+                    <div className="aspect-w-1 aspect-h-1">
+                      <img src={report.photoURL} alt="Missing Person" className="h-52 w-52 object-cover" />
+                    </div>
+                    <div className="flex flex-col font-main pl-4 text-sm">
+                      <p className="text-lg">{report.fullName}</p>
+                      <p>{report.ageNumber} {report.ageMeasurement} old</p>
+                      <p>Last Seen: {new Date(report.dateLastSeen).toISOString().split("T")[0]}</p>
+                      <p>Location Last Seen: {report.locationLastSeen.address}</p>
+                    </div>
+                  </div>
+                  <div className="flex space-x-4 pt-2">
+                    <RenderFormButton
+                      onClick={() => handleUpdateReportButtonClick(report.reportId)}
+                      buttonText="Update Report"
+                    />
+                    <RenderFormButton
+                      onClick={() => handleDeleteReportButtonClick(report.reportId)}
+                      buttonText="Delete Report"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-row relative space-x-4 p-2">
+              {!showUpdateAccountForm && (
                 <RenderFormButton
-                  onClick={() => handleUpdateReportButtonClick(report.reportId)}
-                  buttonText="Update Report"
+                  onClick={handleUpdateDetailsButtonClick}
+                  buttonText="Update Account"
                 />
-              </div>
-            ))}
-          </div>
-          <div className="flex flex-row relative space-x-1">
-            {!showUpdateAccountForm && (
-              <RenderFormButton
-                onClick={handleUpdateDetailsButtonClick}
-                buttonText="Update Account"
-              />
-            )}
+              )}
+              {(!deleteAccount || !showUpdateReportForm) &&  (
+                <RenderFormButton
+                  onClick={handleDeleteAccountButtonClick}
+                  buttonText="Delete Account"
+                />
+              )}
+            </div>
           </div>
         </div>
       )}
     </div>
   );
-};
+}
 
 export default Dashboard;
