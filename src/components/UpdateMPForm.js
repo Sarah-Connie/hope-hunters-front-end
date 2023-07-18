@@ -16,12 +16,24 @@ export function UpdateMPForm({existingMPData}) {
     setFormValues(existingMPData);
   }, [existingMPData]);
 
-  const handleChange = (event) => {
+    const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+  
+    if (name.includes(".")) {
+        const [parentKey, childKey] = name.split(".");
+        setFormValues((prevValues) => ({
+          ...prevValues,
+          [parentKey]: {
+            ...prevValues[parentKey],
+            [childKey]: value,
+          },
+        }));
+      } else {
+        setFormValues((prevValues) => ({
+          ...prevValues,
+          [name]: type === "checkbox" ? checked : value,
+        }));
+      }
   };
 
   const currentDate = new Date().toISOString().split("T")[0];
@@ -201,9 +213,9 @@ export function UpdateMPForm({existingMPData}) {
           <input
             className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="text"
-            id="locationAddress"
-            name="locationAddress"
-            value={formValues.locationAddress || ""}
+            id="locationLastSeen.address"
+            name="locationLastSeen.address"
+            value={formValues.locationLastSeen.address || ""}
             onChange={handleChange}
 
           />
@@ -214,9 +226,9 @@ export function UpdateMPForm({existingMPData}) {
           <input
             className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="text"
-            id="locationCity"
-            name="locationCity"
-            value={formValues.locationCity || ""}
+            id="locationLastSeen.city"
+            name="locationLastSeen.city"
+            value={formValues.locationLastSeen.city || ""}
             onChange={handleChange}
 
           />
@@ -227,9 +239,9 @@ export function UpdateMPForm({existingMPData}) {
           <input
             className="mr-2 shadow appearance-none border rounded w-2/5 lg:w-1/6 py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="text"
-            id="locationPostcode"
-            name="locationPostcode"
-            value={formValues.locationPostcode || ""}
+            id="locationLastSeen.postcode"
+            name="locationLastSeen.postcode"
+            value={formValues.locationLastSeen.postcode || ""}
             onChange={handleChange}
             minLength={4}
             maxLength={4}
@@ -238,9 +250,9 @@ export function UpdateMPForm({existingMPData}) {
           htmlFor="locationState">State Last Seen:</label>
           <select
             className="shadow appearance-none border rounded w-40 py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="locationState"
-            name="locationState"
-            value={formValues.locationState || ""}
+            id="locationLastSeen.state"
+            name="locationLastSeen.state"
+            value={formValues.locationLastSeen.state || ""}
             onChange={handleChange}
           >
             <option value="">Select a State</option>

@@ -33,6 +33,7 @@ const data = [
     weightNumber: 75,
     weightMeasurement: "kilograms",
     gender: "female",
+    amberAlert: true,
     distinctiveFeatures: "flower tattoo left shoulder",
   },
   {
@@ -74,10 +75,24 @@ export function Dashboard() {
   const [showUpdateAccountForm, setShowUpdateAccountForm] = useState(false);
   const [showUpdateReportForm, setShowUpdateReportForm] = useState(false);
   const [showNewReportForm, setShowNewReportForm] = useState(isMdScreenOrLarger);
+  const [deleteAccount, setDeleteAccount] = useState(false)
 
   // const [error, setError] = useState("");
 
   const handleUpdateReportButtonClick = (reportId) => {
+    const report = reports.find((report) => report.reportId === reportId);
+    if (report) {
+      setSelectedReport(report);
+
+      setShowUpdateAccountForm(false);
+      setShowUpdateReportForm(true);
+      setShowNewReportForm(false);
+    }
+  };
+
+  // not functional as intended
+  // func body for UI development
+  const handleDeleteReportButtonClick = (reportId) => {
     const report = reports.find((report) => report.reportId === reportId);
     if (report) {
       setSelectedReport(report);
@@ -98,6 +113,14 @@ export function Dashboard() {
     setShowUpdateAccountForm(true);
     setShowUpdateReportForm(false);
     setShowNewReportForm(false);
+    setDeleteAccount(false);
+  }
+
+  const handleDeleteAccountButtonClick = () => {
+    setShowUpdateAccountForm(false);
+    setShowUpdateReportForm(false);
+    setShowNewReportForm(false);
+    setDeleteAccount(true);
   }
   
   useEffect(() => {
@@ -133,56 +156,68 @@ export function Dashboard() {
       </div>
 
       {isMdScreenOrLarger ? (
-        <div className="md:p-4 lg:p-2 grid grid-cols-2 gap-4">
-          <div className="col-span-1 mr-5">
+        <div className="md:p-4 lg:p-2 grid grid-cols-2 gap-4 space-x-5">
+          {/* <div className="col-span-1 mr-5"> */}
+          <div>
             {showUpdateAccountForm && <UpdateUserForm />}
             {showUpdateReportForm && <UpdateMPForm existingMPData={selectedReport} />}
             {showNewReportForm && <NewMPForm />}
           </div>
 
-          <div className="col-span-1 flex flex-col">
+          {/* <div className="col-span-1 flex flex-col"> */}
             {/* <div className="flex flex-row space-x-5 mb-4 mr-5"> */}
-            <div>
-              <div>
+              <div className="flex flex-col h-5/6">
                 {reports.map((report) => (
-                  <div key={report.reportId} className="flex flex-row">
-                     <div className="w-96 h-96">
-                      <div className="aspect-w-1 aspect-h-1">
-                        <img src={report.photoURL} alt="Missing Person" className="object-cover" />
-                      </div>
+                  <div className="mt-5" key={report.reportId}>
+                    <div className="flex flex-row">
+                        <div className="aspect-w-1 aspect-h-1">
+                          <img src={report.photoURL} alt="Missing Person" className="h-52 w-52 object-cover" />
+                        </div>
+                        <div className="flex flex-col font-main pl-4">
+                            <p className="text-2xl">{report.fullName}</p>
+                            <p>{report.ageNumber} {report.ageMeasurement} old</p>
+                            <p>Last Seen: {new Date (report.dateLastSeen).toISOString().split("T")[0]}</p>
+                            <p>Location Last Seen: {report.locationLastSeen.address}</p>
+                        </div>
                     </div>
-                    <div>
-                      <p>{report.fullName}</p>
-                      <p>{report.ageNumber}</p>
-                    </div>
-                    
-                    <div className="flex flex-col w-1/5">
+                    <div className="flex space-x-4 pt-2">
                     <RenderFormButton
                       onClick={() => handleUpdateReportButtonClick(report.reportId)}
                       buttonText="Update Report"
-                      
+                    />
+                    <RenderFormButton
+                      onClick={() => handleDeleteReportButtonClick(report.reportId)}
+                      buttonText="Delete Report"
                     />
                     </div>
                   </div>
                 ))}
-              </div>
-              <div className="flex flex-row justify-end">
-                {!showUpdateAccountForm && (
-                  <RenderFormButton
-                    onClick={handleUpdateDetailsButtonClick}
-                    buttonText="Update Account"
-                  />
-                )}
-                {!showNewReportForm && (
-                  <RenderFormButton
-                    onClick={handleNewMPReportButtonClick}
-                    buttonText="File New Report"
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
+                </div>
+                <div className="grid col-start-2">
+                  <div className="flex flex-row space-x-2">
+                  {!showUpdateAccountForm && (
+                    <RenderFormButton
+                      onClick={handleUpdateDetailsButtonClick}
+                      buttonText="Update Account"
+                    />
+                  )}
+                  {!showNewReportForm && (
+                    <RenderFormButton
+                      onClick={handleNewMPReportButtonClick}
+                      buttonText="File New Report"
+                    />
+                  )}
+                  {!deleteAccount && (
+                    <RenderFormButton
+                      onClick={handleDeleteAccountButtonClick}
+                      buttonText="Delete Account"
+                    />
+                  )}
+                  </div>
+                  </div>
+                </div>
+          // </div>
+   
       ) : (
         <div className="p-4">
           <div className="flex w-1/2 space-x-1">

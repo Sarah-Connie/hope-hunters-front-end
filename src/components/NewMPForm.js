@@ -131,7 +131,7 @@ export function NewMPForm() {
   return (
     <div>
       <p className="flex justify-center w-full font-main font-semibold text-2xl my-4 md:ml-5">New Missing Person Report</p>
-      <form className="flex flex-col w-full font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-2 mb-4 md:ml-5"
+      <form className="flex flex-col w-full font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 md:ml-5"
       onSubmit={handleSubmit}>
         <div className="flex justify-center font-main italic text-xl pb-4">General Information</div>
         <div className="mb-2 md:mb-4">
