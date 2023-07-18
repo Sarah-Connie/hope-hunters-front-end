@@ -6,6 +6,11 @@ export function UpdateMPForm({existingMPData}) {
   const [verifySent, setVerifySent] = useState(false);
   const [error, setError] = useState("");
 
+  // added so that error reloads when the existing MP data changes
+  // check again for functionality once api call is uncommented
+  useEffect(() => {
+    setError();
+  }, [existingMPData]);
 
   useEffect(() => {
     setFormValues(existingMPData);
@@ -43,8 +48,10 @@ export function UpdateMPForm({existingMPData}) {
           setError("Update could not be completed. Please try again later.");
           // Handle status errors
         } else {
-          // Handle other errors
+            console.error("Failed to update the report.");
+            setError("Updated details could not be saved. Please try again.")
         }
+          // Handle other errors
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -124,8 +131,8 @@ export function UpdateMPForm({existingMPData}) {
             type="date"
             id="dateLastSeen"
             name="dateLastSeen"
-            value={formValues.dateLastSeen || ""}
-            // value={formValues.dateLastSeen ? new Date(formValues.dateLastSeen).toISOString().split("T")[0] : ""}
+            // value={formValues.dateLastSeen || ""}
+            value={formValues.dateLastSeen ? new Date(formValues.dateLastSeen).toISOString().split("T")[0] : ""}
             max={currentDate}
             onChange={handleChange}
           />

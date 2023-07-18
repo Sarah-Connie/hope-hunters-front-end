@@ -14,7 +14,8 @@ const data = [
       "https://media.istockphoto.com/id/1326417862/photo/young-woman-laughing-while-relaxing-at-home.jpg?s=1024x1024&w=is&k=20&c=Gb9C49IRPKG88Jahy5-QgyD34G9OEPwtBpr9LwT3KUw=",
     ageNumber: 28,
     ageMeasurement: "years",
-    dateLastSeen: new Date().toISOString().split("T")[0],
+    dateLastSeen: Date.now() - 2,
+    // dateLastSeen: new Date().toISOString().split("T")[0],
     currentAgeNumber: 28,
     currentAgeMeasurement: "years",
     areaSuspectedToBe: "Mount Foster",
@@ -139,32 +140,41 @@ export function Dashboard() {
             {showNewReportForm && <NewMPForm />}
           </div>
 
-          <div className="col-span-1 flex flex-col justify-end">
+          <div className="col-span-1 flex flex-col">
             <div className="flex flex-row space-x-5 mb-4 mr-5">
               <div>
                 {reports.map((report) => (
-                  <div key={report.reportId}>
-                    <p>{report.fullName}</p>
-                    <p>{report.ageNumber}</p>
+                  <div key={report.reportId} className="flex">
+                    <div>
+                      <p>{report.fullName}</p>
+                      <p>{report.ageNumber}</p>
+                    </div>
+                    <div>
+                      <img src={report.photoURL} alt="Missing Person" />
+                    </div>
+                    <div>
                     <RenderFormButton
                       onClick={() => handleUpdateReportButtonClick(report.reportId)}
                       buttonText="Update Report"
                     />
+                    </div>
                   </div>
                 ))}
               </div>
-              {!showUpdateAccountForm && (
-                <RenderFormButton
-                  onClick={handleUpdateDetailsButtonClick}
-                  buttonText="Update Account"
-                />
-              )}
-              {!showNewReportForm && (
-                <RenderFormButton
-                  onClick={handleNewMPReportButtonClick}
-                  buttonText="File New Report"
-                />
-              )}
+              <div className="flex flex-row justify-end">
+                {!showUpdateAccountForm && (
+                  <RenderFormButton
+                    onClick={handleUpdateDetailsButtonClick}
+                    buttonText="Update Account"
+                  />
+                )}
+                {!showNewReportForm && (
+                  <RenderFormButton
+                    onClick={handleNewMPReportButtonClick}
+                    buttonText="File New Report"
+                  />
+                )}
+            </div>
             </div>
           </div>
         </div>
