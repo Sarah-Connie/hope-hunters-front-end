@@ -166,9 +166,11 @@ export function Dashboard() {
 
           {/* <div className="col-span-1 flex flex-col"> */}
             {/* <div className="flex flex-row space-x-5 mb-4 mr-5"> */}
-              <div className="flex flex-col h-5/6">
+              <div className="flex flex-col p-2">
                 {reports.map((report) => (
-                  <div className="mt-5" key={report.reportId}>
+                  <div className="mt-5" 
+                  key={report.reportId}
+                  >
                     <div className="flex flex-row">
                         <div className="aspect-w-1 aspect-h-1">
                           <img src={report.photoURL} alt="Missing Person" className="h-52 w-52 object-cover" />
@@ -193,18 +195,18 @@ export function Dashboard() {
                   </div>
                 ))}
                 </div>
-                <div className="grid col-start-2">
-                  <div className="flex flex-row space-x-2">
-                  {!showUpdateAccountForm && (
-                    <RenderFormButton
-                      onClick={handleUpdateDetailsButtonClick}
-                      buttonText="Update Account"
-                    />
-                  )}
+                <div className="col-span-2 lg:col-start-2 p-2">
+                  <div className="flex flex-row space-x-4 md:justify-center">
                   {!showNewReportForm && (
                     <RenderFormButton
                       onClick={handleNewMPReportButtonClick}
                       buttonText="File New Report"
+                    />
+                  )}
+                  {!showUpdateAccountForm && (
+                    <RenderFormButton
+                      onClick={handleUpdateDetailsButtonClick}
+                      buttonText="Update Account"
                     />
                   )}
                   {!deleteAccount && (
@@ -214,10 +216,8 @@ export function Dashboard() {
                     />
                   )}
                   </div>
-                  </div>
                 </div>
-          // </div>
-   
+                </div>
       ) : (
         <div className="p-4">
           <div className="flex w-1/2 space-x-1">
