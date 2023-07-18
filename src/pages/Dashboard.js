@@ -1,138 +1,201 @@
 import RenderFormButton from "../components/RenderFormButton";
 import UpdateUserForm from "../components/UpdateUserDetailsForm";
+import UpdateMPForm from "../components/UpdateMPForm";
 import { useState, useEffect } from "react";
 import NewMPForm from "../components/NewMPForm";
 import { useMediaQuery } from "react-responsive";
 
+// mock data array
+const data = [
+  {
+    reportId: 1,
+    fullName: "Keira Janssen",
+    photoURL:
+      "https://media.istockphoto.com/id/1326417862/photo/young-woman-laughing-while-relaxing-at-home.jpg?s=1024x1024&w=is&k=20&c=Gb9C49IRPKG88Jahy5-QgyD34G9OEPwtBpr9LwT3KUw=",
+    ageNumber: 28,
+    ageMeasurement: "years",
+    dateLastSeen: new Date().toISOString().split("T")[0],
+    currentAgeNumber: 28,
+    currentAgeMeasurement: "years",
+    areaSuspectedToBe: "Mount Foster",
+    locationLastSeen: {
+      address: "84 Arthur Street",
+      city: "Mount Foster",
+      state: "NSW",
+      postcode: "2824",
+    },
+    hairColour: "brown",
+    eyeColour: "brown",
+    complexion: "fair",
+    heightNumber: 165,
+    heightMeasurement: "centimeters",
+    weightNumber: 75,
+    weightMeasurement: "kilograms",
+    gender: "female",
+    distinctiveFeatures: "flower tattoo left shoulder",
+  },
+  {
+    reportId: 2,
+    fullName: "Holly Smith",
+    photoURL:
+      "https://media.istockphoto.com/id/1326417862/photo/young-woman-laughing-while-relaxing-at-home.jpg?s=1024x1024&w=is&k=20&c=Gb9C49IRPKG88Jahy5-QgyD34G9OEPwtBpr9LwT3KUw=",
+    ageNumber: 28,
+    ageMeasurement: "years",
+    dateLastSeen: new Date().toISOString().split("T")[0],
+    currentAgeNumber: 28,
+    currentAgeMeasurement: "years",
+    areaSuspectedToBe: "Mount Foster",
+    locationLastSeen: {
+      address: "84 Arthur Street",
+      city: "Mount Foster",
+      state: "NSW",
+      postcode: "2824",
+    },
+    hairColour: "brown",
+    eyeColour: "brown",
+    complexion: "fair",
+    heightNumber: 165,
+    heightMeasurement: "centimeters",
+    weightNumber: 75,
+    weightMeasurement: "kilograms",
+    gender: "female",
+    distinctiveFeatures: "flower tattoo left shoulder",
+  },
+];
 
-// updatereport form will be rendered per report case.
-// updatereport button will be changed to delete account button.
-// pop up overlay window only confirming account deletion
 
 export function Dashboard() {
+  const [reports, setReports] = useState([]);
+  const [selectedReport, setSelectedReport] = useState(null);
+
   const isMdScreenOrLarger = useMediaQuery({ minWidth: 768 });
 
   const [showUpdateAccountForm, setShowUpdateAccountForm] = useState(false);
   const [showUpdateReportForm, setShowUpdateReportForm] = useState(false);
-  const [showNewReportForm, setShowNewReportForm] = useState(true);
+  const [showNewReportForm, setShowNewReportForm] = useState(isMdScreenOrLarger);
 
-// if updateaccount button is clicked, only render updateaccount form
-  const handleUpdateAccountButtonClick = () => {
-    setShowUpdateAccountForm(true);
-    setShowUpdateReportForm(false);
-    setShowNewReportForm(false);
-  };
+  // const [error, setError] = useState("");
 
-  // if updatereport button is clicked, only render updatereport form
-  const handleUpdateReportButtonClick = () => {
-    setShowUpdateAccountForm(false);
-    setShowUpdateReportForm(true);
-    setShowNewReportForm(false);
-  };
+  const handleUpdateReportButtonClick = (reportId) => {
+    const report = reports.find((report) => report.reportId === reportId);
+    if (report) {
+      setSelectedReport(report);
 
-  // if newreport button is clicked, only render newreport form
-  const handleNewReportButtonClick = () => {
-    setShowUpdateReportForm(false);
-    setShowUpdateAccountForm(false);
-    setShowNewReportForm(true);
-  };
-
-  useEffect(() => {
-    if (!isMdScreenOrLarger) {
-      // For small screens, set showNewReportForm to false on mount 
-      // this way button shows by default, but not newMP form
-      setShowNewReportForm(false);
-    } else {
-      // For larger screens, set showNewReportForm to true on mount
-      // so that the newMP form is rendered by default
-      setShowNewReportForm(true);
-      setShowUpdateReportForm(false);
       setShowUpdateAccountForm(false);
+      setShowUpdateReportForm(true);
+      setShowNewReportForm(false);
     }
-  }, [isMdScreenOrLarger]);
+  };
 
+  
+  useEffect(() => {
+    setReports(data);
+  }, []);
+
+  // updated useEffect from above
+  // replace above with below
+  // run fetch func onmount to get reports for the logged-in user and store in state
+  //   useEffect(() => {
+  //     fetchReports()
+  //       .then((data) => {
+  //         setReports(data);
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching reports:", error);
+  //         setError(error);
+  //       });
+  //   }, []);
+
+  // api call to fetch all reports for the logged-in user
+  // add db url
+  // const fetchReports = async () => {
+  //   const response = await fetch(""); 
+  //   const data = await response.json();
+  //   return data;
+  // };
 
   return (
-  <div>
-    {/* featch user's name details from returned db object */}
-    <div className="flex justify-center font-main font-bold text-3xl pt-4">Hi {`$userName`}, welcome back to your Dashboard.</div>
-    {isMdScreenOrLarger ? (
-    <div className="md:p-4 lg:p-2 grid grid-cols-2 gap-4">
-      {/* left column 
-          space to render any given selected form
-      */}
-      <div className="col-span-1 mr-5">
-        {showUpdateAccountForm && <UpdateUserForm />}
-        {showUpdateReportForm && ""}
-        {showNewReportForm && <NewMPForm />}
+    <div>
+      <div className="flex justify-center text-center font-main font-bold text-3xl pt-4">
+        {/* Hi {existingMPData.fullName},<br /> Welcome back to your Dashboard. */}
       </div>
-      {/* right column 
-          buttons shown depending which form is rendered at the time
-      */}
-      <div className="col-span-1 flex flex-col justify-end">
-          <div className="flex flex-row space-x-5 mb-4 mr-5">
-              {/* if updateaccount form state is false (not showing), show button instead */}
-              {!showUpdateAccountForm && (
-              <RenderFormButton
-                  onClick={handleUpdateAccountButtonClick}
-                  buttonText="Update Account"
-              />
-              )}
-              {/* if updatereport form state is false (not showing), show button instead */}
-              {!showUpdateReportForm && (
-              <RenderFormButton
-                  onClick={handleUpdateReportButtonClick}
-                  buttonText="Update Report"
-              />
-              )}
-              {/* if newreport form state is false (not showing), show button instead */}
-              {!showNewReportForm && (
-              <RenderFormButton
-                  onClick={handleNewReportButtonClick}
-                  buttonText="File New Report"
-              />
-              )}
-          </div>
-      </div>
-    </div> ) : ( 
-    <div className="p-4">
-        <div className="flex w-1/2 space-x-1">
-            {!showNewReportForm && (
-            <RenderFormButton
-                onClick={handleNewReportButtonClick}
-                buttonText="File New Report"
-            />
-            )}
-        </div>
-        {/* conditional searchbar to go here */}
-        <div>
+
+      {isMdScreenOrLarger ? (
+        <div className="md:p-4 lg:p-2 grid grid-cols-2 gap-4">
+          <div className="col-span-1 mr-5">
             {showUpdateAccountForm && <UpdateUserForm />}
-            {showUpdateReportForm && ""}
+            {showUpdateReportForm && <UpdateMPForm existingMPData={selectedReport} />}
             {showNewReportForm && <NewMPForm />}
+          </div>
+
+          <div className="col-span-1 flex flex-col justify-end">
+            <div className="flex flex-row space-x-5 mb-4 mr-5">
+              <div>
+                {reports.map((report) => (
+                  <div key={report.reportId}>
+                    <p>{report.fullName}</p>
+                    <p>{report.ageNumber}</p>
+                    <RenderFormButton
+                      onClick={() => handleUpdateReportButtonClick(report.reportId)}
+                      buttonText="Update Report"
+                    />
+                  </div>
+                ))}
+              </div>
+              {!showUpdateAccountForm && (
+                <RenderFormButton
+                  onClick={() => setShowUpdateAccountForm(true)}
+                  buttonText="Update Account"
+                />
+              )}
+              {!showNewReportForm && (
+                <RenderFormButton
+                  onClick={() => setShowNewReportForm(true)}
+                  buttonText="File New Report"
+                />
+              )}
+            </div>
+          </div>
         </div>
-        <div>
-            {/* individual case reports here */}
-            {/* linked update report and delete report buttons */}
-        </div>
-        <div className="flex flex-row relative space-x-1">
+      ) : (
+        <div className="p-4">
+          <div className="flex w-1/2 space-x-1">
+            {!showNewReportForm && (
+              <RenderFormButton
+                onClick={() => setShowNewReportForm(true)}
+                buttonText="File New Report"
+              />
+            )}
+          </div>
+          <div>
+            {showUpdateAccountForm && <UpdateUserForm />}
+            {showUpdateReportForm && <UpdateMPForm existingMPData={selectedReport}/>}
+            {showNewReportForm && <NewMPForm />}
+          </div>
+          <div>
+            {reports.map((report) => (
+              <div key={report.reportId}>
+                <p>{report.fullName}</p>
+                <p>{report.ageNumber}</p>
+                <RenderFormButton
+                  onClick={() => handleUpdateReportButtonClick(report.reportId)}
+                  buttonText="Update Report"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-row relative space-x-1">
             {!showUpdateAccountForm && (
-            <RenderFormButton
-                onClick={handleUpdateAccountButtonClick}
+              <RenderFormButton
+                onClick={() => setShowUpdateAccountForm(true)}
                 buttonText="Update Account"
-            />
+              />
             )}
-            {/* change this to be a delete account button. 
-            pop up overlay window only confirming account deletion */}
-            {!showUpdateReportForm && (
-            <RenderFormButton
-                onClick={handleUpdateReportButtonClick}
-                buttonText="Update Report"
-            />
-            )}
+          </div>
         </div>
+      )}
     </div>
-    )
-  }
-  </div>
   );
-}
+};
+
+export default Dashboard;
