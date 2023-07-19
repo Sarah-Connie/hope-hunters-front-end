@@ -5,13 +5,14 @@ import { ReportPage } from './pages/ReportPage';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import { Dashboard } from './pages/Dashboard';
-import { AuthProvider } from './components/AuthContext';
+import PersistLogin from './components/PersistLogin';
 
 function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
+      
         <Routes>
+        <Route element={<PersistLogin />}>
           <Route element={<PageLayout />}>
             <Route path="/" element="" />
             <Route path="/report" element={<ReportPage />} />
@@ -19,8 +20,8 @@ function App() {
             <Route path="/signup" element={<SignupForm />} />
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>
+        </Route>
         </Routes>
-      </AuthProvider>
     </BrowserRouter>
   );
 }

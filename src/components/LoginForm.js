@@ -44,11 +44,10 @@ export function LoginForm() {
           ) {
             const { email, jwt } = responseData;
             // const user = { email: userEmail, jwt: responseData.jwt.token};
-            const user = { email, jwt: jwt.token };
+            const user = { email, jwt:jwt.token };
 
+            console.log('User (from loginForm):', user);
             // Call the login function from the AuthContext to persist the login state
-            // console.log(user.jwt)
-            // console.log(user.email)
             login(user);
 
             // route user to their user dashboard

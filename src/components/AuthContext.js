@@ -11,8 +11,12 @@ export const AuthProvider = ({ children }) => {
   // Login function
   const login = (userData) => {
     setIsLoggedIn(true);
-    setUser(userData);
-  };
+    setUser({
+        email: userData.email,
+        jwt: userData.jwt.token
+    });
+    console.log("Login data (from authContext):", userData);
+    }
 
   // Logout function
   const logout = () => {
