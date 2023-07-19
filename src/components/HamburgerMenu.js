@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "./AuthContext";
 
-function HamburgerMenu({ isLoggedIn }) {
+function HamburgerMenu() {
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const { isLoggedIn, logout } = useAuth();
+
 
   useEffect(() => {
     if (isNavOpen) {
@@ -67,8 +70,17 @@ function HamburgerMenu({ isLoggedIn }) {
                       to="/"
                       onClick={handleLinkClick}
                     >
-                      Logout
+                      Home
                     </NavLink>
+                  </li>
+                  <li className="border-b border-white my-8 uppercase">
+                  <NavLink to="/" 
+                    onClick={() => { 
+                      setIsNavOpen(false); 
+                      logout(); }}
+                    >
+                    Logout
+                  </NavLink>
                   </li>
                 </>
               ) : (
