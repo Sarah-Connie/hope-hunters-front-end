@@ -8,6 +8,7 @@ const AuthProvider = ({ children, location, history }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
 
+  // persist the login status 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
     const loggedInStatus = sessionStorage.getItem("loggedInStatus")

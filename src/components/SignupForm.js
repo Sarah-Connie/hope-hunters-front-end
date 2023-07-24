@@ -18,10 +18,6 @@ export function SignupForm() {
   const [verificationSent, setVerificationSent] = useState(false);
 
 
-  const userNameUpdate = (event) => {
-    setUserName(event.target.value);
-  };
-
   const handleEmailChange = (event) => {
     const { value } = event.target;
     setUserEmail(value);
@@ -31,21 +27,6 @@ export function SignupForm() {
     setSelectedOption(domainPattern.test(value) ? "police_user" : "");
   };
 
-  const passwordUpdate = (event) => {
-    setUserPassword(event.target.value);
-  };
-
-  const stationNameUpdate = (event) => {
-    setStationName(event.target.value);
-  };
-
-  const policeAreaCommandUpdate = (event) => {
-    setPoliceAreaCommand(event.target.value);
-  };
-
-  const policeDistrictUpdate = (event) => {
-    setPoliceDistrict(event.target.value);
-  };
 
   useEffect(() => {
     validateEmail();
@@ -55,7 +36,6 @@ export function SignupForm() {
     setSelectedOption(event.target.value);
   };
 
- 
 
   const validateEmail = () => {
     // Regular expression pattern for validating the email domain
@@ -73,7 +53,7 @@ export function SignupForm() {
     validateEmail();
 
     const formData = {
-      name: userName,
+      fullName: userName,
       email: userEmail,
       password: userPassword,
       stationName: stationName,
@@ -83,46 +63,40 @@ export function SignupForm() {
 
     const apiRoute = selectedOption === "police_user" ? "/police/confirmation/:email" : "/general/confirmation/:email";
 
-
-    // delay so render appears after email has been sent
-    setTimeout(() => {
-        setVerificationSent(true);
-    }, 2000);
-
     
     //add db url
-    try{
-    const response = await axios.post(SIGNUP_URL,
-        JSON.stringify({ userEmail, userPassword }),
-        {
-          headers: { 'Content-Type': 'application/json' },
-        }
-       );
-      
-      if((response) => {
-        if (response.status === 200 ) {
-          // form submission successful, render component
-          verificationSent(true);
-        } else if (response.status === 400) {
-          // email already exists
-          setError("Email address is already associated with an account. Please login instead.");
-        }
-        else {
-            setError("An error occurred during form submission. Please try again.");
-        }
+    try {
+      const response = await axios.post(SIGNUP_URL, formData, {
+        headers: { 'Content-Type': 'application/json' },
       });
-    }
-      catch(error){
-          setError("An error occurred and your registration could not be submitted. Please try again.")
-          console.error("Error:", error);
-          };
-      }
-    
-      // Reset the error state whenever the form fields change + reenable submit button
-      useEffect(() => {
-        setError("");
-      }, [userName, userEmail, userPassword, stationName, policeAreaCommand, policeDistrict]);
 
+      if (response.status === 200) {
+        // Check if the response contains a message
+        // if (response.data.message || response.data.error) {
+        //   setError(response.data.message || response.data.error);
+        // } else {
+          // form submission successful, render component
+          setTimeout(() => {
+            setVerificationSent(true);
+          }, 2000);
+        }
+      
+    } catch (error) {
+      // Handle error response
+      if (error.response && error.response.data && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        // Handle other error scenarios
+        setError("An error occurred during sign up. Please try again.");
+      }
+    }
+  };
+
+
+  // Reset the error state whenever the form fields change + reenable submit button
+  useEffect(() => {
+    setError("");
+  }, [userName, userEmail, userPassword, stationName, policeAreaCommand, policeDistrict]);
 
   const renderPoliceFields = () => {
     if (selectedOption === "police_user") {
@@ -137,7 +111,7 @@ export function SignupForm() {
               type="text"
               id="stationName"
               name="stationName"
-              onChange={stationNameUpdate}
+              onChange={(e) => setStationName(e.target.value)}
               required
             />
           </div>
@@ -150,7 +124,7 @@ export function SignupForm() {
               type="text"
               id="policeAreaCommand"
               name="policeAreaCommand"
-              onChange={policeAreaCommandUpdate}
+              onChange={(e) => setPoliceAreaCommand(e.target.value)}
               required
             />
           </div>
@@ -163,7 +137,7 @@ export function SignupForm() {
               type="text"
               id="policeDistrict"
               name="policeDistrict"
-              onChange={policeDistrictUpdate}
+              onChange={(e) => setPoliceDistrict(e.target.value)}
               required
             />
           </div>
@@ -192,7 +166,7 @@ export function SignupForm() {
                 id="fullName"
                 type="text"
                 name="fullName"
-                onChange={userNameUpdate}
+                onChange={(e) => setUserName(e.target.value)}
                 required
             />
             </div>
@@ -222,7 +196,7 @@ export function SignupForm() {
                 id="password"
                 type="password"
                 name="password"
-                onChange={passwordUpdate}
+                onChange={(e) => setUserPassword(e.target.value)}
                 required
             />
             </div>
@@ -294,7 +268,6 @@ export function SignupForm() {
         </div>
     );
 }
-
 
 
 export default SignupForm;
