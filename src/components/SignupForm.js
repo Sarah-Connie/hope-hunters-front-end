@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 
-export function SignupForm() {
+import axios from '../api/axios';
+const SIGNUP_URL = '/users/signup';
+
+export function SignupForm() {  
   const [selectedOption, setSelectedOption] = useState(null)
   const [emailError, setEmailError] = useState("");
   const [error, setError] = useState("");
@@ -65,7 +68,7 @@ export function SignupForm() {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     validateEmail();
 
@@ -78,6 +81,9 @@ export function SignupForm() {
       policeDistrict: policeDistrict,
     };
 
+    const apiRoute = selectedOption === "police_user" ? "/police/confirmation/:email" : "/general/confirmation/:email";
+
+
     // delay so render appears after email has been sent
     setTimeout(() => {
         setVerificationSent(true);
@@ -85,15 +91,16 @@ export function SignupForm() {
 
     
     //add db url
-    fetch("", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => {
-        if (response.status === 200) {
+    try{
+    const response = await axios.post(SIGNUP_URL,
+        JSON.stringify({ userEmail, userPassword }),
+        {
+          headers: { 'Content-Type': 'application/json' },
+        }
+       );
+      
+      if((response) => {
+        if (response.status === 200 ) {
           // form submission successful, render component
           verificationSent(true);
         } else if (response.status === 400) {
@@ -103,12 +110,19 @@ export function SignupForm() {
         else {
             setError("An error occurred during form submission. Please try again.");
         }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setError("An error occurred and your registration could not be submitted. Please try again.");
       });
-  };
+    }
+      catch(error){
+          setError("An error occurred and your registration could not be submitted. Please try again.")
+          console.error("Error:", error);
+          };
+      }
+    
+      // Reset the error state whenever the form fields change + reenable submit button
+      useEffect(() => {
+        setError("");
+      }, [userName, userEmail, userPassword, stationName, policeAreaCommand, policeDistrict]);
+
 
   const renderPoliceFields = () => {
     if (selectedOption === "police_user") {
@@ -280,6 +294,7 @@ export function SignupForm() {
         </div>
     );
 }
+
 
 
 export default SignupForm;

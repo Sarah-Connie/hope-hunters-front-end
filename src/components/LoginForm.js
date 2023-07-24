@@ -1,10 +1,10 @@
 import { useAuth } from "./AuthContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function LoginForm() {
-  const [userEmail, setUserEmail] = useState("")
-  const [userPassword, setUserPassword] = useState("")
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -13,74 +13,36 @@ export function LoginForm() {
     event.preventDefault();
 
     try {
-      // Mock response for development purposes
-      const response = {
-        status: 200,
-        json: () => ({
-          email: userEmail,
-          password: userPassword,
-          jwt: { token: "fakeTokenHereForTesting" },
-        }),
+      const user = {
+        email: userEmail,
+        password: userPassword,
       };
 
-    // add DB url
-    // const response = await fetch("", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ email: userEmail, password: userPassword }),
-    // });
-
-      if (response.status === 200) {
-        const responseData = await response.json();
-
-        if (responseData && responseData.jwt) {
-          // User login successful
-          // if verification is successful, proceed with storing the token
-          if (
-            responseData.email === userEmail &&
-            responseData.password === userPassword
-          ) {
-            const { email, jwt } = responseData;
-            // const user = { email: userEmail, jwt: responseData.jwt.token};
-            const user = { email, jwt:jwt.token };
-
-            console.log('User (from loginForm):', user);
-            // Call the login function from the AuthContext to persist the login state
-            login(user);
-
-            // route user to their user dashboard
-            console.log("Login successful");
-            navigate("/dashboard");
-          }
-        } else if (response.status === 401) {
-            const responseData = await response.json();
-    
-            if (responseData.error === "User not found.") {
-                // if user email not found in the database
-                setError("Email not found. Please sign up instead.");
-            }
-            else if (responseData.error === "Incorrect password.") {
-                // if user password not found in the database
-                setError("Incorrect password. Please try again.");
-            }
-            // if no jwt returned
-            else {
-                setError("Please confirm your email account before attempting login.");
-            }
-        }
+      // Call the login function from the AuthContext to handle the login process
+      await login(user);
+      // Redirect to dashboard
+      navigate("/dashboard");
+      
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.error) {
+        setError(error.response.data.error);
+      } else {
+        setError("An error occurred during login. Please try again.");
       }
-    }
-      catch (error) {
-      console.error("Error:", error);
-      setError("An error occurred during login. Please try again.");
+    
     }
   };
 
+    // Reset the error state whenever the form fields change + reenable submit button
+    useEffect(() => {
+      setError("");
+    }, [userEmail, userPassword]);
+  
+
   return (
-  <div className="p-4">
-      <div className="font-main font-bold flex text-center justify-center text-2xl pb-8 pt-8"><p>Welcome Back<br/></p>
+    <div className="p-4">
+      <div className="font-main font-bold flex text-center justify-center text-2xl pb-8 pt-8">
+        <p>Welcome Back<br/></p>
       </div>
       <form
           className="font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4"
@@ -88,7 +50,7 @@ export function LoginForm() {
       >
         <p className="flex font-main italic font-semibold text-xl pb-4 ">
         Please login below.
-    </p>
+        </p>
           <div className="mb-4">
             <label htmlFor="email"
             className="block text-gray-700 text-sm font-bold mb-2">
