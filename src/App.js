@@ -8,13 +8,13 @@ import SignupForm from './components/SignupForm';
 import { Dashboard } from './pages/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
 import PersistLogin from './components/PersistLogin';
+import EmailVerification from './components/SignupVerification';
 
 function App() {
-
   return (
     <BrowserRouter>
       <Routes>
-      <Route element={<PersistLogin />} />
+      {/* <Route element={<PersistLogin />} /> */}
         <Route element={<PageLayout />}>
           <Route path="/" element="" />
           <Route path="/report" element={<ReportPage />} />
@@ -25,8 +25,9 @@ function App() {
               <Dashboard />
             </PrivateRoute>} 
           />
-          </Route>
-        </Routes>
+          <Route element={<EmailVerification/>}/>
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 }

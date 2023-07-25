@@ -1,6 +1,9 @@
 import React from "react";
 import { useState } from "react";
+import axios from "../api/axios";
 import SuccessMsg from "./SuccessMsg";
+import { useAuth } from "./AuthContext";
+
 
 export function UpdateUserForm() {
     const [emailError, setEmailError] = useState("");
@@ -8,14 +11,18 @@ export function UpdateUserForm() {
     const [verifySent, setVerifySent] = useState(false);
 
     const [userName, setUserName] = useState("");
-    const [userEmail, setUserEmail] = useState("");
+    // const [userEmail, setUserEmail] = useState("");
+    // const [newEmail, setUserNewEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [stationName, setStationName] = useState("");
     const [policeAreaCommand, setPoliceAreaCommand] = useState("");
     const [policeDistrict, setPoliceDistrict] = useState("");
 
-    const isPoliceUser = userEmail.endsWith("@police.nsw.gov.au");
+
+    const { user } = useAuth();
+    const currentEmail = user?.email || '';
+    const isPoliceUser = currentEmail.endsWith("@police.nsw.gov.au");
 
 //   const [showUpdateUserDetailsForm, setShowUpdateUserDetailsForm] = useState(false);
 
@@ -23,13 +30,17 @@ export function UpdateUserForm() {
 //     setShowUpdateUserDetailsForm(true);
 //   };
 
-//   const userNameUpdate = (event) => {
-//     setUserName(event.target.value);
-//   };
-
-  const userEmailUpdate = (event) => {
-    setUserEmail(event.target.value);
+  const userNameUpdate = (event) => {
+    setUserName(event.target.value);
   };
+
+  // const userEmailUpdate = (event) => {
+  //   setUserEmail(event.target.value);
+  // };
+
+  // const userNewEmailUpdate = (event) => {
+  //   setUserNewEmail(event.target.value);
+  // };
 
 
   const passwordUpdate = (event) => {
@@ -61,36 +72,40 @@ export function UpdateUserForm() {
           return;
       }
       
+
       try {
           // updated user details object
           const updatedUserDetails = {
-          // name: userName,
-          email: userEmail,
+          name: userName,
+          // email: newEmail ? newEmail : userEmail,
           password: confirmPassword,
           stationName: stationName,
           policeAreaCommand: policeAreaCommand,
           policeDistrict: policeDistrict,
           };
+
+          const authToken = `Bearer ${sessionStorage.getItem("token")}`;
       
-          const response = await fetch("", {
-          method: "PUT",
-          headers: {
-              "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedUserDetails),
+          const response = await axios.put("/users/update", updatedUserDetails, {
+            headers: {
+              Authorization: authToken,
+            },
           });
+
       
-          if (response.ok) {
-              console.log("User details updated successfully.");
-              verifySent(true);
+          if (response.status === 200) {
+            const data = response.data;
+            console.log("User details updated successfully:", data);
+            setVerifySent(true); // Show the success message
           } else {
-              console.error("Failed to update user details.");
-              setError("Failed to update user details.")
+            console.error("Failed to update user details:", response.data.error);
+            setError(response.data.error);
           }
-      } catch (error) {
+        } catch (error) {
           console.error("Error:", error);
+          setError("An error occurred during the update. Please try again.");
         }
-    };
+      };
         
 const updateDetailsForm = () => {
   return (
@@ -100,25 +115,25 @@ const updateDetailsForm = () => {
         </p>
         <form className="flex flex-col w-full font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4 lg:ml-5"
         onSubmit={handleSubmit}>
+           <div className="flex justify-center font-main italic text-xl mb-4">Enter your details below.</div>
         {/* disable ability to change account name */}
-          {/* <div className="mb-4">
+        <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="name">
                 Name:
             </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            <input className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
             type="text" 
             id="name" 
             name="fullName" 
             value={userName}
             onChange={userNameUpdate}
             required />
-          </div> */}
-          <div className="flex justify-center font-main text-xl mb-4">Enter your details below.</div>
-          <div className="mb-4">
+          </div>
+          {/* <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="email">
-                New Email:
+                Current Email:
             </label>
             <input className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
             type="email" 
@@ -126,8 +141,22 @@ const updateDetailsForm = () => {
             name="email" 
             value={userEmail}
             onChange={userEmailUpdate}
-            required />
+            required
+             />
           </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="email">
+                New Email:
+            </label>
+            <input className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+            type="email" 
+            id="newEmail" 
+            name="newEmail" 
+            value={newEmail}
+            onChange={userNewEmailUpdate}
+             />
+          </div> */}
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="password">
@@ -139,7 +168,7 @@ const updateDetailsForm = () => {
             name="password" 
             value={userPassword}
             onChange={passwordUpdate}
-            required />
+             />
           </div>
           <div className="mb-4">
           <label

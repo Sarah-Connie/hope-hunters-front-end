@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import SuccessMsg from "./SuccessMsg";
+import axios from "../api/axios";
+import { useAuth } from "./AuthContext";
 
 export function UpdateMPForm({existingMPData}) {
   const [formValues, setFormValues] = useState(existingMPData);
   const [verifySent, setVerifySent] = useState(false);
+  const [selectedReport, setSelectedReport] = useState(existingMPData);
   const [error, setError] = useState("");
 
+  // const { user } = useAuth();
+  
   // added so that error reloads when the existing MP data changes
-  // check again for functionality once api call is uncommented
   useEffect(() => {
     setError();
   }, [existingMPData]);
@@ -39,37 +43,46 @@ export function UpdateMPForm({existingMPData}) {
   const currentDate = new Date().toISOString().split("T")[0];
 
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = async (event) => {
+  event.preventDefault();  
 
-    // Send the updated missing person data to the backend for updating
-    fetch("", {
-      method: "PUT",
+  // Get the authentication token from session
+  const authToken = `Bearer ${sessionStorage.getItem("token")}`;
+
+  // Get the reportId from the selectedReport object
+  const reportId = selectedReport._id;
+
+  // Send the updated missing person data to the backend for updating
+  try {
+    const response = await axios.put(`/missing/update/${reportId}`, formValues, {
       headers: {
-        "Content-Type": "application/json",
+        Authorization: authToken,
       },
-      body: JSON.stringify(formValues),
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          // Form submission successful, render success message
-          setFormValues({});
-          setVerifySent(true);
-        } else if (response.status === 400) {
-          // Check backend server error
-          setError("Update could not be completed. Please try again later.");
-          // Handle status errors
-        } else {
-            console.error("Failed to update the report.");
-            setError("Updated details could not be saved. Please try again.")
-        }
-          // Handle other errors
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        // Handle error case
-      });
-  };
+    });
+
+    if (response.status === 200) {
+      // Form submission successful, render success message
+      setFormValues({});
+      setVerifySent(true);
+    } else if (response.status === 400) {
+      setError("Update could not be completed. Please try again later.");
+    } else {
+      console.error("Failed to update the report.");
+      setError("Updated details could not be saved. Please try again.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    if (error.response) {
+      // Handle server response errors
+      const responseData = error.response.data;
+      if (responseData && responseData.error) {
+        setError(responseData.error);
+      }
+    } else {
+      setError("An error occurred during the update. Please try again.");
+    }
+  }
+};
 
   const updateMPForm = () => {
     return (

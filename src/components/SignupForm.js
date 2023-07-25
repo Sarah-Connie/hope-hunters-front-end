@@ -46,11 +46,20 @@ export function SignupForm() {
     } else {
       setEmailError("");
     }
+
+    if (userPassword.length < 8) {
+      setError("Password must be at least 8 characters long.");
+    }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     validateEmail();
+
+    if (emailError || userPassword.length < 8) {
+      setVerificationSent(false);
+      return;
+    }
 
     const formData = {
       fullName: userName,
@@ -61,8 +70,6 @@ export function SignupForm() {
       policeDistrict: policeDistrict,
     };
 
-    const apiRoute = selectedOption === "police_user" ? "/police/confirmation/:email" : "/general/confirmation/:email";
-
     
     //add db url
     try {
@@ -70,23 +77,24 @@ export function SignupForm() {
         headers: { 'Content-Type': 'application/json' },
       });
 
-      if (response.status === 200) {
-        // Check if the response contains a message
-        // if (response.data.message || response.data.error) {
-        //   setError(response.data.message || response.data.error);
-        // } else {
-          // form submission successful, render component
-          setTimeout(() => {
-            setVerificationSent(true);
-          }, 2000);
-        }
-      
+      if (response.status === 200 && response.data.error) {
+        // Check if the response contains an error
+          setVerificationSent(false);
+          setError(response.data.error);
+      } 
+      else if (response.status === 200 && response.data.message){
+        // form submission successful, render component
+        setError("");
+        setVerificationSent(true);
+      }
     } catch (error) {
       // Handle error response
       if (error.response && error.response.data && error.response.data.message) {
+        setVerificationSent(false);
         setError(error.response.data.message);
       } else {
         // Handle other error scenarios
+        setVerificationSent(false);
         setError("An error occurred during sign up. Please try again.");
       }
     }
@@ -248,11 +256,14 @@ export function SignupForm() {
   
 
     const renderVerificationSentMessage = () => {
-        return (
+      if (verificationSent===true) {
+      return (
         <div className="font-main flex justify-center text-center text-lg md:text-2xl">
             <p className="">A verification link has been sent to your email! Please confirm to verify your account.</p>
         </div>
         );
+      }
+      return null;
     };
 
     return (

@@ -26,10 +26,13 @@ const AuthProvider = ({ children, location, history }) => {
         const responseData = response.data;
 
         if (responseData && responseData.token) {
-          const { email, token } = responseData;
-          const user = { email, jwt: token };
-          // setUser(user);
+          const { token } = responseData;
+          const user = { email: userData.email, token: responseData.token };
+          setUser(user);
           setAuthData(user);
+          // console.log('Setting user data:', userData); 
+          console.log('Setting user:', user); 
+
           setIsLoggedIn(true);
           
           sessionStorage.setItem("loggedInStatus", "true")
@@ -102,31 +105,31 @@ const AuthProvider = ({ children, location, history }) => {
   //     logout(); // Error occurred while verifying, so log out the user
   //   }
   // };
-  const verifyToken = async (token) => {
-    try {
-      const response = await axios.put('', { token });
+  // const verifyToken = async (token) => {
+  //   try {
+  //     const response = await axios.put('', { token });
       
 
-      if (response.status === 200) {
-        const responseData = response.data;
+  //     if (response.status === 200) {
+  //       const responseData = response.data;
 
-        if (responseData && responseData.email) {
-          const { email } = responseData;
-          const user = { email, jwt: token };
-          setAuthData(user);
-          setIsLoggedIn(true);
-          console.log("Token verified");
-        }
-      }
-    } catch (error) {
-      // If the token is expired, refresh it
-      if (error.response && error.response.status === 401) {
-        refreshAuthToken();
-      } else {
-        setError("An error occurred during login. Please try again.");
-      }
-    }
-  };
+  //       if (responseData && responseData.email) {
+  //         const { email } = responseData;
+  //         const user = { email, jwt: token };
+  //         setAuthData(user);
+  //         setIsLoggedIn(true);
+  //         console.log("Token verified");
+  //       }
+  //     }
+  //   } catch (error) {
+  //     // If the token is expired, refresh it
+  //     if (error.response && error.response.status === 401) {
+  //       refreshAuthToken();
+  //     } else {
+  //       setError("An error occurred during login. Please try again.");
+  //     }
+  //   }
+  // };
 
   const setAuthData = (userData) => {
     setUser(userData);
