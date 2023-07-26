@@ -55,8 +55,17 @@ export function Home() {
                   <div className="flex flex-col font-main">
                     <p className="text-2xl pt-1">{report.fullName}</p>
                     <p>{report.currentAge[0].number} {report.currentAge[0].type} old</p>
+                    <p>Height: {report.height.number} {report.height.measurement[0]}</p>
+                    <p>Weight: {report.weight.number} {report.weight.measurement[0]}</p>
                     <p>Last Seen: {new Date(report.dateLastSeen).toISOString().split("T")[0]}</p>
                     <p>Location Last Seen: {report.locationLastSeen.address}, <br/>{report.locationLastSeen.city}, {report.locationLastSeen.state}</p>
+                    <p className="text-lg font-semibold"><br/>Key Details:</p>
+                    <p>Area Suspected To Be: {report.areaSuspectedToBe}</p>
+                    <p>Hair Colour: {report.hairColour}</p>
+                    <p>Eye Colour: {report.eyeColour}</p>
+                    <p>Complexion: {report.complexion[0]}</p>
+                    <p>Gender: {report.gender}</p>
+                    <p>Amber Alert: {report.amberAlert ? "Yes" : "No"}</p>
                   </div>
                 </div>
                 <div className="flex space-x-4 pt-2 w-full justify-end">
@@ -82,9 +91,9 @@ export function Home() {
                   </div>
                   <div className="flex flex-col font-main text-sm pl-2">
                     <p className="text-lg">{report.fullName}</p>
-                    <p>{report.ageNumber} {report.ageMeasurement} old</p>
+                    <p>{report.currentAge[0].number} {report.currentAge[0].type} old</p>
                     <p>Last Seen: {new Date(report.dateLastSeen).toISOString().split("T")[0]}</p>
-                    <p>Location Last Seen: {report.locationLastSeen.address}</p>
+                    <p>Location Last Seen: {report.locationLastSeen.address}, {report.locationLastSeen.city}, {report.locationLastSeen.state}</p>
                   </div>
                 </div>
                 <div className="flex w-full justify-end">
