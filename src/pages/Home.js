@@ -5,20 +5,10 @@ import axios from "../api/axios";
 
 export function Home() {
   const [reports, setReports] = useState([]);
-  const [selectedReport, setSelectedReport] = useState(null);
 
   const isMdScreenOrLarger = useMediaQuery({ minWidth: 768 });
   const navigate = useNavigate();
   // const [error, setError] = useState("");
-
-  // code this to open the report in the update report form on dashboard page 
-  // (edit button only shows when users are logged in, so no need to check that twice)
-  const handleEditReportButtonClick = (reportId) => {
-    const report = reports.find((report) => report.reportId === reportId);
-    if (report) {
-      navigate("/dashboard")
-    }
-  };
 
   
 //   useEffect(() => {
@@ -40,14 +30,14 @@ export function Home() {
   }, []);
 
   return (
-  <div>
+  <div className="pb-5">
       <div className="mt-16 flex justify-center text-center font-main font-bold text-2xl md:text-3xl">
         Currently Active Reports
       </div>
       {isMdScreenOrLarger ? (
         <div className="p-4 mt-5 lg:p-2 gap-4 w-full flex flex-wrap justify-center justify-around md:text-center">
           {reports.map((report) => (
-            <div className="flex flex-row p-2" key={report._id}>
+            <div className={`flex flex-col p-5 ${report.amberAlert ? 'bg-orange' : ''}`} key={report._id}>
               <div className="mt-5">
                 <div className="flex flex-col">
                   <div className="aspect-w-1 aspect-h-1 justify-center flex">
@@ -58,7 +48,7 @@ export function Home() {
                     <p>{report.currentAge[0].number} {report.currentAge[0].type} old</p>
                     <p>Height: {report.height.number} {report.height.measurement[0]}</p>
                     <p>Weight: {report.weight.number} {report.weight.measurement[0]}</p>
-                    <p>Last Seen: {new Date(report.dateLastSeen).toISOString().split("T")[0]}</p>
+                    <p>Date Last Seen: {new Date(report.dateLastSeen).toISOString().split("T")[0]}</p>
                     <p>Location Last Seen: {report.locationLastSeen.address}, <br/>{report.locationLastSeen.city}, {report.locationLastSeen.state}</p>
                     <p className="text-lg font-semibold"><br/>Key Details:</p>
                     <p>Area Suspected To Be: {report.areaSuspectedToBe}</p>
@@ -84,7 +74,7 @@ export function Home() {
       ) : (
         <div className="p-4 mt-2 w-full flex flex-wrap justify-center">
             {reports.map((report) => (
-            <div className="flex flex-col p-2 mb-5" key={report._id}>
+            <div className={`flex flex-col p-2 mb-5 ${report.amberAlert ? 'bg-orange' : ''}`} key={report._id}>
                 <div className="flex flex-row">
                     <div className="aspect-w-1 aspect-h-1 flex items-start flex-grow items-center">
                         <img src={report.photoURL} alt="Missing Person" className="h-28 w-28 object-cover" />
@@ -92,7 +82,7 @@ export function Home() {
                     <div className="flex flex-col font-main text-sm pl-2 w-4/6">
                         <p className="text-lg">{report.fullName}</p>
                         <p>{report.currentAge[0].number} {report.currentAge[0].type} old</p>
-                        <p>Last Seen: {new Date(report.dateLastSeen).toISOString().split("T")[0]}</p>
+                        <p>Date Last Seen: {new Date(report.dateLastSeen).toISOString().split("T")[0]}</p>
                         <p>Location Last Seen: {report.locationLastSeen.address}, {report.locationLastSeen.city}, {report.locationLastSeen.state}</p>
                     </div>
                     {/* <div className="flex w-full justify-end">
