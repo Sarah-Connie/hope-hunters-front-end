@@ -256,7 +256,7 @@ export function Home() {
         Currently Active Reports
       </div>
       {isMdScreenOrLarger ? (
-        <div className="p-4 mt-5 lg:p-2 gap-4 md:space-x-5 w-full flex flex-wrap justify-center">
+        <div className="p-4 mt-5 lg:p-2 gap-4 w-full flex flex-wrap justify-center justify-around">
           {reports.map((report) => (
             <div className="flex flex-row p-2" key={report.reportId}>
               <div className="mt-5">
