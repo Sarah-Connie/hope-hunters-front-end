@@ -20,6 +20,7 @@ export function Home() {
     }
   };
 
+  
 //   useEffect(() => {
 //     setReports(data);
 //   }, []);
@@ -39,7 +40,7 @@ export function Home() {
   }, []);
 
   return (
-    <div>
+  <div>
       <div className="mt-16 flex justify-center text-center font-main font-bold text-2xl md:text-3xl">
         Currently Active Reports
       </div>
@@ -68,49 +69,57 @@ export function Home() {
                     <p>Amber Alert: {report.amberAlert ? "Yes" : "No"}</p>
                   </div>
                 </div>
-                <div className="flex space-x-4 pt-2 w-full justify-end">
+                {/* <div className="flex space-x-4 pt-2 w-full justify-end">
                   <button
                     className="bg-yellow rounded-full p-1 text-sm"
                     onClick={() => handleEditReportButtonClick(report.reportId)}
                   >
                     edit
-                  </button>
-                </div>
+                  </button> */}
+                {/* </div> */}
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <div className="p-4 mt-5 w-full flex flex-wrap justify-center">
-          {reports.map((report) => (
-            <div className="flex flex-row p-2" key={report._id}>
-              <div className="">
+        <div className="p-4 mt-2 w-full flex flex-wrap justify-center">
+            {reports.map((report) => (
+            <div className="flex flex-col p-2 mb-5" key={report._id}>
                 <div className="flex flex-row">
-                  <div className="aspect-w-1 aspect-h-1 flex items-center">
-                    <img src={report.photoURL} alt="Missing Person" className="h-28 w-28 object-cover" />
-                  </div>
-                  <div className="flex flex-col font-main text-sm pl-2">
-                    <p className="text-lg">{report.fullName}</p>
-                    <p>{report.currentAge[0].number} {report.currentAge[0].type} old</p>
-                    <p>Last Seen: {new Date(report.dateLastSeen).toISOString().split("T")[0]}</p>
-                    <p>Location Last Seen: {report.locationLastSeen.address}, {report.locationLastSeen.city}, {report.locationLastSeen.state}</p>
-                  </div>
+                    <div className="aspect-w-1 aspect-h-1 flex items-start flex-grow items-center">
+                        <img src={report.photoURL} alt="Missing Person" className="h-28 w-28 object-cover" />
+                    </div>
+                    <div className="flex flex-col font-main text-sm pl-2 w-4/6">
+                        <p className="text-lg">{report.fullName}</p>
+                        <p>{report.currentAge[0].number} {report.currentAge[0].type} old</p>
+                        <p>Last Seen: {new Date(report.dateLastSeen).toISOString().split("T")[0]}</p>
+                        <p>Location Last Seen: {report.locationLastSeen.address}, {report.locationLastSeen.city}, {report.locationLastSeen.state}</p>
+                    </div>
+                    {/* <div className="flex w-full justify-end">
+                    <button
+                        className="bg-yellow rounded-full p-1 text-xs"
+                        onClick={() => handleEditReportButtonClick(report.reportId)}
+                    >
+                        edit
+                    </button>
+                    </div> */}
                 </div>
-                <div className="flex w-full justify-end">
-                  <button
-                    className="bg-yellow rounded-full p-1 text-xs"
-                    onClick={() => handleEditReportButtonClick(report.reportId)}
-                  >
-                    edit
-                  </button>
+                <div className="flex flex-col font-main text-sm">
+                    <p className="text-lg font-semibold pt-2">Key Details:</p>
+                    <p>Area Suspected To Be: {report.areaSuspectedToBe}</p>
+                    <p>Hair Colour: {report.hairColour}</p>
+                    <p>Eye Colour: {report.eyeColour}</p>
+                    <p>Complexion: {report.complexion[0]}</p>
+                    <p>Gender: {report.gender}</p>
+                    <p>Amber Alert: {report.amberAlert ? "Yes" : "No"}</p>
                 </div>
-              </div>
             </div>
-          ))}
+        ))}
         </div>
-      )}
+        )}
     </div>
-  );
+    );
+
 }
   
 export default Home;
