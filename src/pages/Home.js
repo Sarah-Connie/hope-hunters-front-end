@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
+import SearchBar from "../components/Searchbar";
 
 export function Home() {
   const [reports, setReports] = useState([]);
@@ -14,6 +15,11 @@ export function Home() {
 //   useEffect(() => {
 //     setReports(data);
 //   }, []);
+
+    // Callback function to update reports based on search result
+    const handleSearchResult = (searchResult) => {
+        setReports(searchResult);
+    };
 
   useEffect(() => {
     // Fetch the missing persons data from the API endpoint
@@ -31,6 +37,7 @@ export function Home() {
 
   return (
   <div className="pb-5">
+      <SearchBar onSearchResult={handleSearchResult} />
       <div className="mt-16 flex justify-center text-center font-main font-bold text-2xl md:text-3xl">
         Currently Active Reports
       </div>
