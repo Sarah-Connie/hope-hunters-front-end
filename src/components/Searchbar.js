@@ -56,6 +56,7 @@ const SearchBar = ({ onSearchResult, originalReports }) => {
     // empty searchbar means no search has been made or new search is desired
     if (searchTerm === '') {
       onSearchResult(originalReports);
+      setError('');
     }
   }, [searchTerm]);
 
