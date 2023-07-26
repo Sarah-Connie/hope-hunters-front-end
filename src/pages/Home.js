@@ -1,234 +1,7 @@
 import { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate } from "react-router-dom";
-
-
-// mock data array
-const data = [
-  {
-    reportId: 1,
-    fullName: "Keira Janssen",
-    photoURL:
-      "https://media.istockphoto.com/id/1326417862/photo/young-woman-laughing-while-relaxing-at-home.jpg?s=1024x1024&w=is&k=20&c=Gb9C49IRPKG88Jahy5-QgyD34G9OEPwtBpr9LwT3KUw=",
-    ageNumber: 28,
-    ageMeasurement: "years",
-    dateLastSeen: Date.now() - 2,
-    // dateLastSeen: new Date().toISOString().split("T")[0],
-    currentAgeNumber: 28,
-    currentAgeMeasurement: "years",
-    areaSuspectedToBe: "Mount Foster",
-    locationLastSeen: {
-      address: "84 Arthur Street",
-      city: "Mount Foster",
-      state: "NSW",
-      postcode: "2824",
-    },
-    hairColour: "brown",
-    eyeColour: "brown",
-    complexion: "fair",
-    heightNumber: 165,
-    heightMeasurement: "centimeters",
-    weightNumber: 75,
-    weightMeasurement: "kilograms",
-    gender: "female",
-    amberAlert: true,
-    distinctiveFeatures: "flower tattoo left shoulder",
-  },
-  {
-    reportId: 2,
-    fullName: "Holly Smith",
-    photoURL:
-      "https://media.istockphoto.com/id/1326417862/photo/young-woman-laughing-while-relaxing-at-home.jpg?s=1024x1024&w=is&k=20&c=Gb9C49IRPKG88Jahy5-QgyD34G9OEPwtBpr9LwT3KUw=",
-    ageNumber: 28,
-    ageMeasurement: "years",
-    dateLastSeen: new Date().toISOString().split("T")[0],
-    currentAgeNumber: 28,
-    currentAgeMeasurement: "years",
-    areaSuspectedToBe: "Mount Foster",
-    locationLastSeen: {
-      address: "84 Arthur Street",
-      city: "Mount Foster",
-      state: "NSW",
-      postcode: "2824",
-    },
-    hairColour: "brown",
-    eyeColour: "brown",
-    complexion: "fair",
-    heightNumber: 165,
-    heightMeasurement: "centimeters",
-    weightNumber: 75,
-    weightMeasurement: "kilograms",
-    gender: "female",
-    distinctiveFeatures: "flower tattoo left shoulder",
-  },
-  {reportId: 1,
-    fullName: "Keira Janssen",
-    photoURL:
-      "https://media.istockphoto.com/id/1326417862/photo/young-woman-laughing-while-relaxing-at-home.jpg?s=1024x1024&w=is&k=20&c=Gb9C49IRPKG88Jahy5-QgyD34G9OEPwtBpr9LwT3KUw=",
-    ageNumber: 28,
-    ageMeasurement: "years",
-    dateLastSeen: Date.now() - 2,
-    // dateLastSeen: new Date().toISOString().split("T")[0],
-    currentAgeNumber: 28,
-    currentAgeMeasurement: "years",
-    areaSuspectedToBe: "Mount Foster",
-    locationLastSeen: {
-      address: "84 Arthur Street",
-      city: "Mount Foster",
-      state: "NSW",
-      postcode: "2824",
-    },
-    hairColour: "brown",
-    eyeColour: "brown",
-    complexion: "fair",
-    heightNumber: 165,
-    heightMeasurement: "centimeters",
-    weightNumber: 75,
-    weightMeasurement: "kilograms",
-    gender: "female",
-    amberAlert: true,
-    distinctiveFeatures: "flower tattoo left shoulder",
-  },
-  {
-    reportId: 2,
-    fullName: "Holly Smith",
-    photoURL:
-      "https://media.istockphoto.com/id/1326417862/photo/young-woman-laughing-while-relaxing-at-home.jpg?s=1024x1024&w=is&k=20&c=Gb9C49IRPKG88Jahy5-QgyD34G9OEPwtBpr9LwT3KUw=",
-    ageNumber: 28,
-    ageMeasurement: "years",
-    dateLastSeen: new Date().toISOString().split("T")[0],
-    currentAgeNumber: 28,
-    currentAgeMeasurement: "years",
-    areaSuspectedToBe: "Mount Foster",
-    locationLastSeen: {
-      address: "84 Arthur Street",
-      city: "Mount Foster",
-      state: "NSW",
-      postcode: "2824",
-    },
-    hairColour: "brown",
-    eyeColour: "brown",
-    complexion: "fair",
-    heightNumber: 165,
-    heightMeasurement: "centimeters",
-    weightNumber: 75,
-    weightMeasurement: "kilograms",
-    gender: "female",
-    distinctiveFeatures: "flower tattoo left shoulder",
-  },
-  {
-    reportId: 1,
-    fullName: "Keira Janssen",
-    photoURL:
-      "https://media.istockphoto.com/id/1326417862/photo/young-woman-laughing-while-relaxing-at-home.jpg?s=1024x1024&w=is&k=20&c=Gb9C49IRPKG88Jahy5-QgyD34G9OEPwtBpr9LwT3KUw=",
-    ageNumber: 28,
-    ageMeasurement: "years",
-    dateLastSeen: Date.now() - 2,
-    // dateLastSeen: new Date().toISOString().split("T")[0],
-    currentAgeNumber: 28,
-    currentAgeMeasurement: "years",
-    areaSuspectedToBe: "Mount Foster",
-    locationLastSeen: {
-      address: "84 Arthur Street",
-      city: "Mount Foster",
-      state: "NSW",
-      postcode: "2824",
-    },
-    hairColour: "brown",
-    eyeColour: "brown",
-    complexion: "fair",
-    heightNumber: 165,
-    heightMeasurement: "centimeters",
-    weightNumber: 75,
-    weightMeasurement: "kilograms",
-    gender: "female",
-    amberAlert: true,
-    distinctiveFeatures: "flower tattoo left shoulder",
-  },
-  {
-    reportId: 2,
-    fullName: "Holly Smith",
-    photoURL:
-      "https://media.istockphoto.com/id/1326417862/photo/young-woman-laughing-while-relaxing-at-home.jpg?s=1024x1024&w=is&k=20&c=Gb9C49IRPKG88Jahy5-QgyD34G9OEPwtBpr9LwT3KUw=",
-    ageNumber: 28,
-    ageMeasurement: "years",
-    dateLastSeen: new Date().toISOString().split("T")[0],
-    currentAgeNumber: 28,
-    currentAgeMeasurement: "years",
-    areaSuspectedToBe: "Mount Foster",
-    locationLastSeen: {
-      address: "84 Arthur Street",
-      city: "Mount Foster",
-      state: "NSW",
-      postcode: "2824",
-    },
-    hairColour: "brown",
-    eyeColour: "brown",
-    complexion: "fair",
-    heightNumber: 165,
-    heightMeasurement: "centimeters",
-    weightNumber: 75,
-    weightMeasurement: "kilograms",
-    gender: "female",
-    distinctiveFeatures: "flower tattoo left shoulder",
-  },
-  {reportId: 1,
-    fullName: "Keira Janssen",
-    photoURL:
-      "https://media.istockphoto.com/id/1326417862/photo/young-woman-laughing-while-relaxing-at-home.jpg?s=1024x1024&w=is&k=20&c=Gb9C49IRPKG88Jahy5-QgyD34G9OEPwtBpr9LwT3KUw=",
-    ageNumber: 28,
-    ageMeasurement: "years",
-    dateLastSeen: Date.now() - 2,
-    // dateLastSeen: new Date().toISOString().split("T")[0],
-    currentAgeNumber: 28,
-    currentAgeMeasurement: "years",
-    areaSuspectedToBe: "Mount Foster",
-    locationLastSeen: {
-      address: "84 Arthur Street",
-      city: "Mount Foster",
-      state: "NSW",
-      postcode: "2824",
-    },
-    hairColour: "brown",
-    eyeColour: "brown",
-    complexion: "fair",
-    heightNumber: 165,
-    heightMeasurement: "centimeters",
-    weightNumber: 75,
-    weightMeasurement: "kilograms",
-    gender: "female",
-    amberAlert: true,
-    distinctiveFeatures: "flower tattoo left shoulder",
-  },
-  {
-    reportId: 2,
-    fullName: "Holly Smith",
-    photoURL:
-      "https://media.istockphoto.com/id/1326417862/photo/young-woman-laughing-while-relaxing-at-home.jpg?s=1024x1024&w=is&k=20&c=Gb9C49IRPKG88Jahy5-QgyD34G9OEPwtBpr9LwT3KUw=",
-    ageNumber: 28,
-    ageMeasurement: "years",
-    dateLastSeen: new Date().toISOString().split("T")[0],
-    currentAgeNumber: 28,
-    currentAgeMeasurement: "years",
-    areaSuspectedToBe: "Mount Foster",
-    locationLastSeen: {
-      address: "84 Arthur Street",
-      city: "Mount Foster",
-      state: "NSW",
-      postcode: "2824",
-    },
-    hairColour: "brown",
-    eyeColour: "brown",
-    complexion: "fair",
-    heightNumber: 165,
-    heightMeasurement: "centimeters",
-    weightNumber: 75,
-    weightMeasurement: "kilograms",
-    gender: "female",
-    distinctiveFeatures: "flower tattoo left shoulder",
-  },
-  
-];
+import axios from "../api/axios";
 
 export function Home() {
   const [reports, setReports] = useState([]);
@@ -247,10 +20,23 @@ export function Home() {
     }
   };
 
-  useEffect(() => {
-    setReports(data);
-  }, []);
+//   useEffect(() => {
+//     setReports(data);
+//   }, []);
 
+  useEffect(() => {
+    // Fetch the missing persons data from the API endpoint
+    axios.get("/missing/")
+      .then((response) => {
+        // Set the fetched data to the "reports" state
+        setReports(response.data);
+        // console.log(response.data)
+      })
+      .catch((error) => {
+        console.error("Error fetching missing persons data:", error);
+        // Handle errors if necessary
+      });
+  }, []);
 
   return (
     <div>
@@ -260,7 +46,7 @@ export function Home() {
       {isMdScreenOrLarger ? (
         <div className="p-4 mt-5 lg:p-2 gap-4 w-full flex flex-wrap justify-center justify-around md:text-center">
           {reports.map((report) => (
-            <div className="flex flex-row p-2" key={report.reportId}>
+            <div className="flex flex-row p-2" key={report._id}>
               <div className="mt-5">
                 <div className="flex flex-col">
                   <div className="aspect-w-1 aspect-h-1 justify-center flex">
@@ -268,9 +54,9 @@ export function Home() {
                   </div>
                   <div className="flex flex-col font-main">
                     <p className="text-2xl pt-1">{report.fullName}</p>
-                    <p>{report.ageNumber} {report.ageMeasurement} old</p>
+                    <p>{report.currentAge[0].number} {report.currentAge[0].type} old</p>
                     <p>Last Seen: {new Date(report.dateLastSeen).toISOString().split("T")[0]}</p>
-                    <p>Location Last Seen: {report.locationLastSeen.address}</p>
+                    <p>Location Last Seen: {report.locationLastSeen.address}, <br/>{report.locationLastSeen.city}, {report.locationLastSeen.state}</p>
                   </div>
                 </div>
                 <div className="flex space-x-4 pt-2 w-full justify-end">
@@ -288,7 +74,7 @@ export function Home() {
       ) : (
         <div className="p-4 mt-5 w-full flex flex-wrap justify-center">
           {reports.map((report) => (
-            <div className="flex flex-row p-2" key={report.reportId}>
+            <div className="flex flex-row p-2" key={report._id}>
               <div className="">
                 <div className="flex flex-row">
                   <div className="aspect-w-1 aspect-h-1 flex items-center">
