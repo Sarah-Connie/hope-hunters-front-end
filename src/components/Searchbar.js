@@ -42,6 +42,14 @@ const SearchBar = ({ onSearchResult, originalReports }) => {
   };
 
   useEffect(() => {
+    // When the search term becomes empty, show the original reports again
+    // empty searchbar means no search has been made or new search is desired
+    if (searchTerm === '') {
+      onSearchResult(originalReports);
+    }
+  }, [searchTerm]);
+
+  useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setSearchTerm(params.get('searchQuery') || '');
   }, []);
@@ -57,13 +65,15 @@ const SearchBar = ({ onSearchResult, originalReports }) => {
         placeholder="Search for missing persons..."
       />
       <button 
-      className='bg-lightblue rounded h-9 md:h-12 mt-3 m-2 ml-0 p-3 md:p-6 flex items-center'
-      onClick={handleSearch}>
+        className='bg-lightblue rounded h-9 md:h-12 mt-3 m-2 ml-0 p-3 md:p-6 flex items-center'
+        onClick={handleSearch}
+      >
         Search
       </button>
       <button
         className='bg-lightblue rounded h-9 w-15 md:h-12 mt-3 m-2 ml-0 p-3 md:p-6 flex items-center'
-        onClick={handleClear}>
+        onClick={handleClear}
+      >
         Clear
       </button>
     </div>
