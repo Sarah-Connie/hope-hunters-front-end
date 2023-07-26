@@ -47,7 +47,7 @@ export function Home() {
       {isMdScreenOrLarger ? (
         <div className="p-4 mt-5 lg:p-2 gap-4 w-full flex flex-wrap justify-center justify-around md:text-center">
           {reports.map((report) => (
-            <div className={`flex flex-col p-5 ${report.amberAlert ? 'bg-orange' : ''}`} key={report._id}>
+            <div className={`flex flex-col p-5 rounded ${report.amberAlert ? 'bg-orange' : ''}`} key={report._id}>
               <div className="mt-5">
                 <div className="flex flex-col">
                   <div className="aspect-w-1 aspect-h-1 justify-center flex">
@@ -84,7 +84,7 @@ export function Home() {
       ) : (
         <div className="p-4 mt-2 w-full flex flex-wrap justify-center">
             {reports.map((report) => (
-            <div className={`flex flex-col p-2 mb-5 ${report.amberAlert ? 'bg-orange' : ''}`} key={report._id}>
+            <div className={`flex flex-col p-2 mb-5 rounded ${report.amberAlert ? 'bg-orange' : ''}`} key={report._id}>
                 <div className="flex flex-row">
                     <div className="aspect-w-1 aspect-h-1 flex items-start flex-grow items-center">
                         <img src={report.photoURL} alt="Missing Person" className="h-28 w-28 object-cover" />
