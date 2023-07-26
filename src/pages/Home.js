@@ -255,27 +255,27 @@ return (
       <div className="mt-16 flex justify-center text-center font-main font-bold text-2xl md:text-3xl">
         Currently Active Reports
       </div>
-      <div className="p-4 mt-5 lg:p-2 gap-4 space-x-5 w-full flex flex-wrap justify-center">
+      <div className="p-4 mt-5 lg:p-2 gap-4 md:space-x-5 w-full flex flex-wrap justify-center">
         {reports.map((report) => (
           <div className="flex flex-row p-2" key={report.reportId}>
             <div className="mt-5">
               <div className="flex flex-col">
                 <div className="aspect-w-1 aspect-h-1">
-                  <img src={report.photoURL} alt="Missing Person" className="h-52 w-52 object-cover" />
+                  <img src={report.photoURL} alt="Missing Person" className="h-64 w-64 object-cover" />
                 </div>
-                <div className="flex flex-col font-main pl-4">
+                <div className="flex flex-col font-main">
                   <p className="text-2xl">{report.fullName}</p>
                   <p>{report.ageNumber} {report.ageMeasurement} old</p>
                   <p>Last Seen: {new Date(report.dateLastSeen).toISOString().split("T")[0]}</p>
                   <p>Location Last Seen: {report.locationLastSeen.address}</p>
                 </div>
               </div>
-              <div className="flex space-x-4 pt-2">
+              <div className="flex space-x-4 pt-2 w-full justify-end">
                 <button
-                  className="bg-blue" // Corrected classname to className
+                  className="bg-yellow rounded-full p-1 " // Corrected classname to className
                   onClick={() => handleEditReportButtonClick(report.reportId)}
                 >
-                  Edit
+                  edit
                 </button>
               </div>
             </div>
