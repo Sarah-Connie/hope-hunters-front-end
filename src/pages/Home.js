@@ -6,20 +6,21 @@ import SearchBar from "../components/Searchbar";
 
 export function Home() {
   const [reports, setReports] = useState([]);
+  const [originalReports, setOriginalReports] = useState([])
 
   const isMdScreenOrLarger = useMediaQuery({ minWidth: 768 });
-  const navigate = useNavigate();
   // const [error, setError] = useState("");
 
-  
-//   useEffect(() => {
-//     setReports(data);
-//   }, []);
 
-    // Callback function to update reports based on search result
-    const handleSearchResult = (searchResult) => {
-        setReports(searchResult);
-    };
+  // Callback function to update reports based on search result
+  const handleSearchResult = (searchResult) => {
+    setReports(searchResult);
+  };
+
+  const handleClearSearch = () => {
+    // Set the "reports" state back to the original list from api call
+    setReports(originalReports);
+  };
 
   useEffect(() => {
     // Fetch the missing persons data from the API endpoint
@@ -27,6 +28,8 @@ export function Home() {
       .then((response) => {
         // Set the fetched data to the "reports" state
         setReports(response.data);
+        // Save api call results for when user clears
+        setOriginalReports(response.data)
         // console.log(response.data)
       })
       .catch((error) => {
@@ -37,7 +40,7 @@ export function Home() {
 
   return (
   <div className="pb-5">
-      <SearchBar onSearchResult={handleSearchResult} />
+      <SearchBar onSearchResult={handleSearchResult} onClearSearch={handleClearSearch} originalReports={originalReports}/>
       <div className="mt-16 flex justify-center text-center font-main font-bold text-2xl md:text-3xl">
         Currently Active Reports
       </div>
