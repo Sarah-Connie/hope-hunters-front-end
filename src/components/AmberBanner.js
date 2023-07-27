@@ -11,7 +11,8 @@ function AmberAlertBanner() {
       .get("/missing/amber-alerts")
       .then((response) => {
         setAmberAlerts(response.data);
-        if (response.data.length === 0) {
+        if (amberAlerts === 0 && !error) {
+          setStartAnimation(false);
           setError("No Active Amber Alerts");
         } else {
           // animation to start 2s after mount
@@ -21,10 +22,20 @@ function AmberAlertBanner() {
         }
       })
       .catch((error) => {
+        setStartAnimation(false);
         setError("Amber Alerts currently unavailable");
         console.error("Error fetching amber alerts data:", error);
       });
   }, []);
+
+    // useEffect(() => {
+    //     if (amberAlerts.length === 0) {
+    //     setError("No Active Amber Alerts");
+    //     setStartAnimation(false);
+    //     } else {
+    //     setStartAnimation(true);
+    //     }
+    // }, [amberAlerts]);
 
   return (
     <div className="h-12 bg-amber flex justify-end overflow-hidden">

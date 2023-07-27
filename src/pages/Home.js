@@ -8,6 +8,7 @@ import AmberAlertBanner from "../components/AmberBanner";
 export function Home() {
   const [reports, setReports] = useState([]);
   const [originalReports, setOriginalReports] = useState([])
+  const [amberAlerts, setAmberAlerts] = useState([])
   const [error, setError] = useState('')
 
   const isMdScreenOrLarger = useMediaQuery({ minWidth: 768 });
@@ -44,6 +45,19 @@ export function Home() {
         });
   }, []);
 
+
+  const fetchAmberAlerts = () => {
+    axios
+      .get("/missing/amber-alerts")
+      .then((response) => {
+        setReports(response.data)
+        setError("");
+      })
+      .catch((error) => {
+        setError("Amber Alerts currently unavailable");
+      });
+  };
+
   return (
   <div className="pb-5 flex flex-col flex-grow justify-between">
       <div className="z-50 sticky top-0">
@@ -52,6 +66,9 @@ export function Home() {
           onSearchResult={handleSearchResult} 
           onClearSearch={handleClearSearch} 
           originalReports={originalReports}
+          fetchAmberAlerts={fetchAmberAlerts}
+        //   handleSortAZ={handleSortAZ} 
+        //   handleSortZA={handleSortZA}
         />
       </div>
       <div className="mt-8 flex justify-center text-center font-main font-bold text-2xl md:text-3xl">

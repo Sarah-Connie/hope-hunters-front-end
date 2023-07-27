@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from '../api/axios';
 import { useNavigate } from 'react-router-dom';
+import SortButtons from './SortButtons';
 
-const SearchBar = ({ onSearchResult, originalReports }) => {
+const SearchBar = ({ onSearchResult, originalReports, fetchAmberAlerts }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
     const [error, setError] = useState('');
@@ -114,7 +115,8 @@ const SearchBar = ({ onSearchResult, originalReports }) => {
 return (
     // <div className="flex flex-col sticky top-0 bg-white p-4 z-50">
     <div className={`flex flex-col p-2 md:p-4 ${isScrolled ? "bg-white bg-opacity-90 pb-6 md:pb-8" : "bg-white"}`}>
-      <div className='flex w-full items-center font-main'>
+      <div className='flex w-full items-center font-main justify-between'>
+        <div className='flex flex-row w-3/4 items-center'>
         <input
           className='w-3/6 md:w-2/5 h-8 md:h-10 m-3 mb-0 p-1 md:p-3 border border-blue rounded'
           type="text"
@@ -137,7 +139,15 @@ return (
         >
           Clear
         </button>
-      </div>
+        </div>
+        <div className='w-1/4'>
+            <SortButtons
+                fetchAmberAlerts={fetchAmberAlerts}
+                // onSortAZ={handleSortAZ}
+                // onSortZA={handleSortZA}
+            />
+        </div>
+    </div>
       {error && (
         <p className="text-red-500 text-sm ml-3 italic">{error}</p>
       )}
