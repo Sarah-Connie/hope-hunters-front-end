@@ -7,6 +7,7 @@ import SearchBar from "../components/Searchbar";
 export function Home() {
   const [reports, setReports] = useState([]);
   const [originalReports, setOriginalReports] = useState([])
+  const [error, setError] = useState('')
 
   const isMdScreenOrLarger = useMediaQuery({ minWidth: 768 });
   // const [error, setError] = useState("");
@@ -33,9 +34,13 @@ export function Home() {
         // console.log(response.data)
       })
       .catch((error) => {
-        console.error("Error fetching missing persons data:", error);
-        // Handle errors if necessary
-      });
+        if (error.response && error.response.status === 404) {
+            setError("Unable to load current reports. Please try again later.");
+        } else {
+            setError("Error fetching missing persons data. Please try again later.");
+            console.error("Error fetching missing persons data:", error);
+        }
+        });
   }, []);
 
   return (
@@ -45,6 +50,9 @@ export function Home() {
       <div className="mt-8 flex justify-center text-center font-main font-bold text-2xl md:text-3xl">
         Currently Active Reports
       </div>
+      {error && (
+        <p className="mt-5 w-full flex justify-center text-red-500 text-2xl ml-3 italic">{error}</p>
+      )}
       {isMdScreenOrLarger ? (
         <div className="p-4 mt-5 lg:p-2 gap-4 w-full flex flex-wrap justify-center justify-around md:text-center">
           {reports.map((report) => (
