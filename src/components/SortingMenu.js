@@ -8,8 +8,8 @@ function SortMenu({ onSortChange }) {
 
   return (
     <div className="flex flex-row items-center font-main justify-center w-full">
-      <p className="mr-2">Sort By:</p>
-      <select className="bg-lightblue text-white rounded px-4 py-2 mt-2 h-12" 
+      <p className="w-2/6 md:w-2/5 lg:w-1/5">Sort By:</p>
+      <select className="bg-lightblue text-white rounded px-4 py-2 mt-2 md:h-12 w-full text-sm md:text-base" 
       onChange={handleSortChange}>
         <option value="">Select</option>
         <option value="nameAZ">Name (A-Z)</option>
@@ -25,4 +25,5 @@ function SortMenu({ onSortChange }) {
 }
 
 export default SortMenu;
+
 
