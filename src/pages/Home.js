@@ -72,18 +72,69 @@ export function Home() {
   };
 
   // for sorting by age(youngest first)
-
+  const ageAsc = () => {
+    axios
+      .get("/missing/sorted/currentAge")
+      .then((response) => {
+        setReports(response.data)
+        setError("");
+      })
+      .catch((error) => {
+        setError("Reports currently unavailable");
+      });
+  };
 
   // for sorting by age(oldest first)
-
+  const ageDesc = () => {
+    axios
+      .get("/missing/sorted/ageOldest")
+      .then((response) => {
+        setReports(response.data)
+        setError("");
+      })
+      .catch((error) => {
+        setError("Reports currently unavailable");
+      });
+  };
 
   // for sorting by dateLastSeen(most recent first)
-
+  const dateLastSeenAsc = () => {
+    axios
+      .get("/missing/sorted/dateLastSeenNewest")
+      .then((response) => {
+        setReports(response.data)
+        setError("");
+      })
+      .catch((error) => {
+        setError("Reports currently unavailable");
+      });
+  };
 
   // for sorting by dateLastSeen(oldest first)
+  const dateLastSeenDesc = () => {
+    axios
+      .get("/missing/sorted/dateLastSeenOldest")
+      .then((response) => {
+        setReports(response.data)
+        setError("");
+      })
+      .catch((error) => {
+        setError("Reports currently unavailable");
+      });
+  };
 
-  
   // for sorting by locationLastSeen (AZ)
+  const locationLastSeenAZ = () => {
+    axios
+      .get("/missing/sorted/lastSeen")
+      .then((response) => {
+        setReports(response.data)
+        setError("");
+      })
+      .catch((error) => {
+        setError("Reports currently unavailable");
+      });
+  };
 
   return (
   <div className="pb-5 flex flex-col flex-grow justify-between">

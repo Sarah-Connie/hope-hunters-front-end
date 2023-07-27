@@ -1,19 +1,28 @@
-function SortMenu({ fetchAmberAlerts, onSortAZ, onSortZA, onSortLocationAZ }) {
+function SortMenu({ fetchAmberAlerts, onSortAZ, onSortLocationAZ }) {
     const handleSortChange = (event) => {
       const selectedValue = event.target.value;
       // Call the corresponding sorting function based on the selected value
       switch (selectedValue) {
-        case 'amberAlerts':
-          fetchAmberAlerts();
-          break;
         case 'nameAZ':
           onSortAZ();
           break;
-        case 'locationLastSeenAZ':
-          onSortLocationAZ();
+        case 'ageAsc':
+          
           break;
+        case 'ageDesc':
+         
+          break;
+        case 'amberAlerts':
+          fetchAmberAlerts();
+          break;
+        case 'dateLastSeenAsc':
+          
+        break;
+        case 'dateLastSeenDesc':
+          
+        break;
         case 'locationLastSeenZA':
-          onSortZA();
+          
           break;
         default:
           break;
