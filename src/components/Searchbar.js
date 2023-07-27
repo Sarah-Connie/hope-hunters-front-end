@@ -6,42 +6,48 @@ const SearchBar = ({ onSearchResult, originalReports }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
     const [error, setError] = useState('');
+    const [isScrolled, setIsScrolled] = useState(false); // tracks if the user has scrolled
+
 
     const handleSearch = async () => {
-    try {
-      // Check if the search term contains letters
-      const hasLetters = searchTerm.match(/[a-zA-Z]/g);
-  
-      // Check if the search term contains digits
-      const hasDigits = searchTerm.match(/\d/g);
-
-      if (hasLetters && hasDigits) {
-        // If the search term contains both letters and digits, show error
-        onSearchResult(originalReports);
-        setError("Invalid search. Please try again.");
-      } else if (hasLetters && hasLetters.length < 3) {
-        // If the search term contains less than three letters, show error
-        onSearchResult(originalReports);
-        setError("Incomplete search. Please try again.");
-      } else {
-        // If the search term has at least three letters or contains only digits, make the API call
-        const response = await axios.get(`/missing/search/${searchTerm}`);
-        onSearchResult(response.data);
-  
-        const searchParams = new URLSearchParams({ searchQuery: searchTerm });
-        const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
-        window.history.replaceState(null, '', newUrl);
-      }
-    } catch (error) {
-        if (error.response && error.response.status === 404) {
-            setError('Search is currently unavailable. Please try again later.')
-        } else {
+        try {
+          // Check if the search term contains letters
+          const hasLetters = searchTerm.match(/[a-zA-Z]/g);
+      
+          // Check if the search term contains digits
+          const hasDigits = searchTerm.match(/\d/g);
+      
+          if (hasLetters && hasDigits) {
+            // If the search term contains both letters and digits, show error
+            onSearchResult(originalReports);
+            setError("Invalid search. Please try again.");
+          } else if (hasLetters && hasLetters.length < 3) {
+            // If the search term contains less than three letters, show error
+            onSearchResult(originalReports);
+            setError("Incomplete search. Please try again.");
+          } else {
+            // If the search term has at least three letters or contains only digits, make the API call
+            const response = await axios.get(`/missing/search/${searchTerm}`);
+            onSearchResult(response.data);
+      
+            const searchParams = new URLSearchParams({ searchQuery: searchTerm });
+            const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
+            window.history.replaceState(null, '', newUrl);
+          }
+        } catch (error) {
+          if (error.response && error.response.status === 404) {
+            if (!searchTerm.trim()) {
+              setError("Please enter a valid search term.");
+            } else {
+              setError("Search is currently unavailable. Please try again later.");
+            }
+          } else {
             setError("Error fetching missing persons data. Please try again later.");
+          }
         }
-    }
-  };
-  
-  
+      };
+      
+
 
     // when the user clicks clear, nav to home route 
     // render originalReports (reports from initial api call)
@@ -89,11 +95,28 @@ const SearchBar = ({ onSearchResult, originalReports }) => {
     }, []);
 
 
+    const handleScroll = () => {
+        if (window.scrollY > 0) {
+          setIsScrolled(true);
+        } else {
+          setIsScrolled(false);
+        }
+      };
+    
+      // Attach the scroll event listener on component mount
+      useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+          window.removeEventListener("scroll", handleScroll);
+        };
+      }, []);
+
 return (
-    <div className="flex flex-col">
+    // <div className="flex flex-col sticky top-0 bg-white p-4 z-50">
+    <div className={`flex flex-col sticky top-0 z-50 p-2 md:p-4 ${isScrolled ? "bg-white bg-opacity-90 pb-6 md:pb-8" : "bg-white"}`}>
       <div className='flex w-full items-center font-main'>
         <input
-          className='w-2/5 h-8 md:h-10 m-3 mb-0 p-1 md:p-3 border border-blue rounded'
+          className='w-3/6 md:w-2/5 h-8 md:h-10 m-3 mb-0 p-1 md:p-3 border border-blue rounded'
           type="text"
           value={searchTerm}
           onChange={handleChange}

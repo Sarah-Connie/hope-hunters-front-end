@@ -44,7 +44,7 @@ export function Home() {
   }, []);
 
   return (
-  <div className="pb-5">
+  <div className="pb-5 flex flex-col flex-grow justify-between">
       <SearchBar 
       onSearchResult={handleSearchResult} 
       onClearSearch={handleClearSearch} 
@@ -56,8 +56,9 @@ export function Home() {
       {error && (
         <p className="mt-5 w-full flex justify-center text-red-500 text-2xl ml-3 italic">{error}</p>
       )}
+      {/* display a message if no reports are found and theres no stored error */}
         {reports.length === 0 && !error && 
-        <p className="mt-5 w-full flex justify-center text-blue text-2xl italic">
+        <p className="mt-5 w-full flex justify-center text-blue text-xl md:text-2xl italic">
             No missing persons found.
         </p>}
       {isMdScreenOrLarger ? (
@@ -71,7 +72,8 @@ export function Home() {
                   </div>
                   <div className="flex flex-col font-main">
                     <p className="text-2xl pt-1">{report.fullName}</p>
-                    <p>{report.currentAge[0].number} {report.currentAge[0].type} old</p>
+                    <p>Current Age: {report.currentAge[0].number} {report.currentAge[0].type} old</p>
+                    <p>Age at Reported Missing: {report.age[0].number} {report.age[0].type} old</p>
                     <p>Height: {report.height.number} {report.height.measurement[0]}</p>
                     <p>Weight: {report.weight.number} {report.weight.measurement[0]}</p>
                     <p>Date Last Seen: {new Date(report.dateLastSeen).toISOString().split("T")[0]}</p>
@@ -85,14 +87,6 @@ export function Home() {
                     <p>Amber Alert: {report.amberAlert ? "Yes" : "No"}</p>
                   </div>
                 </div>
-                {/* <div className="flex space-x-4 pt-2 w-full justify-end">
-                  <button
-                    className="bg-yellow rounded-full p-1 text-sm"
-                    onClick={() => handleEditReportButtonClick(report.reportId)}
-                  >
-                    edit
-                  </button> */}
-                {/* </div> */}
               </div>
             </div>
           ))}
@@ -107,18 +101,11 @@ export function Home() {
                     </div>
                     <div className="flex flex-col font-main text-sm pl-2 w-4/6">
                         <p className="text-lg">{report.fullName}</p>
-                        <p>{report.currentAge[0].number} {report.currentAge[0].type} old</p>
+                        <p>Current Age: {report.currentAge[0].number} {report.currentAge[0].type} old</p>
+                        <p>Age at Reported Missing: {report.age[0].number} {report.age[0].type} old</p>
                         <p>Date Last Seen: {new Date(report.dateLastSeen).toISOString().split("T")[0]}</p>
                         <p>Location Last Seen: {report.locationLastSeen.address}, {report.locationLastSeen.city}, {report.locationLastSeen.state}</p>
                     </div>
-                    {/* <div className="flex w-full justify-end">
-                    <button
-                        className="bg-yellow rounded-full p-1 text-xs"
-                        onClick={() => handleEditReportButtonClick(report.reportId)}
-                    >
-                        edit
-                    </button>
-                    </div> */}
                 </div>
                 <div className="flex flex-col font-main text-sm">
                     <p className="text-lg font-semibold pt-2">Key Details:</p>
