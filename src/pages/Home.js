@@ -46,12 +46,14 @@ export function Home() {
 
   return (
   <div className="pb-5 flex flex-col flex-grow justify-between">
-      <AmberAlertBanner />
-      <SearchBar 
-      onSearchResult={handleSearchResult} 
-      onClearSearch={handleClearSearch} 
-      originalReports={originalReports}
-      />
+      <div className="z-50 sticky top-0">
+        <AmberAlertBanner />
+        <SearchBar 
+          onSearchResult={handleSearchResult} 
+          onClearSearch={handleClearSearch} 
+          originalReports={originalReports}
+        />
+      </div>
       <div className="mt-8 flex justify-center text-center font-main font-bold text-2xl md:text-3xl">
         Currently Active Reports
       </div>

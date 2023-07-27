@@ -113,7 +113,7 @@ const SearchBar = ({ onSearchResult, originalReports }) => {
 
 return (
     // <div className="flex flex-col sticky top-0 bg-white p-4 z-50">
-    <div className={`flex flex-col sticky top-0 z-50 p-2 md:p-4 ${isScrolled ? "bg-white bg-opacity-90 pb-6 md:pb-8" : "bg-white"}`}>
+    <div className={`flex flex-col p-2 md:p-4 ${isScrolled ? "bg-white bg-opacity-90 pb-6 md:pb-8" : "bg-white"}`}>
       <div className='flex w-full items-center font-main'>
         <input
           className='w-3/6 md:w-2/5 h-8 md:h-10 m-3 mb-0 p-1 md:p-3 border border-blue rounded'
