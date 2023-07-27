@@ -45,14 +45,21 @@ export function Home() {
 
   return (
   <div className="pb-5">
-      <SearchBar onSearchResult={handleSearchResult} onClearSearch={handleClearSearch} originalReports={originalReports}/>
-      
+      <SearchBar 
+      onSearchResult={handleSearchResult} 
+      onClearSearch={handleClearSearch} 
+      originalReports={originalReports}
+      />
       <div className="mt-8 flex justify-center text-center font-main font-bold text-2xl md:text-3xl">
         Currently Active Reports
       </div>
       {error && (
         <p className="mt-5 w-full flex justify-center text-red-500 text-2xl ml-3 italic">{error}</p>
       )}
+        {reports.length === 0 && !error && 
+        <p className="mt-5 w-full flex justify-center text-blue text-2xl italic">
+            No missing persons found.
+        </p>}
       {isMdScreenOrLarger ? (
         <div className="p-4 mt-5 lg:p-2 gap-4 w-full flex flex-wrap justify-center justify-around md:text-center">
           {reports.map((report) => (

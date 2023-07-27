@@ -7,30 +7,6 @@ const SearchBar = ({ onSearchResult, originalReports }) => {
     const navigate = useNavigate();
     const [error, setError] = useState('');
 
-
-//   const handleSearch = async () => {
-//     try {
-//       // Check if the search term has at least three letters (excluding spaces)
-//       if (searchTerm.replace(/\s/g, '').length < 3) {
-//         // If not, directly update the search results with the original reports
-//         onSearchResult(originalReports);
-//         setError("Incomplete search. Please try again.")
-//         console.log("Unable to search. 3 letters required.");
-//       } else {
-//         // If the search term has at least three letters, make the API call
-//         const response = await axios.get(`/missing/search/${searchTerm}`);
-//         onSearchResult(response.data);
-  
-//         // Change URL to display search query based on params
-//         const searchParams = new URLSearchParams({ searchQuery: searchTerm });
-//         const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
-//         window.history.replaceState(null, '', newUrl);
-//       }
-//     } catch (error) {
-//       console.error('Error searching for missing persons:', error);
-//     }
-//   };
-
     const handleSearch = async () => {
     try {
       // Check if the search term contains letters
@@ -57,8 +33,11 @@ const SearchBar = ({ onSearchResult, originalReports }) => {
         window.history.replaceState(null, '', newUrl);
       }
     } catch (error) {
-      setError('Unable to process search. Please try again.')
-      console.error('Error searching for missing persons:', error);
+        if (error.response && error.response.status === 404) {
+            setError('Search is currently unavailable. Please try again later.')
+        } else {
+            setError("Error fetching missing persons data. Please try again later.");
+        }
     }
   };
   
