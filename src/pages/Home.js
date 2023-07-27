@@ -58,78 +58,43 @@ export function Home() {
       });
   };
 
-  // for sorting by name (AZ)
-  const fetchAZ = () => {
-    axios
-      .get("/missing/sorted/fullName")
-      .then((response) => {
-        setReports(response.data)
-        setError("");
-      })
-      .catch((error) => {
-        setError("Reports currently unavailable");
-      });
+
+  const handleSortChange = (selectedValue) => {
+    switch (selectedValue) {
+      case 'nameAZ':
+        fetchSortData('fullName');
+        break;
+      case 'ageAsc':
+        fetchSortData('currentAge');
+        break;
+      case 'ageDesc':
+        fetchSortData('ageOldest');
+        break;
+      case 'amberAlerts':
+        fetchAmberAlerts();
+        break;
+      case 'dateLastSeenAsc':
+        fetchSortData('dateLastSeenNewest');
+        break;
+      case 'dateLastSeenDesc':
+        fetchSortData('dateLastSeenOldest');
+        break;
+      case 'locationLastSeenAZ':
+        fetchSortData('lastSeen');
+        break;
+      default:
+        break;
+    }
   };
 
-  // for sorting by age(youngest first)
-  const ageAsc = () => {
+  // dynamically pass the selected option from dropdown to api call
+  // easier to add drop down options if added to the same api route
+  const fetchSortData = (sortOption) => {
     axios
-      .get("/missing/sorted/currentAge")
+      .get(`/missing/sorted/${sortOption}`)
       .then((response) => {
-        setReports(response.data)
-        setError("");
-      })
-      .catch((error) => {
-        setError("Reports currently unavailable");
-      });
-  };
-
-  // for sorting by age(oldest first)
-  const ageDesc = () => {
-    axios
-      .get("/missing/sorted/ageOldest")
-      .then((response) => {
-        setReports(response.data)
-        setError("");
-      })
-      .catch((error) => {
-        setError("Reports currently unavailable");
-      });
-  };
-
-  // for sorting by dateLastSeen(most recent first)
-  const dateLastSeenAsc = () => {
-    axios
-      .get("/missing/sorted/dateLastSeenNewest")
-      .then((response) => {
-        setReports(response.data)
-        setError("");
-      })
-      .catch((error) => {
-        setError("Reports currently unavailable");
-      });
-  };
-
-  // for sorting by dateLastSeen(oldest first)
-  const dateLastSeenDesc = () => {
-    axios
-      .get("/missing/sorted/dateLastSeenOldest")
-      .then((response) => {
-        setReports(response.data)
-        setError("");
-      })
-      .catch((error) => {
-        setError("Reports currently unavailable");
-      });
-  };
-
-  // for sorting by locationLastSeen (AZ)
-  const locationLastSeenAZ = () => {
-    axios
-      .get("/missing/sorted/lastSeen")
-      .then((response) => {
-        setReports(response.data)
-        setError("");
+        setReports(response.data);
+        setError('');
       })
       .catch((error) => {
         setError("Reports currently unavailable");
@@ -144,9 +109,7 @@ export function Home() {
           onSearchResult={handleSearchResult} 
           onClearSearch={handleClearSearch} 
           originalReports={originalReports}
-          fetchAmberAlerts={fetchAmberAlerts}
-          handleSortAZ={fetchAZ} 
-        //   handleSortZA={handleSortZA}
+          onSortChange={handleSortChange}
         />
       </div>
       <div className="mt-8 flex justify-center text-center font-main font-bold text-2xl md:text-3xl">

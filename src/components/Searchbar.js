@@ -3,7 +3,7 @@ import axios from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 import SortMenu from './SortingMenu';
 
-const SearchBar = ({ onSearchResult, originalReports, fetchAmberAlerts, handleSortAZ }) => {
+const SearchBar = ({ onSearchResult, originalReports, fetchAmberAlerts, onSortChange }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
     const [error, setError] = useState('');
@@ -142,9 +142,7 @@ return (
         </div>
         <div className='w-1/4'>
             <SortMenu
-                fetchAmberAlerts={fetchAmberAlerts}
-                onSortAZ={handleSortAZ}
-                // onSortZA={handleSortZA}
+                onSortChange={onSortChange}
             />
         </div>
     </div>
