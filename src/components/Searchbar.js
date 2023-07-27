@@ -36,6 +36,7 @@ const SearchBar = ({ onSearchResult, originalReports }) => {
   // render originalReports (reports from initial api call)
   const handleClear = () => {
     setSearchTerm('');
+    setError("");
     navigate("/");
     onSearchResult(originalReports);
   };
@@ -65,33 +66,39 @@ const SearchBar = ({ onSearchResult, originalReports }) => {
     setSearchTerm(params.get('searchQuery') || '');
   }, []);
 
-  return (
-    <div className='flex w-full'>
-      <input
-        className='w-3/5 md:w-2/5 border border-blue p-1 md:p-3 m-3 rounded'
-        type="text"
-        value={searchTerm}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-        placeholder="Search for missing persons..."
-      />
-      <button 
-        className='bg-lightblue rounded h-9 md:h-12 mt-3 m-2 ml-0 p-3 md:p-6 flex items-center'
-        onClick={handleSearch}
-      >
-        Search
-      </button>
-      <button
-        className='bg-lightblue rounded h-9 w-15 md:h-12 mt-3 m-2 ml-0 p-3 md:p-6 flex items-center'
-        onClick={handleClear}
-      >
-        Clear
-      </button>
+  // ... (rest of the component code remains the same)
+
+return (
+    <div className="flex flex-col">
+      <div className='flex w-full items-center font-main'>
+        <input
+          className='w-2/5 h-8 md:h-10 m-3 mb-0 p-1 md:p-3 border border-blue rounded'
+          type="text"
+          value={searchTerm}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          placeholder="Search for missing persons..."
+        />
+        <button 
+        //   className='bg-lightblue rounded h-8 md:h-12 mt-3 ml-0 p-3 md:p-6 flex items-center'
+          className="bg-lightblue h-8 mt-3 ml-0 p-3 md:p-6 flex items-center rounded hover:bg-yellow hover:scale-105 ease-out duration-200 text-white"
+          onClick={handleSearch}
+        >
+          Search
+        </button>
+        <button
+        //   className='bg-lightblue rounded h-8 w-15 md:h-12 mt-3 ml-2 p-3 md:p-6 flex items-center'
+        className="bg-lightblue rounded h-8 w-15 md:h-12 mt-3 ml-2 p-3 md:p-6 flex items-center hover:bg-yellow hover:scale-105 ease-out duration-200 text-white"
+          onClick={handleClear}
+        >
+          Clear
+        </button>
+      </div>
       {error && (
-          <p className="text-red-500 text-sm mb-4">{error}</p>
-        )}
+        <p className="text-red-500 text-sm ml-3 italic">{error}</p>
+      )}
     </div>
   );
-};
+      }  
 
 export default SearchBar;

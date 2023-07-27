@@ -41,7 +41,8 @@ export function Home() {
   return (
   <div className="pb-5">
       <SearchBar onSearchResult={handleSearchResult} onClearSearch={handleClearSearch} originalReports={originalReports}/>
-      <div className="mt-16 flex justify-center text-center font-main font-bold text-2xl md:text-3xl">
+      
+      <div className="mt-8 flex justify-center text-center font-main font-bold text-2xl md:text-3xl">
         Currently Active Reports
       </div>
       {isMdScreenOrLarger ? (
