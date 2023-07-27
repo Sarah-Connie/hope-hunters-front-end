@@ -162,7 +162,7 @@ return (
     <div className={`flex ${isMdScreenOrLarger ? "flex-row" : "flex-col"} w-full items-center font-main justify-between`}>
       <div className={`flex ${isMdScreenOrLarger ? "flex-row" : ""} w-full items-center`}>
         <input
-          className={`w-3/6 md:w-2/5 h-8 md:h-10 m-3 mb-0 p-1 md:p-3 border border-blue rounded ${isMdScreenOrLarger ? "" : ""}`}
+          className={`w-3/6 text-xs md:text-md lg:text-base md:w-2/5 h-8 md:h-10 m-3 mb-0 p-1 md:p-3 border border-blue rounded ${isMdScreenOrLarger ? "" : ""}`}
           type="text"
           value={searchTerm}
           onChange={handleChange}
@@ -183,13 +183,16 @@ return (
         </button>
       </div>
       {/* need to put the error here if mobile */}
-      <div className={`${isMdScreenOrLarger ? "w-2/5" : ""}`}>
+      {error && !isMdScreenOrLarger && (
+        <p className="text-red-500 text-xs italic items-start ">{error}</p>
+      )}
+      <div className={`${isMdScreenOrLarger ? "w-3/5" : ""}`}>
         <SortMenu onSortChange={onSortChange} />
       </div>
     </div>
-    {error && (
-      <p className="text-red-500 text-sm ml-3 italic">{error}</p>
-    )}
+      {error && isMdScreenOrLarger && (
+        <p className="text-red-500 text-sm ml-3 italic">{error}</p>
+      )}
   </div>
 );
 }
