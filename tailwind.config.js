@@ -19,7 +19,7 @@ module.exports = {
         transform: 'translateX(100%)'},
         '100%': { 
         transform: 'translateX(-100%)'},
-    } 
+      } 
     },
     animation: {
       continuous: 'continuous 20s cubic-bezier(1, 1, 1, 1) infinite',
