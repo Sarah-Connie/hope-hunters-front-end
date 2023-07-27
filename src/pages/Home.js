@@ -3,6 +3,7 @@ import { useMediaQuery } from "react-responsive";
 import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 import SearchBar from "../components/Searchbar";
+import AmberAlertBanner from "../components/AmberBanner";
 
 export function Home() {
   const [reports, setReports] = useState([]);
@@ -45,6 +46,7 @@ export function Home() {
 
   return (
   <div className="pb-5 flex flex-col flex-grow justify-between">
+      <AmberAlertBanner />
       <SearchBar 
       onSearchResult={handleSearchResult} 
       onClearSearch={handleClearSearch} 
