@@ -45,7 +45,7 @@ export function Home() {
         });
   }, []);
 
-
+  // for sorting by amber alerts
   const fetchAmberAlerts = () => {
     axios
       .get("/missing/amber-alerts")
@@ -58,6 +58,33 @@ export function Home() {
       });
   };
 
+  // for sorting by name (AZ)
+  const fetchAZ = () => {
+    axios
+      .get("/missing/sorted/fullName")
+      .then((response) => {
+        setReports(response.data)
+        setError("");
+      })
+      .catch((error) => {
+        setError("Reports currently unavailable");
+      });
+  };
+
+  // for sorting by age(youngest first)
+
+
+  // for sorting by age(oldest first)
+
+
+  // for sorting by dateLastSeen(most recent first)
+
+
+  // for sorting by dateLastSeen(oldest first)
+
+  
+  // for sorting by locationLastSeen (AZ)
+
   return (
   <div className="pb-5 flex flex-col flex-grow justify-between">
       <div className="z-50 sticky top-0">
@@ -67,7 +94,7 @@ export function Home() {
           onClearSearch={handleClearSearch} 
           originalReports={originalReports}
           fetchAmberAlerts={fetchAmberAlerts}
-        //   handleSortAZ={handleSortAZ} 
+          handleSortAZ={fetchAZ} 
         //   handleSortZA={handleSortZA}
         />
       </div>
