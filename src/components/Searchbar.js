@@ -9,6 +9,8 @@ const SearchBar = ({ onSearchResult, originalReports, onSortChange, sortError, h
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchError, setSearchError] = useState('');
+  const [selectedOption, setSelectedOption] = useState("");
+
 
   const handleSearch = async () => {
     try {
@@ -60,6 +62,7 @@ const SearchBar = ({ onSearchResult, originalReports, onSortChange, sortError, h
       navigate("/");
       onSearchResult(originalReports);
       onSortChange("");
+      setSelectedOption("");
     };
 
     const handleChange = (event) => {
@@ -76,7 +79,7 @@ const SearchBar = ({ onSearchResult, originalReports, onSortChange, sortError, h
       }
     };
 
-
+    // if use presses enter, proceed with the search
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
         handleSearch();
@@ -89,6 +92,8 @@ const SearchBar = ({ onSearchResult, originalReports, onSortChange, sortError, h
         if (searchTerm === '') {
         onSearchResult(originalReports);
         setSearchError('');
+        // reset the selected option in the dropdown if applicable
+        setSelectedOption("")
         }
     }, [searchTerm]);
 
@@ -155,7 +160,17 @@ return (
         <p className="w-full pl-3 text-red-500 text-xs italic items-start">{searchError}</p>
       )}
       <div className={`${isMdScreenOrLarger ? "w-3/5" : ""}`}>
-        <SortMenu onSortChange={onSortChange} sortError={sortError}/>
+      <SortMenu
+        onSortChange={(selectedValue) => {
+          // update the selectedOption state when the value changes
+          setSelectedOption(selectedValue);
+          // run onSortChange (passed down) with the selected option from dropdown
+          onSortChange(selectedValue);
+        }}
+        // passed down state var for reassigning the option on clear
+        selectedOption={selectedOption}
+        sortError={sortError}
+      />
       </div>
     </div>
       {searchError && isMdScreenOrLarger && (

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function SortMenu({ onSortChange }) {
+function SortMenu({ onSortChange, selectedOption }) {
   const [sortError, setSortError] = useState("");
 
   const handleSortChange = (event) => {
@@ -19,7 +19,8 @@ function SortMenu({ onSortChange }) {
       <select
         className="bg-lightblue text-white rounded px-4 py-2 mt-2 md:h-12 w-full text-sm md:text-base"
         onChange={handleSortChange}
-        defaultValue=""
+        // defaultValue=""
+        value={selectedOption}
       >
         <option value="">Select</option>
         <option value="nameAZ">Name (A-Z)</option>
