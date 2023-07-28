@@ -1,26 +1,24 @@
 import { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
-import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 import SearchBar from "../components/Searchbar";
 import AmberAlertBanner from "../components/AmberBanner";
 
 export function Home() {
   const [reports, setReports] = useState([]);
-  const [originalReports, setOriginalReports] = useState([])
-  const [amberAlerts, setAmberAlerts] = useState([])
-  const [error, setError] = useState('')
-  const [sortError, setSortError] = useState('');
+  const [originalReports, setOriginalReports] = useState([]);
+  const [error, setError] = useState("");
+  const [sortError, setSortError] = useState("");
   const [hasSortError, setHasSortError] = useState(false);
 
-
   const isMdScreenOrLarger = useMediaQuery({ minWidth: 768 });
-  // const [error, setError] = useState("");
-
 
   // Callback function to update reports based on search result
   const handleSearchResult = (searchResult) => {
     setReports(searchResult);
+    setError(""); // Clear the search error when a new search is performed
+    setSortError(""); // Clear the sort error when a new search is performed
+    setHasSortError(false);
   };
 
   const handleClearSearch = () => {
@@ -33,22 +31,23 @@ export function Home() {
 
   useEffect(() => {
     // Fetch the missing persons data from the API endpoint
-    axios.get("/missing/")
+    axios
+      .get("/missing/")
       .then((response) => {
         // Set the fetched data to the "reports" state
         setReports(response.data);
-        // Save api call results for when user clears
-        setOriginalReports(response.data)
-        // console.log(response.data)
+        // Save api call results for when the user clears
+        // this way no need to call api again
+        setOriginalReports(response.data);
       })
       .catch((error) => {
         if (error.response && error.response.status === 404) {
-            setError("Unable to load current reports. Please try again later.");
+          setError("Unable to load current reports. Please try again later.");
         } else {
-            setError("Error fetching missing persons data. Please try again later.");
-            console.error("Error fetching missing persons data:", error);
+          setError("Error fetching missing persons data. Please try again later.");
+          console.error("Error fetching missing persons data:", error);
         }
-        });
+      });
   }, []);
 
   // for sorting by amber alerts
@@ -56,7 +55,7 @@ export function Home() {
     axios
       .get("/missing/amber-alerts")
       .then((response) => {
-        setReports(response.data)
+        setReports(response.data);
         setSortError("");
         setHasSortError(false);
       })
@@ -66,16 +65,15 @@ export function Home() {
       });
   };
 
-
   // dynamically pass the selected option from dropdown to api call
   // easier to add drop down options when added to the same api route
   // in the future
   const fetchSortData = (sortOption) => {
     axios
-      .get(``)
+      .get(`/missing/sorted/${sortOption}`)
       .then((response) => {
         setReports(response.data);
-        setSortError('');
+        setSortError("");
         setHasSortError(false);
       })
       .catch((error) => {
@@ -84,70 +82,74 @@ export function Home() {
       });
   };
 
-
+  // handler for dropdown menu
   const handleSortChange = (selectedValue) => {
     if (selectedValue === "") {
       setReports(originalReports);
-      setSortError('')
+      setSortError("");
       setHasSortError(false);
     } else {
-    switch (selectedValue) {
-      case 'nameAZ':
-        fetchSortData('fullName');
-        break;
-      case 'ageAsc':
-        fetchSortData('currentAge');
-        break;
-      case 'ageDesc':
-        fetchSortData('ageOldest');
-        break;
-      case 'amberAlerts':
-        fetchAmberAlerts();
-        break;
-      case 'dateLastSeenAsc':
-        fetchSortData('dateLastSeenNewest');
-        break;
-      case 'dateLastSeenDesc':
-        fetchSortData('dateLastSeenOldest');
-        break;
-      case 'locationLastSeenAZ':
-        fetchSortData('lastSeen');
-        break;
-      default:
-        break;
+      switch (selectedValue) {
+        case "nameAZ":
+          fetchSortData("fullName");
+          break;
+        case "ageAsc":
+          fetchSortData("currentAge");
+          break;
+        case "ageDesc":
+          fetchSortData("ageOldest");
+          break;
+        case "amberAlerts":
+          fetchAmberAlerts();
+          break;
+        case "dateLastSeenAsc":
+          fetchSortData("dateLastSeenNewest");
+          break;
+        case "dateLastSeenDesc":
+          fetchSortData("dateLastSeenOldest");
+          break;
+        case "locationLastSeenAZ":
+          fetchSortData("lastSeen");
+          break;
+        default:
+          break;
       }
     }
   };
 
-
-
   return (
-  <div className="pb-5 flex flex-col flex-grow justify-between">
+    <div className="pb-5 flex flex-col flex-grow justify-between">
       <div className="z-50 sticky top-0">
         <AmberAlertBanner />
-        <SearchBar 
-          onSearchResult={handleSearchResult} 
-          onClearSearch={handleClearSearch} 
+        <SearchBar
+          onSearchResult={handleSearchResult}
+          onClearSearch={handleClearSearch}
           originalReports={originalReports}
           onSortChange={handleSortChange}
           sortError={sortError}
           hasSortError={hasSortError}
+          setError={setError}
         />
       </div>
       <div className="mt-8 flex justify-center text-center font-main font-bold text-2xl md:text-3xl">
         Currently Active Reports
       </div>
       {error && (
-        <p className="m-5 w-full flex justify-center text-red-500 text-xl md:text-2xl ml-3 italic">{error}</p>
+        <p className="m-5 w-full flex justify-center text-red-500 text-xl md:text-2xl ml-3 italic">
+          {error}
+        </p>
       )}
-      {sortError && (
-        <p className="m-5 w-full flex justify-center text-red-500 text-xl md:text-2xl ml-3 italic">{sortError}</p>
+      {hasSortError && (
+        <p className="m-5 w-full flex justify-center text-red-500 text-xl md:text-2xl ml-3 italic">
+          {sortError}
+        </p>
       )}
-      {/* display a message if no reports are found and theres no stored error */}
-        {reports.length === 0 && !error && 
-        <p className="mt-5 w-full flex justify-center text-blue text-xl md:text-2xl italic">
-            No missing persons found.
-        </p>}
+      {/* display a message if no reports are found and there's no stored error */}
+      {reports.length === 0 && !error && !hasSortError && (
+        <p className="m-5 w-full flex justify-center text-blue text-xl md:text-2xl ml-3 italic">
+          No missing persons reports found.
+        </p>
+      )}
       {isMdScreenOrLarger ? (
         <div className="p-4 mt-5 lg:p-2 gap-4 w-full flex flex-wrap justify-center justify-around md:text-center">
           {reports.map((report) => (

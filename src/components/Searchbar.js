@@ -1,80 +1,79 @@
 import { useState, useEffect } from 'react';
-import axios from '../api/axios';
+import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 import SortMenu from './SortingMenu';
-import { useMediaQuery } from 'react-responsive';
+import axios from '../api/axios';
 
+const SearchBar = ({ onSearchResult, originalReports, onSortChange, sortError, hasSortError, setError }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [searchError, setSearchError] = useState('');
 
-const SearchBar = ({ onSearchResult, originalReports, onSortChange, sortError, hasSortError }) => {
-    const [searchTerm, setSearchTerm] = useState('');
-    const navigate = useNavigate();
-    // const [error, setError] = useState('');
-    const [isScrolled, setIsScrolled] = useState(false); // tracks if the user has scrolled
-    const [searchError, setSearchError] = useState(''); // Separate error state for search
+  const handleSearch = async () => {
+    try {
+      setSearchError("");
 
-    const handleSearch = async () => {
-        try {
-          // Check if the search term contains letters
-          const hasLetters = searchTerm.match(/[a-zA-Z]/g);
+      if (searchTerm.trim() === "") {
+        setSearchError("Please enter a valid search term.");
+        return; // Return early if the search term is empty
+      }
       
-          // Check if the search term contains digits
-          const hasDigits = searchTerm.match(/\d/g);
-      
-          if (hasLetters && hasDigits) {
-            // If the search term contains both letters and digits, show error
-            onSearchResult(originalReports);
-            setSearchError("Invalid search. Please try again.");
-          } else if (hasLetters && hasLetters.length < 3) {
-            // If the search term contains less than three letters, show error
-            onSearchResult(originalReports);
-            setSearchError("Incomplete search. Please try again.");
-          } else {
-            // If the search term has at least three letters or contains only digits, make the API call
-            const response = await axios.get(`/missing/search/${searchTerm}`);
-            onSearchResult(response.data);
-      
-            const searchParams = new URLSearchParams({ searchQuery: searchTerm });
-            const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
-            window.history.replaceState(null, '', newUrl);
-          }
-        } catch (error) {
-          if (error.response && error.response.status === 404) {
-            if (!searchTerm.trim()) {
-              setSearchError("Please enter a valid search term.");
-            } else {
-              setSearchError("Search is currently unavailable. Please try again later.");
-            }
-          } else {
-            setSearchError("Error fetching missing persons data. Please try again later.");
-          }
+      // Check if the search term contains letters
+      const hasLetters = searchTerm.match(/[a-zA-Z]/g);
+
+      // Check if the search term contains digits
+      const hasDigits = searchTerm.match(/\d/g);
+
+      // If the search term contains both letters and digits, show error
+      if (hasLetters && hasDigits) {
+        setSearchError("Invalid search. Please try again.");
+        onSearchResult(originalReports);
+      } // If the search term contains less than three letters, show error
+      else if (hasLetters && hasLetters.length < 3) {
+        setSearchError("Incomplete search. Please try again.");
+        onSearchResult(originalReports);
+      } 
+      // wait to call api when the search query is valid
+      else {
+        const response = await axios.get(`/missing/search/${searchTerm}`);
+        onSearchResult(response.data);
+
+        const searchParams = new URLSearchParams({ searchQuery: searchTerm });
+        const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
+        window.history.replaceState(null, '', newUrl);
+      }
+    } catch (error) {
+        if (error.response && error.response.status === 404) {
+          setSearchError("Search is currently unavailable. Please try again later.");
+        } else {
+          setSearchError("Error fetching missing persons data. Please try again later.");
         }
-      };
-      
-
+    }
+  };
 
     // when the user clicks clear, nav to home route 
     // render originalReports (reports from initial api call)
     const handleClear = () => {
-        setSearchTerm('');
-        setSearchError("");
-        navigate("/");
-        onSearchResult(originalReports);
-        onSortChange("");
+      setSearchTerm('');
+      setSearchError("");
+      navigate("/");
+      onSearchResult(originalReports);
+      onSortChange("");
     };
 
-
     const handleChange = (event) => {
-        setSearchTerm(event.target.value);
-    
-        // Update the URL to reflect the search term as it changes
-        if (event.target.value === '' && JSON.stringify(originalReports)) {
-        const newUrl = '/';
-        window.history.replaceState(null, '', newUrl);
-        } else {
-        const searchParams = new URLSearchParams({ searchQuery: event.target.value });
-        const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
-        window.history.replaceState(null, '', newUrl);
-        }
+      setSearchTerm(event.target.value);
+  
+      // Update the URL to reflect the search term as it changes
+      if (event.target.value === '' && JSON.stringify(originalReports)) {
+      const newUrl = '/';
+      window.history.replaceState(null, '', newUrl);
+      } else {
+      const searchParams = new URLSearchParams({ searchQuery: event.target.value });
+      const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
+      window.history.replaceState(null, '', newUrl);
+      }
     };
 
 
