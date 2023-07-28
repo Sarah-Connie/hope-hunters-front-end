@@ -116,47 +116,7 @@ const SearchBar = ({ onSearchResult, originalReports, fetchAmberAlerts, onSortCh
 
     const isMdScreenOrLarger = useMediaQuery({ minWidth: 768 });
 
-
-// return (
-//     // <div className="flex flex-col sticky top-0 bg-white p-4 z-50">
-//     <div className={`flex flex-col p-2 md:p-4 ${isScrolled ? "bg-white bg-opacity-90 pb-6 md:pb-8" : "bg-white"}`}>
-//       <div className='flex w-full items-center font-main justify-between'>
-//         <div className='flex flex-row w-3/4 items-center'>
-//         <input
-//           className='w-3/6 md:w-2/5 h-8 md:h-10 m-3 mb-0 p-1 md:p-3 border border-blue rounded'
-//           type="text"
-//           value={searchTerm}
-//           onChange={handleChange}
-//           onKeyDown={handleKeyDown}
-//           placeholder="Search for missing persons..."
-//         />
-//         <button 
-//         //   className='bg-lightblue rounded h-8 md:h-12 mt-3 ml-0 p-3 md:p-6 flex items-center'
-//           className="bg-lightblue h-8 mt-3 ml-0 p-3 md:p-6 flex items-center rounded hover:bg-yellow hover:scale-105 ease-out duration-200 text-white"
-//           onClick={handleSearch}
-//         >
-//           Search
-//         </button>
-//         <button
-//         //   className='bg-lightblue rounded h-8 w-15 md:h-12 mt-3 ml-2 p-3 md:p-6 flex items-center'
-//         className="bg-lightblue rounded h-8 w-15 md:h-12 mt-3 ml-2 p-3 md:p-6 flex items-center hover:bg-yellow hover:scale-105 ease-out duration-200 text-white"
-//           onClick={handleClear}
-//         >
-//           Clear
-//         </button>
-//         </div>
-//         <div className='w-1/4'>
-//             <SortMenu
-//                 onSortChange={onSortChange}
-//             />
-//         </div>
-//     </div>
-//       {error && (
-//         <p className="text-red-500 text-sm ml-3 italic">{error}</p>
-//       )}
-//     </div>
-//   );
-// }  
+    
 return (
   <div className={`flex flex-col p-2 md:p-4 ${isScrolled ? "bg-white bg-opacity-90 pb-6 md:pb-8" : "bg-white"}`}>
     <div className={`flex ${isMdScreenOrLarger ? "flex-row" : "flex-col"} w-full items-center font-main justify-between`}>
@@ -182,9 +142,8 @@ return (
           Clear
         </button>
       </div>
-      {/* need to put the error here if mobile */}
       {error && !isMdScreenOrLarger && (
-        <p className="text-red-500 text-xs italic items-start ">{error}</p>
+        <p className="w-full pl-3 text-red-500 text-xs italic items-start">{error}</p>
       )}
       <div className={`${isMdScreenOrLarger ? "w-3/5" : ""}`}>
         <SortMenu onSortChange={onSortChange} />
