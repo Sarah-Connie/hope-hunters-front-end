@@ -1,16 +1,18 @@
-function SortMenu({ onSortChange }) {
+function SortMenu({ onSortChange, setError }) {
 
 
   const handleSortChange = (event) => {
     const selectedValue = event.target.value;
+    setError("");
     onSortChange(selectedValue);
   };
-
+  
   return (
     <div className="flex flex-row items-center font-main justify-center w-full">
       <p className="w-2/6 md:w-2/5 lg:w-1/5">Sort By:</p>
       <select className="bg-lightblue text-white rounded px-4 py-2 mt-2 md:h-12 w-full text-sm md:text-base" 
-      onChange={handleSortChange}>
+      onChange={handleSortChange} 
+      defaultValue="">
         <option value="">Select</option>
         <option value="nameAZ">Name (A-Z)</option>
         <option value="ageAsc">Age (Youngest-Oldest)</option>

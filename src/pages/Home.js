@@ -54,12 +54,32 @@ export function Home() {
         setError("");
       })
       .catch((error) => {
-        setError("Amber Alerts currently unavailable");
+        setError("Unable to sort at this time.");
+      });
+  };
+
+
+  // dynamically pass the selected option from dropdown to api call
+  // easier to add drop down options when added to the same api route
+  // in the future
+  const fetchSortData = (sortOption) => {
+    axios
+      .get(``)
+      .then((response) => {
+        setReports(response.data);
+        setError('');
+      })
+      .catch((error) => {
+        setError("Unable to sort at this time.");
       });
   };
 
 
   const handleSortChange = (selectedValue) => {
+    if (selectedValue === "") {
+      setReports(originalReports);
+      setError('')
+    } else {
     switch (selectedValue) {
       case 'nameAZ':
         fetchSortData('fullName');
@@ -84,22 +104,11 @@ export function Home() {
         break;
       default:
         break;
+      }
     }
   };
 
-  // dynamically pass the selected option from dropdown to api call
-  // easier to add drop down options if added to the same api route
-  const fetchSortData = (sortOption) => {
-    axios
-      .get(`/missing/sorted/${sortOption}`)
-      .then((response) => {
-        setReports(response.data);
-        setError('');
-      })
-      .catch((error) => {
-        setError("Reports currently unavailable");
-      });
-  };
+
 
   return (
   <div className="pb-5 flex flex-col flex-grow justify-between">
@@ -116,7 +125,7 @@ export function Home() {
         Currently Active Reports
       </div>
       {error && (
-        <p className="mt-5 w-full flex justify-center text-red-500 text-2xl ml-3 italic">{error}</p>
+        <p className="m-5 w-full flex justify-center text-red-500 text-xl md:text-2xl ml-3 italic">{error}</p>
       )}
       {/* display a message if no reports are found and theres no stored error */}
         {reports.length === 0 && !error && 

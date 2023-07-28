@@ -5,7 +5,7 @@ import SortMenu from './SortingMenu';
 import { useMediaQuery } from 'react-responsive';
 
 
-const SearchBar = ({ onSearchResult, originalReports, fetchAmberAlerts, onSortChange }) => {
+const SearchBar = ({ onSearchResult, originalReports, onSortChange }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
     const [error, setError] = useState('');
@@ -59,6 +59,7 @@ const SearchBar = ({ onSearchResult, originalReports, fetchAmberAlerts, onSortCh
         setError("");
         navigate("/");
         onSearchResult(originalReports);
+        onSortChange("");
     };
 
 
@@ -146,7 +147,7 @@ return (
         <p className="w-full pl-3 text-red-500 text-xs italic items-start">{error}</p>
       )}
       <div className={`${isMdScreenOrLarger ? "w-3/5" : ""}`}>
-        <SortMenu onSortChange={onSortChange} />
+        <SortMenu onSortChange={onSortChange} setError={setError}/>
       </div>
     </div>
       {error && isMdScreenOrLarger && (
