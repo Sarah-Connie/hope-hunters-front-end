@@ -5,12 +5,12 @@ import SortMenu from './SortingMenu';
 import { useMediaQuery } from 'react-responsive';
 
 
-const SearchBar = ({ onSearchResult, originalReports, onSortChange }) => {
+const SearchBar = ({ onSearchResult, originalReports, onSortChange, sortError }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
-    const [error, setError] = useState('');
+    // const [error, setError] = useState('');
     const [isScrolled, setIsScrolled] = useState(false); // tracks if the user has scrolled
-
+    const [searchError, setSearchError] = useState(''); // Separate error state for search
 
     const handleSearch = async () => {
         try {
@@ -23,11 +23,11 @@ const SearchBar = ({ onSearchResult, originalReports, onSortChange }) => {
           if (hasLetters && hasDigits) {
             // If the search term contains both letters and digits, show error
             onSearchResult(originalReports);
-            setError("Invalid search. Please try again.");
+            setSearchError("Invalid search. Please try again.");
           } else if (hasLetters && hasLetters.length < 3) {
             // If the search term contains less than three letters, show error
             onSearchResult(originalReports);
-            setError("Incomplete search. Please try again.");
+            setSearchError("Incomplete search. Please try again.");
           } else {
             // If the search term has at least three letters or contains only digits, make the API call
             const response = await axios.get(`/missing/search/${searchTerm}`);
@@ -40,12 +40,12 @@ const SearchBar = ({ onSearchResult, originalReports, onSortChange }) => {
         } catch (error) {
           if (error.response && error.response.status === 404) {
             if (!searchTerm.trim()) {
-              setError("Please enter a valid search term.");
+              setSearchError("Please enter a valid search term.");
             } else {
-              setError("Search is currently unavailable. Please try again later.");
+              setSearchError("Search is currently unavailable. Please try again later.");
             }
           } else {
-            setError("Error fetching missing persons data. Please try again later.");
+            setSearchError("Error fetching missing persons data. Please try again later.");
           }
         }
       };
@@ -56,7 +56,7 @@ const SearchBar = ({ onSearchResult, originalReports, onSortChange }) => {
     // render originalReports (reports from initial api call)
     const handleClear = () => {
         setSearchTerm('');
-        setError("");
+        setSearchError("");
         navigate("/");
         onSearchResult(originalReports);
         onSortChange("");
@@ -89,7 +89,7 @@ const SearchBar = ({ onSearchResult, originalReports, onSortChange }) => {
         // empty searchbar means no search has been made or new search is desired
         if (searchTerm === '') {
         onSearchResult(originalReports);
-        setError('');
+        setSearchError('');
         }
     }, [searchTerm]);
 
@@ -143,15 +143,15 @@ return (
           Clear
         </button>
       </div>
-      {error && !isMdScreenOrLarger && (
-        <p className="w-full pl-3 text-red-500 text-xs italic items-start">{error}</p>
+      {searchError && !isMdScreenOrLarger && (
+        <p className="w-full pl-3 text-red-500 text-xs italic items-start">{searchError}</p>
       )}
       <div className={`${isMdScreenOrLarger ? "w-3/5" : ""}`}>
-        <SortMenu onSortChange={onSortChange} setError={setError}/>
+        <SortMenu onSortChange={onSortChange} sortError={sortError}/>
       </div>
     </div>
-      {error && isMdScreenOrLarger && (
-        <p className="text-red-500 text-sm ml-3 italic">{error}</p>
+      {searchError && isMdScreenOrLarger && (
+        <p className="text-red-500 text-sm ml-3 italic">{searchError}</p>
       )}
   </div>
 );

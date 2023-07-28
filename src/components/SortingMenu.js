@@ -1,9 +1,12 @@
-function SortMenu({ onSortChange, setError }) {
+import { useState, useEffect } from "react";
 
+function SortMenu({ onSortChange, sortError }) {
+
+  // const [sortError, setSortError] = useState("");
 
   const handleSortChange = (event) => {
     const selectedValue = event.target.value;
-    setError("");
+    // setSortError("");
     onSortChange(selectedValue);
   };
   
@@ -22,8 +25,12 @@ function SortMenu({ onSortChange, setError }) {
         <option value="dateLastSeenDesc">Date Last Seen (Oldest First)</option>
         <option value="locationLastSeenAZ">Location Last Seen (A-Z)</option>
       </select>
+      {sortError && (
+        <p className="text-red-500 text-sm ml-3 italic">{sortError}</p>
+      )}
     </div>
   );
+  
 }
 
 export default SortMenu;

@@ -10,6 +10,8 @@ export function Home() {
   const [originalReports, setOriginalReports] = useState([])
   const [amberAlerts, setAmberAlerts] = useState([])
   const [error, setError] = useState('')
+  const [sortError, setSortError] = useState('');
+
 
   const isMdScreenOrLarger = useMediaQuery({ minWidth: 768 });
   // const [error, setError] = useState("");
@@ -23,6 +25,8 @@ export function Home() {
   const handleClearSearch = () => {
     // Set the "reports" state back to the original list from api call
     setReports(originalReports);
+    setError("");
+    setSortError("");
   };
 
   useEffect(() => {
@@ -51,10 +55,10 @@ export function Home() {
       .get("/missing/amber-alerts")
       .then((response) => {
         setReports(response.data)
-        setError("");
+        setSortError("");
       })
       .catch((error) => {
-        setError("Unable to sort at this time.");
+        setSortError("Unable to sort at this time.");
       });
   };
 
@@ -67,10 +71,10 @@ export function Home() {
       .get(``)
       .then((response) => {
         setReports(response.data);
-        setError('');
+        setSortError('');
       })
       .catch((error) => {
-        setError("Unable to sort at this time.");
+        setSortError("Unable to sort at this time.");
       });
   };
 
@@ -78,7 +82,7 @@ export function Home() {
   const handleSortChange = (selectedValue) => {
     if (selectedValue === "") {
       setReports(originalReports);
-      setError('')
+      setSortError('')
     } else {
     switch (selectedValue) {
       case 'nameAZ':
@@ -119,6 +123,7 @@ export function Home() {
           onClearSearch={handleClearSearch} 
           originalReports={originalReports}
           onSortChange={handleSortChange}
+          sortError={sortError}
         />
       </div>
       <div className="mt-8 flex justify-center text-center font-main font-bold text-2xl md:text-3xl">
@@ -127,6 +132,9 @@ export function Home() {
       {error && (
         <p className="m-5 w-full flex justify-center text-red-500 text-xl md:text-2xl ml-3 italic">{error}</p>
       )}
+      {/* {sortError && (
+        <p className="m-5 w-full flex justify-center text-red-500 text-xl md:text-2xl ml-3 italic">{sortError}</p>
+      )} */}
       {/* display a message if no reports are found and theres no stored error */}
         {reports.length === 0 && !error && 
         <p className="mt-5 w-full flex justify-center text-blue text-xl md:text-2xl italic">
