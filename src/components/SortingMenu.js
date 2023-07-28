@@ -25,9 +25,9 @@ function SortMenu({ onSortChange, sortError }) {
         <option value="dateLastSeenDesc">Date Last Seen (Oldest First)</option>
         <option value="locationLastSeenAZ">Location Last Seen (A-Z)</option>
       </select>
-      {sortError && (
+      {/* {sortError && (
         <p className="text-red-500 text-sm ml-3 italic">{sortError}</p>
-      )}
+      )} */}
     </div>
   );
   

@@ -11,6 +11,7 @@ export function Home() {
   const [amberAlerts, setAmberAlerts] = useState([])
   const [error, setError] = useState('')
   const [sortError, setSortError] = useState('');
+  const [hasSortError, setHasSortError] = useState(false);
 
 
   const isMdScreenOrLarger = useMediaQuery({ minWidth: 768 });
@@ -27,6 +28,7 @@ export function Home() {
     setReports(originalReports);
     setError("");
     setSortError("");
+    setHasSortError(false);
   };
 
   useEffect(() => {
@@ -56,9 +58,11 @@ export function Home() {
       .then((response) => {
         setReports(response.data)
         setSortError("");
+        setHasSortError(false);
       })
       .catch((error) => {
         setSortError("Unable to sort at this time.");
+        setHasSortError(true);
       });
   };
 
@@ -72,9 +76,11 @@ export function Home() {
       .then((response) => {
         setReports(response.data);
         setSortError('');
+        setHasSortError(false);
       })
       .catch((error) => {
         setSortError("Unable to sort at this time.");
+        setHasSortError(true);
       });
   };
 
@@ -83,6 +89,7 @@ export function Home() {
     if (selectedValue === "") {
       setReports(originalReports);
       setSortError('')
+      setHasSortError(false);
     } else {
     switch (selectedValue) {
       case 'nameAZ':
@@ -124,6 +131,7 @@ export function Home() {
           originalReports={originalReports}
           onSortChange={handleSortChange}
           sortError={sortError}
+          hasSortError={hasSortError}
         />
       </div>
       <div className="mt-8 flex justify-center text-center font-main font-bold text-2xl md:text-3xl">
@@ -132,9 +140,9 @@ export function Home() {
       {error && (
         <p className="m-5 w-full flex justify-center text-red-500 text-xl md:text-2xl ml-3 italic">{error}</p>
       )}
-      {/* {sortError && (
+      {sortError && (
         <p className="m-5 w-full flex justify-center text-red-500 text-xl md:text-2xl ml-3 italic">{sortError}</p>
-      )} */}
+      )}
       {/* display a message if no reports are found and theres no stored error */}
         {reports.length === 0 && !error && 
         <p className="mt-5 w-full flex justify-center text-blue text-xl md:text-2xl italic">

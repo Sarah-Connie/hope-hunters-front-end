@@ -5,7 +5,7 @@ import SortMenu from './SortingMenu';
 import { useMediaQuery } from 'react-responsive';
 
 
-const SearchBar = ({ onSearchResult, originalReports, onSortChange, sortError }) => {
+const SearchBar = ({ onSearchResult, originalReports, onSortChange, sortError, hasSortError }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
     // const [error, setError] = useState('');
@@ -92,6 +92,15 @@ const SearchBar = ({ onSearchResult, originalReports, onSortChange, sortError })
         setSearchError('');
         }
     }, [searchTerm]);
+
+
+    // clear the searchbar error if there is a sortingMenu error
+    useEffect(() => {
+      if (hasSortError) {
+        setSearchError('');
+      }
+    }, [hasSortError]);
+
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
