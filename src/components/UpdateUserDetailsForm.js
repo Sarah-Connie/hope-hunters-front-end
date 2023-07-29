@@ -83,12 +83,16 @@ export function UpdateUserForm() {
           // policeDistrict: policeDistrict,
           // };
 
+          // set userDetails as an empty array and conditionally populate
+          // to send the data to the backend to avoid overwriting as null
           const updatedUserDetails = {};
 
+          // police can't change username
           if (userName && !isPoliceUser) {
-            updatedUserDetails.name = userName;
+            updatedUserDetails.fullName = userName;
           }
 
+          // only send the confirmed pw as confirmed must match new pw
           if (confirmPassword) {
             updatedUserDetails.password = confirmPassword;
           }
@@ -119,12 +123,14 @@ export function UpdateUserForm() {
             console.log("User details updated successfully:", data);
             setVerifySent(true); // Show the success message
           } else {
-            console.error("Failed to update user details:", response.data.error);
+            setVerifySent(false);
+            console.error("Failed to update user details.", response.data.error);
             setError(response.data.error);
           }
         } catch (error) {
+          setVerifySent(false);
           console.error("Error:", error);
-          setError("An error occurred during the update. Please try again.");
+          setError("An error occurred during the update. Please try again later.");
         }
       };
         
@@ -137,7 +143,7 @@ const updateDetailsForm = () => {
         <form className="flex flex-col w-full font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4 lg:ml-5"
         onSubmit={handleSubmit}>
            <div className="flex justify-center font-main italic text-xl mb-4">Enter your details below.</div>
-        {/* disable ability to change account name */}
+        {/* disable ability to change account name for police users */}
         {!isPoliceUser && (
         <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2"
@@ -190,6 +196,7 @@ const updateDetailsForm = () => {
             id="password" 
             name="password" 
             value={userPassword}
+            minLength={8}
             onChange={passwordUpdate}
              />
           </div>
@@ -207,6 +214,8 @@ const updateDetailsForm = () => {
             name="confirmPassword"
             value={confirmPassword}
             onChange={confirmPasswordUpdate}
+            minLength={8}
+            // this field is only required if the new pw field is present
             required={userPassword.trim() !== ''}
           />
         </div>
@@ -223,7 +232,6 @@ const updateDetailsForm = () => {
                   name="stationName"
                   value={stationName}
                   onChange={stationNameUpdate}
-                  required
                 />
               </div>
               <div className="mb-4">
@@ -237,7 +245,6 @@ const updateDetailsForm = () => {
                   name="policeAreaCommand"
                   value={policeAreaCommand}
                   onChange={policeAreaCommandUpdate}
-                  required
                 />
               </div>
               <div className="mb-4">
@@ -251,7 +258,6 @@ const updateDetailsForm = () => {
                   name="policeDistrict"
                   value={policeDistrict}
                   onChange={policeDistrictUpdate}
-                  required
                 />
               </div>
             </>
