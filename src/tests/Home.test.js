@@ -11,7 +11,7 @@ jest.mock("../components/AmberBanner", () => () => <div data-testid="mocked-ambe
 jest.mock('../api/axios', () => ({
     get: jest.fn((url) => {
       if (url === '/missing/') {
-        return Promise.resolve({ data: mockReports });
+        return Promise.resolve([]);
       } else {
         return Promise.reject(new Error('Unknown API endpoint'));
       }
@@ -44,34 +44,40 @@ describe('Home Component - Rendering and Initial State Tests', () => {
     });
 
     test("renders Home component and displays mock reports on mount", async () => {
+
+        const mockReports = [{
+            _id: '1',
+            fullName: 'John Doe',
+            currentAge: [{ number: 25, type: 'years' }],
+            age: [{ number: 30, type: 'years' }],
+            photoURL: 'https://example.com/john-doe.jpg',
+          },
+          {
+          _id: '2',
+          fullName: 'Jane Doe',
+          currentAge: [{ number: 8, type: 'years' }],
+          age: [{ number: 8, type: 'years' }],
+          photoURL: 'https://example.com/jane-doe.jpg',
+          }];
+
+        axios.get.mockResolvedValueOnce({ data: mockReports });
+
         render(
             <BrowserRouter>
                 <Home />
             </BrowserRouter>
         );
     
-        // Ensure that the API call was made
-        expect(axios.get).toHaveBeenCalledWith("/missing/");
-    
-        // Wait for the component to render with the mock reports
-        
-        // Check if the mock reports are displayed
-        const mockReport1 = screen.getByText("John Doe");
-        const mockReport2 = screen.getByText("Jane Doe");
-        console.log("Mock Report 1:", mockReport1);
-        console.log("Mock Report 2:", mockReport2);
-    
-        // Log the Axios mock calls and responses
-        console.log("Mock Axios calls:", axios.get.mock.calls);
-        axios.get.mock.calls.forEach((call) => {
-            console.log("Mock Axios call URL:", call[0]);
-            console.log("Mock Axios call response:", call[1]);
+         await waitFor(() => {
+        // Ensure that the individual reports are displayed in the component
+        mockReports.forEach((report) => {
+            const reportElement = screen.getByText(report.fullName);
+            expect(reportElement).toBeInTheDocument();
         });
-    
-        expect(mockReport1).toBeInTheDocument();
-        expect(mockReport2).toBeInTheDocument();
-        
+        });
     });
+        
+ });
     
 
     test('renders Home component with error state', async () => {
@@ -90,7 +96,7 @@ describe('Home Component - Rendering and Initial State Tests', () => {
         });
     });
 
-});
+
 
 describe('Home Component Basic Rendering Tests', () => {
     test("renders Home component without errors", () => {

@@ -7,11 +7,12 @@ function AmberAlertBanner() {
   const [startAnimation, setStartAnimation] = useState(false);
 
   useEffect(() => {
-    axios
-      .get("/missing/amber-alerts")
-      .then((response) => {
+    const fetchAmberAlerts = async () => {
+      try {
+        const response = await axios.get("/missing/amber-alerts");
         setAmberAlerts(response.data);
-        if (amberAlerts === 0 && !error) {
+
+        if (response.data.length === 0 && !error) {
           setStartAnimation(false);
           setError("No Active Amber Alerts");
         } else {
@@ -20,12 +21,14 @@ function AmberAlertBanner() {
             setStartAnimation(true);
           }, 2000);
         }
-      })
-      .catch((error) => {
+      } catch (error) {
         setStartAnimation(false);
         setError("Amber Alerts currently unavailable");
         console.error("Error fetching amber alerts data:", error);
-      });
+      }
+    };
+
+    fetchAmberAlerts();
   }, []);
 
     // useEffect(() => {
