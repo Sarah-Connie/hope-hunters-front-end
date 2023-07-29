@@ -146,8 +146,6 @@ export function Dashboard() {
         // Account deleted successfully
         //"log out" user
         logout(user);
-        setShowConfirmation(true);
-        
       } else if (response.status === 404){
         // Handle deletion failure
         setError("Deletion unsuccessful.")
