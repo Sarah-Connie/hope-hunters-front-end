@@ -74,14 +74,36 @@ export function UpdateUserForm() {
 
       try {
           // updated user details object
-          const updatedUserDetails = {
-          name: userName,
-          // email: newEmail ? newEmail : userEmail,
-          password: confirmPassword,
-          stationName: stationName,
-          policeAreaCommand: policeAreaCommand,
-          policeDistrict: policeDistrict,
-          };
+          // const updatedUserDetails = {
+          // name: userName,
+          // // email: newEmail ? newEmail : userEmail,
+          // password: confirmPassword,
+          // stationName: stationName,
+          // policeAreaCommand: policeAreaCommand,
+          // policeDistrict: policeDistrict,
+          // };
+
+          const updatedUserDetails = {};
+
+          if (userName && !isPoliceUser) {
+            updatedUserDetails.name = userName;
+          }
+
+          if (confirmPassword) {
+            updatedUserDetails.password = confirmPassword;
+          }
+
+          if (stationName && isPoliceUser) {
+            updatedUserDetails.stationName = stationName;
+          }
+
+          if (policeAreaCommand && isPoliceUser) {
+            updatedUserDetails.policeAreaCommand = policeAreaCommand;
+          }
+
+          if (policeDistrict && isPoliceUser) {
+            updatedUserDetails.policeDistrict = policeDistrict;
+          }
 
           const authToken = `Bearer ${sessionStorage.getItem("token")}`;
       
@@ -128,7 +150,7 @@ const updateDetailsForm = () => {
             name="fullName" 
             value={userName}
             onChange={userNameUpdate}
-            required />
+            />
           </div>
         )}
           {/* <div className="mb-4">
@@ -185,7 +207,7 @@ const updateDetailsForm = () => {
             name="confirmPassword"
             value={confirmPassword}
             onChange={confirmPasswordUpdate}
-            required
+            required={userPassword.trim() !== ''}
           />
         </div>
           {isPoliceUser && (
