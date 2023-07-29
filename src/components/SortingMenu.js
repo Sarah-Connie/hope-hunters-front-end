@@ -15,8 +15,9 @@ function SortMenu({ onSortChange, selectedOption }) {
 
   return (
     <div className="flex flex-row items-center font-main justify-center w-full">
-      <p className="w-2/6 md:w-2/5 lg:w-1/5">Sort By:</p>
+      <label htmlFor="sortSelect" className="w-2/6 md:w-2/5 lg:w-1/5">Sort By:</label>
       <select
+        id="sortSelect"
         className="bg-lightblue text-white rounded px-4 py-2 mt-2 md:h-12 w-full text-sm md:text-base"
         onChange={handleSortChange}
         // defaultValue=""

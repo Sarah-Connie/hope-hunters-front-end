@@ -29,61 +29,61 @@ export function Home() {
     setHasSortError(false);
   };
 
+  const fetchMissingPersonsData = async () => {
+    try {
+      const response = await axios.get("/missing/");
+      setReports(response.data);
+      setOriginalReports(response.data);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setError("General report data unavailable. Please try the search or filter instead.");
+      } else {
+        setError("Error fetching missing persons data. Please try again later.");
+        console.error("Error fetching missing persons data:", error);
+      }
+    }
+  };
+
   useEffect(() => {
-    // Fetch the missing persons data from the API endpoint
-    axios
-      .get("/missing/")
-      .then((response) => {
-        // Set the fetched data to the "reports" state
-        setReports(response.data);
-        // Save api call results for when the user clears
-        // this way no need to call api again
-        setOriginalReports(response.data);
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 404) {
-          setError("Unable to load current reports. Please try again later.");
-        } else {
-          setError("Error fetching missing persons data. Please try again later.");
-          console.error("Error fetching missing persons data:", error);
-        }
-      });
+    fetchMissingPersonsData();
   }, []);
 
+
   // for sorting by amber alerts
-  const fetchAmberAlerts = () => {
-    axios
-      .get("/missing/amber-alerts")
-      .then((response) => {
-        setReports(response.data);
-        setSortError("");
-        setHasSortError(false);
-      })
-      .catch((error) => {
-        setSortError("Unable to sort at this time.");
-        setHasSortError(true);
-      });
+  const fetchAmberAlerts = async () => {
+    try {
+      const response = await axios.get("");
+      setReports(response.data);
+      setSortError("");
+      setHasSortError(false);
+    } catch (error) {
+      setSortError("Unable to sort at this time.");
+      setHasSortError(true);
+      setReports(originalReports)
+
+    }
   };
+
 
   // dynamically pass the selected option from dropdown to api call
   // easier to add drop down options when added to the same api route
   // in the future
-  const fetchSortData = (sortOption) => {
-    axios
-      .get(`/missing/sorted/${sortOption}`)
-      .then((response) => {
-        setReports(response.data);
-        setSortError("");
-        setHasSortError(false);
-      })
-      .catch((error) => {
-        setSortError("Unable to sort at this time.");
-        setHasSortError(true);
-      });
+  const fetchSortData = async (sortOption) => {
+    try {
+      const response = await axios.get(`/missing/sorted/${sortOption}`);
+      setReports(response.data);
+      setSortError("");
+      setHasSortError(false);
+    } catch (error) {
+      setSortError("Unable to sort at this time.");
+      setHasSortError(true);
+      setReports(originalReports)
+    }
   };
 
   // handler for dropdown menu
   const handleSortChange = (selectedValue) => {
+    setError("");
     if (selectedValue === "") {
       setReports(originalReports);
       setSortError("");
