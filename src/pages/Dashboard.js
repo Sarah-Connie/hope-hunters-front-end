@@ -6,6 +6,8 @@ import NewMPForm from "../components/NewMPForm";
 import { useMediaQuery } from "react-responsive";
 import axios from "../api/axios";
 import ConfirmationWindow from "../components/ConfirmationWindow";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../components/AuthContext"
 
 // mock data array
 const data = [
@@ -78,9 +80,12 @@ export function Dashboard() {
   const [showNewReportForm, setShowNewReportForm] = useState(isMdScreenOrLarger);
   const [deleteAccount, setDeleteAccount] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [error, setError] = useState("");
 
+  const { logout, user } = useAuth();
    
   // const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleUpdateReportButtonClick = (reportId) => {
     const report = reports.find((report) => report.reportId === reportId);
@@ -139,17 +144,22 @@ export function Dashboard() {
 
       if (response.status === 200) {
         // Account deleted successfully
-        // You can show a success message or perform any other actions
-      } else {
+        //"log out" user
+        logout(user);
+        setShowConfirmation(true);
+        
+      } else if (response.status === 404){
         // Handle deletion failure
+        setError("Deletion unsuccessful.")
         console.error('Failed to delete account:', response.data.error);
       }
     } catch (error) {
+      setError("Unable to delete your account at this time. Please try again later.")
       console.error('Error:', error);
     }
 
     // Close the confirmation window regardless of success or failure
-    setShowConfirmation(false);
+    // setShowConfirmation(false);
   };
 
   // When user cancels account deletion
@@ -255,6 +265,7 @@ export function Dashboard() {
                       message="Are you sure you want to delete your account?"
                       onConfirm={handleConfirmDelete}
                       onCancel={handleCancelDelete}
+                      error={error}
                     />
                   )}
                   </div>
@@ -323,6 +334,7 @@ export function Dashboard() {
                   message="Are you sure you want to delete your account?"
                   onConfirm={handleConfirmDelete}
                   onCancel={handleCancelDelete}
+                  error={error}
                 />
               )}
             </div>
