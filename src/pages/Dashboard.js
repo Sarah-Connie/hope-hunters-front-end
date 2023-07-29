@@ -4,6 +4,8 @@ import UpdateMPForm from "../components/UpdateMPForm";
 import { useState, useEffect } from "react";
 import NewMPForm from "../components/NewMPForm";
 import { useMediaQuery } from "react-responsive";
+import axios from "../api/axios";
+import ConfirmationWindow from "../components/ConfirmationWindow";
 
 // mock data array
 const data = [
@@ -75,6 +77,8 @@ export function Dashboard() {
   const [showUpdateReportForm, setShowUpdateReportForm] = useState(false);
   const [showNewReportForm, setShowNewReportForm] = useState(isMdScreenOrLarger);
   const [deleteAccount, setDeleteAccount] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
    
   // const [error, setError] = useState("");
 
@@ -119,6 +123,37 @@ export function Dashboard() {
     setShowUpdateReportForm(false);
     setShowNewReportForm(false);
     setDeleteAccount(true);
+    setShowConfirmation(true); // to render additional confirmation window prior to acct deletion
+  };
+
+  const handleConfirmDelete = async () => {
+    // Make the API call to delete the account
+    try {
+      const authToken = `Bearer ${sessionStorage.getItem('token')}`;
+      const response = await axios.delete('/users/delete', {
+        headers: {
+          Authorization: authToken,
+        },
+      });
+
+      if (response.status === 200) {
+        // Account deleted successfully
+        // You can show a success message or perform any other actions
+      } else {
+        // Handle deletion failure
+        console.error('Failed to delete account:', response.data.error);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
+    // Close the confirmation window regardless of success or failure
+    setShowConfirmation(false);
+  };
+
+  const handleCancelDelete = () => {
+    // User canceled the account deletion
+    setShowConfirmation(false);
   };
 
   useEffect(() => {
@@ -206,10 +241,18 @@ export function Dashboard() {
                       buttonText="Update Account"
                     />
                   )}
-                  {!deleteAccount && (
+                  {(!deleteAccount || !showUpdateReportForm) &&  (
                     <RenderFormButton
                       onClick={handleDeleteAccountButtonClick}
                       buttonText="Delete Account"
+                    />
+                  )}
+
+                  {showConfirmation && (
+                    <ConfirmationWindow
+                      message="Are you sure you want to delete your account?"
+                      onConfirm={handleConfirmDelete}
+                      onCancel={handleCancelDelete}
                     />
                   )}
                   </div>
@@ -270,6 +313,14 @@ export function Dashboard() {
                 <RenderFormButton
                   onClick={handleDeleteAccountButtonClick}
                   buttonText="Delete Account"
+                />
+              )}
+
+              {showConfirmation && (
+                <ConfirmationWindow
+                  message="Are you sure you want to delete your account?"
+                  onConfirm={handleConfirmDelete}
+                  onCancel={handleCancelDelete}
                 />
               )}
             </div>
