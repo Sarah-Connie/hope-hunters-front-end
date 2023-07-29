@@ -3,6 +3,8 @@ import { NavLink } from "react-router-dom";
 
 function HamburgerMenu({ isLoggedIn }) {
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
 
   useEffect(() => {
     if (isNavOpen) {
@@ -16,18 +18,36 @@ function HamburgerMenu({ isLoggedIn }) {
     setIsNavOpen(false);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="lg:hidden flex items-center justify-between py-8">
+    <div className={`lg:hidden ${isScrolled ? "fixed bottom-4 right-4" : ""}`}>
       <nav>
         <section className="flex md:hidden">
           {/* styling for the hamburger "icon" */}
           <div
-            className="space-y-2 transition-all duration-300"
+            className={`space-y-2 transition-all duration-300 relative ${
+              isScrolled ? "z-50 bg-yellow rounded-full h-full w-full p-2 pointer-events-none" : ""
+            }`}
             onClick={() => setIsNavOpen((prev) => !prev)}
           >
-            <span className="block h-0.5 w-8 bg-white"></span>
-            <span className="block h-0.5 w-8 bg-white"></span>
-            <span className="block h-0.5 w-8 bg-white"></span>
+            <span className={`block h-0.5 w-8 bg-white ${isScrolled} ? "block h-0.5 w-6 bg-white" : ""`}></span>
+            <span className={`block h-0.5 w-8 bg-white ${isScrolled} ? "block h-0.5 w-6 bg-white" : ""`}></span>
+            <span className={`block h-0.5 w-8 bg-white ${isScrolled} ? "block h-0.5 w-6 bg-white" : ""`}></span>
           </div>
 
           <div className={isNavOpen ? "showMenuNav" : "hideMenuNav"}>
@@ -116,7 +136,7 @@ function HamburgerMenu({ isLoggedIn }) {
           top: 0;
           left: 0;
           background: #05548B;
-          z-index: 10;
+          z-index: 100;
           display: flex;
           flex-direction: column;
           justify-content: space-evenly;
