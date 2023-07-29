@@ -36,5 +36,5 @@ describe('SortMenu Component Tests', () => {
     // Check if the onSortChange function is called with the correct value
     expect(mockOnSortChange).toHaveBeenCalledWith('dateLastSeenDesc');
   });
-
+  
 });

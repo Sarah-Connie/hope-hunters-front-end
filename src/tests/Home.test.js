@@ -30,12 +30,12 @@ const mockReports = [
       photoURL: 'https://example.com/john-doe.jpg',
     },
     {
-        _id: '2',
-        fullName: 'Jane Doe',
-        currentAge: [{ number: 8, type: 'years' }],
-        age: [{ number: 8, type: 'years' }],
-        photoURL: 'https://example.com/jane-doe.jpg',
-      }
+    _id: '2',
+    fullName: 'Jane Doe',
+    currentAge: [{ number: 8, type: 'years' }],
+    age: [{ number: 8, type: 'years' }],
+    photoURL: 'https://example.com/jane-doe.jpg',
+    }
 ]
 
 const mockAmberAlertReports = [
@@ -45,100 +45,57 @@ const mockAmberAlertReports = [
       currentAge: [{ number: 8, type: 'years' }],
       age: [{ number: 8, type: 'years' }],
       photoURL: 'https://example.com/jane-doe.jpg',
-      locationLastSeen: {
-        address: "123 Elm Street",
-        city: "Somewhere",
-        state: ["CA"],
-        postcode: "12345"
-      },
-      height: {
-        number: 120,
-        measurement: ["centimeters"]
-      },
-      weight: {
-        number: 30,
-        measurement: ["kilograms"]
-      },
-      dateLastSeen: "2023-07-27T04:12:31.042Z",
-      areaSuspectedToBe: "Unknown",
-      hairColour: "Blonde",
-      eyeColour: "Blue",
-      complexion: ["fair"],
-      gender: "female",
-      amberAlert: true,
-      addedBy: [],
-      dateAdded: "2023-07-27T04:12:30.928Z",
-      __v: 0
     }
 ];
 
-describe('Home Component - Rendering and Initial State', () => {
+describe('Home Component - Rendering and Initial State Tests', () => {
+
     beforeEach(() => {
         // Clear mock implementations and reset state for each test
         jest.clearAllMocks();
       });
 
-    test('renders Home component with error state', async () => {
-        axios.get.mockRejectedValueOnce(new Error('Error fetching data'));
-    
-        render(
-          <BrowserRouter>
-            <Home />
-          </BrowserRouter>
-        );
-    
-        await waitFor(() => {
-          expect(screen.getByText('Error fetching missing persons data. Please try again later.')).toBeInTheDocument();
-        });
-      });
-    
       test('renders Home component with reports on mount', async () => {
-        const mockReports = [
-            {
-              _id: '1',
-              fullName: 'John Doe',
-              currentAge: [{ number: 25, type: 'years' }],
-              age: [{ number: 30, type: 'years' }],
-              photoURL: 'https://example.com/john-doe.jpg',
-            },
-            {
-                _id: '2',
-                fullName: 'Jane Doe',
-                currentAge: [{ number: 8, type: 'years' }],
-                age: [{ number: 8, type: 'years' }],
-                photoURL: 'https://example.com/jane-doe.jpg',
-              }
-        ]
-
-        axios.get.mockResolvedValueOnce({ data: mockReports });
-    
         render(
           <BrowserRouter>
             <Home />
           </BrowserRouter>
         );
     
+        // Wait for the data to be fetched and component to re-render
         await waitFor(() => {
           expect(screen.getByText('Currently Active Reports')).toBeInTheDocument();
         });
-
-        // Check if the names of the reports are rendered
+    
+        // Check if reports are rendered on the screen
         expect(screen.getByText(/John Doe/i)).toBeInTheDocument();
         expect(screen.getByText(/Jane Doe/i)).toBeInTheDocument();
-
-        expect(screen.getByText('Current Age: 25 years old')).toBeInTheDocument();
-        expect(screen.getByText('Current Age: 8 years old')).toBeInTheDocument();
-
-        const johnDoeImage = screen.getByAltText('John Doe');
-        expect(johnDoeImage).toBeInTheDocument();
-        expect(johnDoeImage.src).toBe('https://example.com/john-doe.jpg');
-    
+        expect(screen.getByAltText('John Doe')).toBeInTheDocument();
+        expect(screen.getByAltText('Jane Doe')).toBeInTheDocument();
       });
+
+      test('renders Home component with error state', async () => {
+        axios.get.mockRejectedValueOnce(new Error('Error fetching data'));
+      
+        render(
+          <BrowserRouter>
+            <Home />
+          </BrowserRouter>
+        );
+      
+        await waitFor(() => {
+          expect(
+            screen.getByText('Error fetching missing persons data. Please try again later.')
+          ).toBeInTheDocument();
+        });
+    });
+   
 });
 
 describe('Home Component - Search Functionality Tests', () => {
     test('handles search and updates reports', async () => {
       axios.get.mockResolvedValueOnce({ data: mockReports });
+  
       render(
         <BrowserRouter>
           <Home />
@@ -150,23 +107,21 @@ describe('Home Component - Search Functionality Tests', () => {
         expect(screen.getByText('Currently Active Reports')).toBeInTheDocument();
       });
   
-      axios.get.mockResolvedValueOnce({ data: mockReports });
+      // Mock the search query response
+      axios.get.mockResolvedValueOnce({ data: [mockReports[0]] });
   
       const inputElement = screen.getByPlaceholderText('Search for missing persons...');
       fireEvent.change(inputElement, { target: { value: 'John Doe' } });
       fireEvent.keyDown(inputElement, { key: 'Enter', code: 13 });
   
+      // Wait for the component to re-render with the search results
       await waitFor(() => {
         expect(screen.getByText(/John Doe/i)).toBeInTheDocument();
       });
-
     });
   
-  });
-  
-  describe('Home Component - Sorting Functionality Tests', () => {
-    test('sorts by Amber Alerts', async () => {
-      axios.get.mockResolvedValueOnce({ data: mockAmberAlertReports });
+    test('displays "No results found" message for empty search', async () => {
+      axios.get.mockResolvedValueOnce({ data: mockReports });
   
       render(
         <BrowserRouter>
@@ -179,12 +134,84 @@ describe('Home Component - Search Functionality Tests', () => {
         expect(screen.getByText('Currently Active Reports')).toBeInTheDocument();
       });
   
+      // Mock the search query response with an empty array
+      axios.get.mockResolvedValueOnce({ data: [] });
+  
+      const inputElement = screen.getByPlaceholderText('Search for missing persons...');
+      fireEvent.change(inputElement, { target: { value: '' } });
+      fireEvent.keyDown(inputElement, { key: 'Enter', code: 13 });
+  
+      // Wait for the component to re-render with the empty search message
+      await waitFor(() => {
+        expect(screen.getByText('No missing persons reports found.')).toBeInTheDocument();
+      });
+    });
+  });
+  
+  describe('Home Component - Sorting Functionality Tests', () => {
+    test('sorts by Amber Alerts', async () => {
+      axios.get.mockResolvedValueOnce({ data: mockReports });
+  
+      render(
+        <BrowserRouter>
+          <Home />
+        </BrowserRouter>
+      );
+  
+      // Wait for the data to be fetched and component to re-render
+      await waitFor(() => {
+        expect(screen.getByText('Currently Active Reports')).toBeInTheDocument();
+      });
+  
+      // Mock the Amber Alerts sorting response
       axios.get.mockResolvedValueOnce({ data: mockAmberAlertReports });
-
+  
+      // Wait for the component to re-render with the sorted data
       await waitFor(() => {
         expect(screen.getByText(/Jane Doe/i)).toBeInTheDocument();
       });
     });
+  });
   
+  describe('Home Component - Rendering with Specific Data Tests', () => {
+    test('displays the correct data for John Doe', async () => {
+      axios.get.mockResolvedValueOnce({ data: mockReports });
+  
+      render(
+        <BrowserRouter>
+          <Home />
+        </BrowserRouter>
+      );
+  
+      // Wait for the data to be fetched and component to re-render
+      await waitFor(() => {
+        expect(screen.getByText('Currently Active Reports')).toBeInTheDocument();
+      });
+  
+      // Check specific details for John Doe
+      expect(screen.getByText(/John Doe/i)).toBeInTheDocument();
+      expect(screen.getByText('Current Age: 25 years old')).toBeInTheDocument();
+      expect(screen.getByAltText('John Doe').src).toBe('https://example.com/john-doe.jpg');
+    });
+  
+    test('displays the correct data for Jane Doe', async () => {
+      axios.get.mockResolvedValueOnce({ data: mockReports });
+  
+      render(
+        <BrowserRouter>
+          <Home />
+        </BrowserRouter>
+      );
+  
+      // Wait for the data to be fetched and component to re-render
+      await waitFor(() => {
+        expect(screen.getByText('Currently Active Reports')).toBeInTheDocument();
+      });
+  
+      // Check specific details for Jane Doe
+      expect(screen.getByText(/Jane Doe/i)).toBeInTheDocument();
+      expect(screen.getByText('Current Age: 8 years old')).toBeInTheDocument();
+      expect(screen.getByAltText('Jane Doe').src).toBe('https://example.com/jane-doe.jpg');
+    });
   });
   

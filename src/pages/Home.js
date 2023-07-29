@@ -52,7 +52,7 @@ export function Home() {
   // for sorting by amber alerts
   const fetchAmberAlerts = async () => {
     try {
-      const response = await axios.get("");
+      const response = await axios.get("/missing/amber-alerts");
       setReports(response.data);
       setSortError("");
       setHasSortError(false);
