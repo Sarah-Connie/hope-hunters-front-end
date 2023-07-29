@@ -41,13 +41,13 @@ function HamburgerMenu({ isLoggedIn }) {
           {/* styling for the hamburger "icon" */}
           <div
             className={`space-y-2 transition-all duration-300 relative ${
-              isScrolled ? "z-50 bg-yellow rounded-full h-full w-full p-2 pointer-events-none" : ""
+              isScrolled ? "z-50 bg-yellow rounded-full h-full w-full p-3" : ""
             }`}
             onClick={() => setIsNavOpen((prev) => !prev)}
           >
-            <span className={`block h-0.5 w-8 bg-white ${isScrolled} ? "block h-0.5 w-6 bg-white" : ""`}></span>
-            <span className={`block h-0.5 w-8 bg-white ${isScrolled} ? "block h-0.5 w-6 bg-white" : ""`}></span>
-            <span className={`block h-0.5 w-8 bg-white ${isScrolled} ? "block h-0.5 w-6 bg-white" : ""`}></span>
+            <span className={`block h-0.5 w-8 bg-white ${isScrolled ? "h-0.5 w-7" : ""}`}></span>
+            <span className={`block h-0.5 w-8 bg-white ${isScrolled ? "h-0.5 w-7" : ""}`}></span>
+            <span className={`block h-0.5 w-8 bg-white ${isScrolled ? "h-0.5 w-7" : ""}`}></span>
           </div>
 
           <div className={isNavOpen ? "showMenuNav" : "hideMenuNav"}>
