@@ -9,65 +9,65 @@ import ConfirmationWindow from "../components/ConfirmationWindow";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../components/AuthContext"
 
-// mock data array
-const data = [
-  {
-    reportId: 1,
-    fullName: "Keira Janssen",
-    photoURL:
-      "https://media.istockphoto.com/id/1326417862/photo/young-woman-laughing-while-relaxing-at-home.jpg?s=1024x1024&w=is&k=20&c=Gb9C49IRPKG88Jahy5-QgyD34G9OEPwtBpr9LwT3KUw=",
-    ageNumber: 28,
-    ageMeasurement: "years",
-    dateLastSeen: Date.now() - 2,
-    // dateLastSeen: new Date().toISOString().split("T")[0],
-    currentAgeNumber: 28,
-    currentAgeMeasurement: "years",
-    areaSuspectedToBe: "Mount Foster",
-    locationLastSeen: {
-      address: "84 Arthur Street",
-      city: "Mount Foster",
-      state: "NSW",
-      postcode: "2824",
-    },
-    hairColour: "brown",
-    eyeColour: "brown",
-    complexion: "fair",
-    heightNumber: 165,
-    heightMeasurement: "centimeters",
-    weightNumber: 75,
-    weightMeasurement: "kilograms",
-    gender: "female",
-    amberAlert: true,
-    distinctiveFeatures: "flower tattoo left shoulder",
-  },
-  {
-    reportId: 2,
-    fullName: "Holly Smith",
-    photoURL:
-      "https://media.istockphoto.com/id/1326417862/photo/young-woman-laughing-while-relaxing-at-home.jpg?s=1024x1024&w=is&k=20&c=Gb9C49IRPKG88Jahy5-QgyD34G9OEPwtBpr9LwT3KUw=",
-    ageNumber: 28,
-    ageMeasurement: "years",
-    dateLastSeen: new Date().toISOString().split("T")[0],
-    currentAgeNumber: 28,
-    currentAgeMeasurement: "years",
-    areaSuspectedToBe: "Mount Foster",
-    locationLastSeen: {
-      address: "84 Arthur Street",
-      city: "Mount Foster",
-      state: "NSW",
-      postcode: "2824",
-    },
-    hairColour: "brown",
-    eyeColour: "brown",
-    complexion: "fair",
-    heightNumber: 165,
-    heightMeasurement: "centimeters",
-    weightNumber: 75,
-    weightMeasurement: "kilograms",
-    gender: "female",
-    distinctiveFeatures: "flower tattoo left shoulder",
-  },
-];
+// // mock data array
+// const data = [
+//   {
+//     reportId: 1,
+//     fullName: "Keira Janssen",
+//     photoURL:
+//       "https://media.istockphoto.com/id/1326417862/photo/young-woman-laughing-while-relaxing-at-home.jpg?s=1024x1024&w=is&k=20&c=Gb9C49IRPKG88Jahy5-QgyD34G9OEPwtBpr9LwT3KUw=",
+//     ageNumber: 28,
+//     ageMeasurement: "years",
+//     dateLastSeen: Date.now() - 2,
+//     // dateLastSeen: new Date().toISOString().split("T")[0],
+//     currentAgeNumber: 28,
+//     currentAgeMeasurement: "years",
+//     areaSuspectedToBe: "Mount Foster",
+//     locationLastSeen: {
+//       address: "84 Arthur Street",
+//       city: "Mount Foster",
+//       state: "NSW",
+//       postcode: "2824",
+//     },
+//     hairColour: "brown",
+//     eyeColour: "brown",
+//     complexion: "fair",
+//     heightNumber: 165,
+//     heightMeasurement: "centimeters",
+//     weightNumber: 75,
+//     weightMeasurement: "kilograms",
+//     gender: "female",
+//     amberAlert: true,
+//     distinctiveFeatures: "flower tattoo left shoulder",
+//   },
+//   {
+//     reportId: 2,
+//     fullName: "Holly Smith",
+//     photoURL:
+//       "https://media.istockphoto.com/id/1326417862/photo/young-woman-laughing-while-relaxing-at-home.jpg?s=1024x1024&w=is&k=20&c=Gb9C49IRPKG88Jahy5-QgyD34G9OEPwtBpr9LwT3KUw=",
+//     ageNumber: 28,
+//     ageMeasurement: "years",
+//     dateLastSeen: new Date().toISOString().split("T")[0],
+//     currentAgeNumber: 28,
+//     currentAgeMeasurement: "years",
+//     areaSuspectedToBe: "Mount Foster",
+//     locationLastSeen: {
+//       address: "84 Arthur Street",
+//       city: "Mount Foster",
+//       state: "NSW",
+//       postcode: "2824",
+//     },
+//     hairColour: "brown",
+//     eyeColour: "brown",
+//     complexion: "fair",
+//     heightNumber: 165,
+//     heightMeasurement: "centimeters",
+//     weightNumber: 75,
+//     weightMeasurement: "kilograms",
+//     gender: "female",
+//     distinctiveFeatures: "flower tattoo left shoulder",
+//   },
+// ];
 
 export function Dashboard() {
   const [reports, setReports] = useState([]);
@@ -81,11 +81,37 @@ export function Dashboard() {
   const [deleteAccount, setDeleteAccount] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [error, setError] = useState("");
+  const [originalReports, setOriginalReports] = useState([]);
 
   const { logout, user } = useAuth();
    
   // const [error, setError] = useState("");
   const navigate = useNavigate();
+  const authToken = `Bearer ${sessionStorage.getItem("token")}`;
+
+  const fetchMissingPersonsData = async () => {
+    try {
+      const response = await axios.get("/users/missing/all", {
+        headers: {
+          Authorization: authToken,
+        },
+      });
+  
+      setReports(response.data);
+      setOriginalReports(response.data);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setError("Your report data is unavailable at this time.");
+      } else {
+        setError("Error fetching missing persons data. Please try again later.");
+        console.error("Error fetching missing persons data:", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchMissingPersonsData();
+  }, []);
 
   const handleUpdateReportButtonClick = (reportId) => {
     const report = reports.find((report) => report.reportId === reportId);
@@ -135,7 +161,7 @@ export function Dashboard() {
   const handleConfirmDelete = async () => {
     // Make the API call to delete the account
     try {
-      const authToken = `Bearer ${sessionStorage.getItem('token')}`;
+      // const authToken = `Bearer ${sessionStorage.getItem('token')}`;
       const response = await axios.delete('/users/delete', {
         headers: {
           Authorization: authToken,
@@ -167,8 +193,9 @@ export function Dashboard() {
   };
 
   useEffect(() => {
-    setReports(data);
+    setReports(reports);
   }, []);
+
 
   // updated useEffect from above
   // replace above with below
@@ -208,7 +235,9 @@ export function Dashboard() {
           </div>
           <div className="flex flex-col p-2">
           <p className="flex justify-center font-main font-semibold text-3xl pt-3">Your Active Reports</p>
-
+          {error && (
+                <p className="mt-10 flex justify-center italic text-red-500 text-xl mb-4">{error}</p>
+            )}
                 {reports.map((report) => (
                   <div className="mt-5" 
                   key={report.reportId}
@@ -287,6 +316,9 @@ export function Dashboard() {
           <div>
             <div className="flex flex-col p-2">
               <p className="flex justify-center font-main font-semibold text-2xl pt-3">Your Active Reports</p>
+              {error && (
+                <p className="mt-10 mb-5 flex justify-center italic text-red-500 text-lg md:text-xl text-center">{error}</p>
+              )}
               {reports.map((report) => (
                 <div className="mt-5" key={report.reportId}>
                   <div className="flex flex-row">
