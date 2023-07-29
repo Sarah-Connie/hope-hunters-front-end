@@ -123,7 +123,8 @@ export function Dashboard() {
     setShowUpdateReportForm(false);
     setShowNewReportForm(false);
     setDeleteAccount(true);
-    setShowConfirmation(true); // to render additional confirmation window prior to acct deletion
+    // to render additional confirmation window prior to acct deletion
+    setShowConfirmation(true); 
   };
 
   const handleConfirmDelete = async () => {
@@ -151,9 +152,10 @@ export function Dashboard() {
     setShowConfirmation(false);
   };
 
+  // When user cancels account deletion
   const handleCancelDelete = () => {
-    // User canceled the account deletion
     setShowConfirmation(false);
+    setShowNewReportForm(true);
   };
 
   useEffect(() => {
