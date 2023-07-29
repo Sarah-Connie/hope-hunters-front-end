@@ -104,7 +104,7 @@ describe('SearchBar Component Rendering Tests', () => {
 });
 
 describe('Searchbar URL Handling Tests', () => {
-  test('searches when pressing Enter key', () => {
+  test('searches when pressing Enter key', async () => {
     const onSearchResultMock = jest.fn();
 
     render(
@@ -118,10 +118,10 @@ describe('Searchbar URL Handling Tests', () => {
     fireEvent.change(inputElement, { target: { value: 'John Doe' } });
 
     // Press the Enter key
-    fireEvent.keyDown(inputElement, { key: 'Enter', code: 13 });
+    fireEvent.keyDown(inputElement, { key: 'Enter', code: 13 , target: { value: 'John Doe' }});
 
-    // Check if the search function is called with the correct search term
-    expect(onSearchResultMock).toHaveBeenCalledWith('/missing/search/John Doe');
+    // Check if the api route is being updated with the desired search query
+    expect(axios.get).toHaveBeenCalledWith('/missing/search/John Doe');
   });
 
   test('updates URL when changing the search term', () => {

@@ -83,7 +83,7 @@ const SearchBar = ({ onSearchResult, originalReports, onSortChange, sortError, h
       }
     };
 
-    // if use presses enter, proceed with the search
+    // if user presses enter, proceed with the search
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
         handleSearch();
