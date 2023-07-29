@@ -31,6 +31,10 @@ const SearchBar = ({ onSearchResult, originalReports, onSortChange, sortError, h
       if (hasLetters && hasDigits) {
         setSearchError("Invalid search. Please try again.");
         onSearchResult(originalReports);
+      } // If the search term contains only digits and there are 4 or more digits, show error
+      else if (!hasLetters && hasDigits && hasDigits.length > 4) {
+        setSearchError("Invalid search. Please try again.");
+        onSearchResult(originalReports);
       } // If the search term contains less than three letters, show error
       else if (hasLetters && hasLetters.length < 3) {
         setSearchError("Incomplete search. Please try again.");
