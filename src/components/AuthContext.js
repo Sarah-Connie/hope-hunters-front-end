@@ -19,6 +19,7 @@ const AuthProvider = ({ children, location, history }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
+  // const [user, setUser] = useState({ police: false });
 
   // persist the login status 
   useEffect(() => {

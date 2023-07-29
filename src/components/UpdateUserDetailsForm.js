@@ -21,8 +21,7 @@ export function UpdateUserForm() {
 
 
     const { user } = useAuth();
-    const currentEmail = user?.email || '';
-    const isPoliceUser = currentEmail.endsWith("@police.nsw.gov.au");
+    const isPoliceUser = user.police;
 
 //   const [showUpdateUserDetailsForm, setShowUpdateUserDetailsForm] = useState(false);
 
@@ -117,6 +116,7 @@ const updateDetailsForm = () => {
         onSubmit={handleSubmit}>
            <div className="flex justify-center font-main italic text-xl mb-4">Enter your details below.</div>
         {/* disable ability to change account name */}
+        {!isPoliceUser && (
         <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="name">
@@ -130,6 +130,7 @@ const updateDetailsForm = () => {
             onChange={userNameUpdate}
             required />
           </div>
+        )}
           {/* <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="email">
