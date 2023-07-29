@@ -2,6 +2,18 @@ import { createContext, useContext, useEffect, useState} from 'react';
 import axios from '../api/axios';
 
 const AuthContext = createContext();
+// const AuthContext = createContext({
+//   isLoggedIn: false,
+//   user: {
+//     email: "",
+//     token: "",
+//     admin: false,
+//     police: false,
+//   },
+//   login: () => {},
+//   logout: () => {},
+//   error: "",
+// });
 
 const AuthProvider = ({ children, location, history }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,8 +38,12 @@ const AuthProvider = ({ children, location, history }) => {
         const responseData = response.data;
 
         if (responseData && responseData.token) {
-          const { token } = responseData;
-          const user = { email: userData.email, token: responseData.token };
+          const { token, admin, police } = responseData;
+          const user = { 
+            token: responseData.token,
+            admin: admin,
+            police: police,
+          };
           setUser(user);
           setAuthData(user);
           // console.log('Setting user data:', userData); 
