@@ -137,8 +137,8 @@ describe('Searchbar URL Handling Tests', () => {
 
     // Check if the URL is updated correctly
     const searchParams = new URLSearchParams({ searchQuery: 'John Doe' });
-    const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
-    expect(window.location.href).toBe(`http://localhost/${newUrl}`);
+    const newUrl = `http://localhost/?${searchParams.toString()}`;
+    expect(window.location.href).toBe(newUrl);
   });
 
   test('updates URL when clearing the search term', () => {
