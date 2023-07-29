@@ -85,10 +85,11 @@ export function Dashboard() {
 
   const { logout, user } = useAuth();
    
-  // const [error, setError] = useState("");
+  const [deletionError, setDeletionError] = useState("");
   const navigate = useNavigate();
   const authToken = `Bearer ${sessionStorage.getItem("token")}`;
 
+  // api call to get all of the logged-in user's MP reports
   const fetchMissingPersonsData = async () => {
     try {
       const response = await axios.get("/users/missing/all", {
@@ -109,10 +110,17 @@ export function Dashboard() {
     }
   };
 
+  // run on component mount
   useEffect(() => {
     fetchMissingPersonsData();
   }, []);
 
+  // store the returned reports on mount
+  useEffect(() => {
+    setReports(reports);
+  }, []);
+
+  // determine which forms/buttons to show when 'update report' is clicked
   const handleUpdateReportButtonClick = (reportId) => {
     const report = reports.find((report) => report.reportId === reportId);
     if (report) {
@@ -123,8 +131,8 @@ export function Dashboard() {
     }
   };
 
-  // not functional as intended
-  // func body for UI development
+  // not functional yet as intended
+  // body for UI development
   const handleDeleteReportButtonClick = (reportId) => {
     const report = reports.find((report) => report.reportId === reportId);
     if (report) {
@@ -136,12 +144,14 @@ export function Dashboard() {
     }
   };
 
+  // determine which forms/buttons to show when 'update report' is clicked
   const handleNewMPReportButtonClick = () => {
     setShowUpdateAccountForm(false);
     setShowUpdateReportForm(false);
     setShowNewReportForm(true);
   };
 
+  // determine which forms/buttons to show when 'update report' is clicked
   const handleUpdateDetailsButtonClick = () => {
     setShowUpdateAccountForm(true);
     setShowUpdateReportForm(false);
@@ -149,6 +159,7 @@ export function Dashboard() {
     setDeleteAccount(false);
   };
 
+  // determine which forms/buttons to show when 'update report' is clicked
   const handleDeleteAccountButtonClick = () => {
     setShowUpdateAccountForm(false);
     setShowUpdateReportForm(false);
@@ -158,8 +169,8 @@ export function Dashboard() {
     setShowConfirmation(true); 
   };
 
+  // api call to delete the account
   const handleConfirmDelete = async () => {
-    // Make the API call to delete the account
     try {
       // const authToken = `Bearer ${sessionStorage.getItem('token')}`;
       const response = await axios.delete('/users/delete', {
@@ -170,15 +181,15 @@ export function Dashboard() {
 
       if (response.status === 200) {
         // Account deleted successfully
-        //"log out" user
+        //"log out" user using auth
         logout(user);
       } else if (response.status === 404){
         // Handle deletion failure
-        setError("Deletion unsuccessful.")
+        setDeletionError("Deletion unsuccessful.")
         console.error('Failed to delete account:', response.data.error);
       }
     } catch (error) {
-      setError("Unable to delete your account at this time. Please try again later.")
+      setDeletionError("Unable to delete your account at this time. Please try again later.")
       console.error('Error:', error);
     }
 
@@ -192,36 +203,10 @@ export function Dashboard() {
     setShowNewReportForm(true);
   };
 
-  useEffect(() => {
-    setReports(reports);
-  }, []);
-
-
-  // updated useEffect from above
-  // replace above with below
-  // run fetch func onmount to get reports for the logged-in user and store in state
-  //   useEffect(() => {
-  //     fetchReports()
-  //       .then((data) => {
-  //         setReports(data);
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error fetching reports:", error);
-  //         setError(error);
-  //       });
-  //   }, []);
-
-  // api call to fetch all reports for the logged-in user
-  // add db url
-  // const fetchReports = async () => {
-  //   const response = await fetch(""); 
-  //   const data = await response.json();
-  //   return data;
-  // };
 
   return (
     <div>
-      <div className="pt-4 flex justify-center text-center font-main font-bold text-2xl md:text-3xl">
+      <div className="pt-10 flex justify-center text-center font-main font-bold text-2xl md:text-3xl">
         {/* Hi {existingMPData.fullName},<br /> welcome back.*/}
         Hi, welcome back.
       </div>
@@ -236,7 +221,7 @@ export function Dashboard() {
           <div className="flex flex-col p-2">
           <p className="flex justify-center font-main font-semibold text-3xl pt-3">Your Active Reports</p>
           {error && (
-                <p className="mt-10 flex justify-center italic text-red-500 text-xl mb-4">{error}</p>
+                <p className="mt-10 flex justify-center text-center italic text-red-500 text-xl mb-4">{error}</p>
             )}
                 {reports.map((report) => (
                   <div className="mt-5" 
@@ -292,7 +277,7 @@ export function Dashboard() {
                       message="Are you sure you want to delete your account?"
                       onConfirm={handleConfirmDelete}
                       onCancel={handleCancelDelete}
-                      error={error}
+                      error={deletionError}
                     />
                   )}
                   </div>
@@ -364,7 +349,7 @@ export function Dashboard() {
                   message="Are you sure you want to delete your account?"
                   onConfirm={handleConfirmDelete}
                   onCancel={handleCancelDelete}
-                  error={error}
+                  error={deletionError}
                 />
               )}
             </div>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import SuccessMsg from "./SuccessMsg";
+import axios from "../api/axios";
 
 export function NewMPForm() {
   const [fullName, setFullName] = useState("");
@@ -30,7 +31,7 @@ export function NewMPForm() {
 
   const currentDate = new Date().toISOString().split("T")[0];
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Create a new missing person object
@@ -72,35 +73,49 @@ export function NewMPForm() {
     // TODO: Crosscheck route and server statuses 
     // Send the newMissingPerson object to the backend for saving
     // add db url
-    fetch("", {
-        method: "POST",
+    // Get the authentication token from session
+
+    // Send the updated missing person data to the backend for updating
+    try {
+      const authToken = `Bearer ${sessionStorage.getItem("token")}`;
+
+      const response = await axios.post('/missing/new', newMissingPerson, {
         headers: {
-          "Content-Type": "application/json",
+          Authorization: authToken,
         },
-        body: JSON.stringify(newMissingPerson),
-      })
-        .then((response) => {
-          if (response.status === 200) {
-            // form submission successful, render component
-            verifySent(true);
-          } else if (response.status === 400) {
-            // check backend server error
-            setError("");
-          }
-          else {
-            setError("An error occurred during form submission. Please try again.");
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          setError("An error occurred and your form could not be submitted. Please try again.");
-        });
+      });
 
-     // delay so render appears after form has been successfully "sent" to backend
-    setTimeout(() => {
+      if (response.status === 200) {
+        // Form submission successful, render success message
         setVerifySent(true);
-    }, 2000);
+      } else if (response.status === 400) {
+        setError("Report could not be saved. Please try again later.");
+        setVerifySent(false);
+      } else {
+        console.error("Failed to save the report to the system.");
+        setError("Updated details could not be saved. Please try again.");
+        setVerifySent(false);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      if (error.response) {
+        // Handle server response errors
+        const responseData = error.response.data;
+        if (responseData && responseData.error) {
+          setError(responseData.error);
+          setVerifySent(false);
+        }
+      } else {
+        setError("An error occurred during form submission. Please try again.");
+        setVerifySent(false);
+      }
+    }
 
+    // // delay so render appears after form has been successfully "sent" to backend
+    // setTimeout(() => {
+    //   setVerifySent(true);
+    // }, 2000);
+  
 
     // Reset the form fields
     setFullName("");
@@ -415,27 +430,28 @@ export function NewMPForm() {
         </div>
       </form>
     </div>
-  );
+  )}
 
-}
+  // const renderSuccessMessage = () => {
+  //     return (
+  //     <div className="font-main flex justify-center text-center text-lg md:text-2xl">
+  //         <p className="w-1/2">Thank you. <br/><br/> Your missing person report has successfully been submitted.</p>
+  //     </div>
+  //     );
+  //     };
 
-// const renderSuccessMessage = () => {
-//     return (
-//     <div className="font-main flex justify-center text-center text-lg md:text-2xl">
-//         <p className="w-1/2">Thank you. <br/><br/> Your missing person report has successfully been submitted.</p>
-//     </div>
-//     );
-//     };
+  return (
+      <div>
+          {verifySent ? (
+              <SuccessMsg message={"Thank you. Your missing person report has successfully been submitted."} />
+          ) : (
+              newMPForm()
+          )}
+      </div>
+    );
 
-return (
-    <div>
-        {verifySent ? (
-            <SuccessMsg message={"Thank you. Your missing person report has successfully been submitted."} />
-        ) : (
-            newMPForm()
-        )}
-    </div>
-);
-        };
+};
+
+
 
 export default NewMPForm;
