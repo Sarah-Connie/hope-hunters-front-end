@@ -36,38 +36,28 @@ export function NewMPForm() {
 
     // Create a new missing person object
     const newMissingPerson = {
-      fullName,
-      photoURL,
-      age: {
-        number: ageNumber,
-        type: ageMeasurement,
-      },
-      dateLastSeen,
-      currentAge: {
-        number: currentAgeNumber,
-        type: currentAgeMeasurement,
-      },
-      areaSuspectedToBe,
-      locationLastSeen: {
-        address: locationAddress,
-        city: locationCity,
-        state: locationState,
-        postcode: locationPostcode,
-      },
+      fullName: fullName,
+      photoURL: photoURL,
+      age: ageNumber,
+      ageType: ageMeasurement,
+      dateLastSeen: dateLastSeen,
+      currentAgeNumber: currentAgeNumber,
+      currentAgeType: currentAgeMeasurement,
+      areaSuspectedToBe: areaSuspectedToBe,
+      address: locationAddress,
+      city: locationCity,
+      state: locationState,
+      postcode: locationPostcode,
       hairColour: hairColour,
       eyeColour: eyeColour,
       complexion: complexion,
-      height: {
-        number: heightNumber,
-        measurement: heightMeasurement,
-      },
-      weight: {
-        number: weightNumber,
-        measurement: weightMeasurement,
-      },
-      gender,
-      distinctiveFeatures,
-      amberAlert,
+      heightNumber: heightNumber,
+      heightMeasurement: heightMeasurement,
+      weightNumber: weightNumber,
+      weightMeasurement: weightMeasurement,
+      gender: gender,
+      distinctiveFeatures: distinctiveFeatures,
+      amberAlert
     };
 
     // TODO: Crosscheck route and server statuses 
@@ -78,16 +68,43 @@ export function NewMPForm() {
     // Send the updated missing person data to the backend for updating
     try {
       const authToken = `Bearer ${sessionStorage.getItem("token")}`;
+      // console.log(authToken);
 
-      const response = await axios.post('/missing/new', newMissingPerson, {
+      const response = await axios.post("/missing/new", newMissingPerson, {
         headers: {
-          Authorization: authToken,
+          authorisation: authToken,
+          // Authorization: authToken,
         },
       });
 
       if (response.status === 200) {
         // Form submission successful, render success message
         setVerifySent(true);
+
+        // Reset the form fields
+        setFullName("");
+        setPhotoURL("");
+        setAgeNumber("");
+        setAgeMeasurement("");
+        setDateLastSeen("");
+        setCurrentAgeNumber("");
+        setCurrentAgeMeasurement("");
+        setAreaSuspectedToBe("");
+        setLocationAddress("");
+        setLocationCity("");
+        setLocationState("");
+        setLocationPostcode("");
+        setHairColour("");
+        setEyeColour("");
+        setComplexion("");
+        setHeightNumber("");
+        setHeightMeasurement("");
+        setWeightNumber("");
+        setWeightMeasurement("");
+        setGender("");
+        setDistinctiveFeatures("");
+        setAmberAlert(false);
+
       } else if (response.status === 400) {
         setError("Report could not be saved. Please try again later.");
         setVerifySent(false);
@@ -116,30 +133,6 @@ export function NewMPForm() {
     //   setVerifySent(true);
     // }, 2000);
   
-
-    // Reset the form fields
-    setFullName("");
-    setPhotoURL("");
-    setAgeNumber("");
-    setAgeMeasurement("");
-    setDateLastSeen("");
-    setCurrentAgeNumber("");
-    setCurrentAgeMeasurement("");
-    setAreaSuspectedToBe("");
-    setLocationAddress("");
-    setLocationCity("");
-    setLocationState("");
-    setLocationPostcode("");
-    setHairColour("");
-    setEyeColour("");
-    setComplexion("");
-    setHeightNumber("");
-    setHeightMeasurement("");
-    setWeightNumber("");
-    setWeightMeasurement("");
-    setGender("");
-    setDistinctiveFeatures("");
-    setAmberAlert(false);
   };
 
   const newMPForm = () => {
