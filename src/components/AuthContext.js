@@ -21,15 +21,29 @@ const AuthProvider = ({ children, location, history }) => {
   const [error, setError] = useState("");
   // const [user, setUser] = useState({ police: false });
 
+  // // persist the login status 
+  // useEffect(() => {
+  //   const token = sessionStorage.getItem('token');
+  //   const loggedInStatus = sessionStorage.getItem("loggedInStatus")
+
+  //   if (token && loggedInStatus === 'true') {
+  //     setIsLoggedIn(true)
+  //   } else logout();
+  // }, []);
+  
   // persist the login status 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
-    const loggedInStatus = sessionStorage.getItem("loggedInStatus")
-
+    const loggedInStatus = sessionStorage.getItem("loggedInStatus");
+  
     if (token && loggedInStatus === 'true') {
-      setIsLoggedIn(true)
-    } else logout();
-  }, []);
+      setIsLoggedIn(true);
+    } else {
+      logout();
+    }
+    console.log("User:", user);
+  
+  }, [user]);
 
 
   const loginUser = async (userData) => {
@@ -53,14 +67,15 @@ const AuthProvider = ({ children, location, history }) => {
           setIsLoggedIn(true);
           sessionStorage.setItem("loggedInStatus", "true");
   
-          // Refresh the token before setting it in sessionStorage
+          // Refresh the token 
           await refreshAuthToken();
-  
+        
+          // Setting the original token
           sessionStorage.setItem('token', token);
-          console.log(token)
-        }
+          console.log("Original token prior to refresh:", token)
       }
     }
+  }
     catch (error) {
       console.log(error);
       if (error.response) {
@@ -68,7 +83,7 @@ const AuthProvider = ({ children, location, history }) => {
         const errorMessage = error.response.data.error;
         if (status === 400) {
           // Access the error message from the Axios error response
-          setError(errorMessage); // Set the error state with the error message
+          setError(errorMessage); 
         } else if (status === 401) {
           setError(errorMessage);
         } else if (status === 404) {
@@ -88,6 +103,44 @@ const AuthProvider = ({ children, location, history }) => {
   };
   
 
+  const refreshAuthToken = async () => {
+    try {
+      const oldToken = sessionStorage.getItem('token');
+
+      if (oldToken) {
+        const response = await axios.put(
+          '/users/login/refresh-token',
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${oldToken}`,
+            },
+          }
+        );
+        if (response.status === 200) {
+          const responseData = response.data;
+          if (responseData && responseData.token) {
+            sessionStorage.setItem('token', responseData.token);
+            console.log('Token refreshed successfully');
+            console.log('New Token:', responseData.token);
+            
+            setUser((user) => ({ ...user, token: responseData.token }));
+            // console.log ("setting new user", user)
+            return responseData.token; 
+          }
+        } else {
+          setError('An error occurred while refreshing the token.');
+        }
+      }
+    } catch (error) {
+      console.error("Error while refreshing token:", error);
+      setError('An error occurred while refreshing the token.');
+      throw error; // Throw the error here
+    }
+  };
+  
+
+
   const logout = () => {
     setAuthData(null);
     setIsLoggedIn(false);
@@ -103,38 +156,7 @@ const AuthProvider = ({ children, location, history }) => {
     setError("");
   };
 
-  const refreshAuthToken = async () => {
-    try {
-      const token = sessionStorage.getItem('token');
-
-      if (token) {
-        const response = await axios.put(
-          '/users/login/refresh-token',
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (response.status === 200) {
-          const responseData = response.data;
-          if (responseData && responseData.token) {
-            sessionStorage.setItem('token', responseData.token);
-            console.log('Token refreshed successfully');
-            console.log('new token:', responseData.token)
-          }
-        } else {
-          setError('An error occurred while refreshing the token.');
-        }
-      }
-    } catch (error) {
-      console.error("Error while refreshing token:", error);
-      setError('An error occurred while refreshing the token.');
-    }
-  };
-
+  
   return (
     <AuthContext.Provider value={{ isLoggedIn, user, login: loginUser, logout, error, refreshAuthToken }}>
       {children}

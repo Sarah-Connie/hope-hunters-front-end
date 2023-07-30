@@ -68,11 +68,11 @@ export function NewMPForm() {
     // Send the updated missing person data to the backend for updating
     try {
       const authToken = `Bearer ${sessionStorage.getItem("token")}`;
-      // console.log(authToken);
+      console.log("auth Token:", authToken);
 
       const response = await axios.post("/missing/new", newMissingPerson, {
         headers: {
-          authorisation: authToken,
+          authorization: authToken,
           // Authorization: authToken,
         },
       });
