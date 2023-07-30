@@ -31,13 +31,14 @@ const AuthProvider = ({ children, location, history }) => {
     } else logout();
   }, []);
 
+
   const loginUser = async (userData) => {
     try {
       const response = await axios.post('/users/login', userData);
-
+  
       if (response.status === 200) {
         const responseData = response.data;
-
+  
         if (responseData && responseData.token) {
           const { token, admin, police } = responseData;
           const user = { 
@@ -47,17 +48,16 @@ const AuthProvider = ({ children, location, history }) => {
           };
           setUser(user);
           setAuthData(user);
-          // console.log('Setting user data:', userData); 
           console.log('Setting user:', user); 
-
+  
           setIsLoggedIn(true);
-          
-          sessionStorage.setItem("loggedInStatus", "true")
-
+          sessionStorage.setItem("loggedInStatus", "true");
+  
+          // Refresh the token before setting it in sessionStorage
           await refreshAuthToken();
+  
           sessionStorage.setItem('token', token);
-
-          console.log("Login successful");
+          console.log(token)
         }
       }
     }
@@ -86,6 +86,7 @@ const AuthProvider = ({ children, location, history }) => {
       throw error;
     }
   };
+  
 
   const logout = () => {
     setAuthData(null);
@@ -96,57 +97,6 @@ const AuthProvider = ({ children, location, history }) => {
     console.log("Logout successful");
   };
 
-  // const verifyToken = async (token) => {
-  //   try {
-  //     // Add a custom header for authentication
-  //     const config = {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     };
-
-  //     // Send a request to a protected route to verify the token
-  //     const response = await axios.get('/users/protected-route', config);
-
-  //     if (response.status === 200) {
-  //       const responseData = response.data;
-  //       const user = { email: responseData.email, jwt: token };
-  //       setAuthData(user);
-  //       setIsLoggedIn(true);
-  //       sessionStorage.setItem('token', token);
-  //     } else {
-  //       logout(); // Token verification failed, so log out the user
-  //     }
-  //   } catch (error) {
-  //     console.error('Error refreshing token:', error);
-  //     logout(); // Error occurred while verifying, so log out the user
-  //   }
-  // };
-  // const verifyToken = async (token) => {
-  //   try {
-  //     const response = await axios.put('', { token });
-      
-
-  //     if (response.status === 200) {
-  //       const responseData = response.data;
-
-  //       if (responseData && responseData.email) {
-  //         const { email } = responseData;
-  //         const user = { email, jwt: token };
-  //         setAuthData(user);
-  //         setIsLoggedIn(true);
-  //         console.log("Token verified");
-  //       }
-  //     }
-  //   } catch (error) {
-  //     // If the token is expired, refresh it
-  //     if (error.response && error.response.status === 401) {
-  //       refreshAuthToken();
-  //     } else {
-  //       setError("An error occurred during login. Please try again.");
-  //     }
-  //   }
-  // };
 
   const setAuthData = (userData) => {
     setUser(userData);
@@ -159,7 +109,7 @@ const AuthProvider = ({ children, location, history }) => {
 
       if (token) {
         const response = await axios.put(
-          '/login/refresh-token',
+          '/users/login/refresh-token',
           {},
           {
             headers: {
@@ -173,18 +123,20 @@ const AuthProvider = ({ children, location, history }) => {
           if (responseData && responseData.token) {
             sessionStorage.setItem('token', responseData.token);
             console.log('Token refreshed successfully');
+            console.log('new token:', responseData.token)
           }
         } else {
           setError('An error occurred while refreshing the token.');
         }
       }
     } catch (error) {
+      console.error("Error while refreshing token:", error);
       setError('An error occurred while refreshing the token.');
     }
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login: loginUser, logout, error }}>
+    <AuthContext.Provider value={{ isLoggedIn, user, login: loginUser, logout, error, refreshAuthToken }}>
       {children}
     </AuthContext.Provider>
   );

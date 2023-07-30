@@ -7,7 +7,8 @@ export function LoginForm() {
   const [userPassword, setUserPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, refreshAuthToken } = useAuth();
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -20,6 +21,11 @@ export function LoginForm() {
 
       // Call the login function from the AuthContext to handle the login process
       await login(user);
+      console.log("Login successful. Now refreshing token...");
+
+      await refreshAuthToken();
+      // console.log("Token refreshed successfully!");
+
       // Redirect to dashboard
       navigate("/dashboard");
       
@@ -27,6 +33,7 @@ export function LoginForm() {
       if (error.response && error.response.data && error.response.data.error) {
         setError(error.response.data.error);
       } else {
+        console.log(error)
         setError("An error occurred during login. Please try again.");
       }
     
