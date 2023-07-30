@@ -35,7 +35,7 @@ function HamburgerMenu({ isLoggedIn }) {
   }, []);
 
   return (
-    <div className={`lg:hidden ${isScrolled ? "fixed bottom-4 right-4" : ""}`}>
+    <div className={`lg:hidden ${isScrolled ? "fixed bottom-6 right-4" : ""}`}>
       <nav>
         <section className="flex md:hidden">
           {/* styling for the hamburger "icon" */}
@@ -52,8 +52,8 @@ function HamburgerMenu({ isLoggedIn }) {
 
           <div className={isNavOpen ? "showMenuNav" : "hideMenuNav"}>
             <div
-              className="absolute top-0 right-0 px-8 py-8"
-              onClick={() => setIsNavOpen(false)}
+            className={`absolute ${isScrolled && isNavOpen ? "right-4 bottom-4" : isNavOpen ? "right-4 top-4" : ""} z-50 transition-all duration-300`}
+            onClick={() => setIsNavOpen(false)}
             >
               {/* styling for the x icon */}
               <svg
@@ -69,7 +69,7 @@ function HamburgerMenu({ isLoggedIn }) {
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </div>
-            <ul className="flex flex-col items-center justify-between min-h-[250px] text-xl text-white">
+            <ul className={`flex flex-col items-center justify-between min-h-[250px] text-xl text-white ${isScrolled && isNavOpen ? "mt-32" : ""}`}>
               {/* if user is logged in display only dashboard and logout links.
               conditional home link rendered thru general nav */}
               {isLoggedIn ? (
@@ -130,13 +130,13 @@ function HamburgerMenu({ isLoggedIn }) {
         }
         .showMenuNav {
           display: block;
-          position: absolute;
+          position: fixed;
           width: 100%;
           height: 100vh;
           top: 0;
           left: 0;
           background: #05548B;
-          z-index: 100;
+          z-index: 1001;
           display: flex;
           flex-direction: column;
           justify-content: space-evenly;
