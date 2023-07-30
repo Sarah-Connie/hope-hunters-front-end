@@ -3,6 +3,8 @@ import { NavLink } from "react-router-dom";
 
 function HamburgerMenu({ isLoggedIn }) {
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
 
   useEffect(() => {
     if (isNavOpen) {
@@ -16,24 +18,42 @@ function HamburgerMenu({ isLoggedIn }) {
     setIsNavOpen(false);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="lg:hidden flex items-center justify-between py-8">
+    <div className={`lg:hidden ${isScrolled ? "fixed bottom-6 right-4" : ""}`}>
       <nav>
         <section className="flex md:hidden">
           {/* styling for the hamburger "icon" */}
           <div
-            className="space-y-2 transition-all duration-300"
+            className={`space-y-2 transition-all duration-300 relative ${
+              isScrolled ? "z-50 bg-yellow rounded-full h-full w-full p-3" : ""
+            }`}
             onClick={() => setIsNavOpen((prev) => !prev)}
           >
-            <span className="block h-0.5 w-8 bg-white"></span>
-            <span className="block h-0.5 w-8 bg-white"></span>
-            <span className="block h-0.5 w-8 bg-white"></span>
+            <span className={`block h-0.5 w-8 bg-white ${isScrolled ? "h-0.5 w-7" : ""}`}></span>
+            <span className={`block h-0.5 w-8 bg-white ${isScrolled ? "h-0.5 w-7" : ""}`}></span>
+            <span className={`block h-0.5 w-8 bg-white ${isScrolled ? "h-0.5 w-7" : ""}`}></span>
           </div>
 
           <div className={isNavOpen ? "showMenuNav" : "hideMenuNav"}>
             <div
-              className="absolute top-0 right-0 px-8 py-8"
-              onClick={() => setIsNavOpen(false)}
+            className={`absolute ${isScrolled && isNavOpen ? "right-4 bottom-4" : isNavOpen ? "right-4 top-4" : ""} z-50 transition-all duration-300`}
+            onClick={() => setIsNavOpen(false)}
             >
               {/* styling for the x icon */}
               <svg
@@ -49,7 +69,7 @@ function HamburgerMenu({ isLoggedIn }) {
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </div>
-            <ul className="flex flex-col items-center justify-between min-h-[250px] text-xl text-white">
+            <ul className={`flex flex-col items-center justify-between min-h-[250px] text-xl text-white ${isScrolled && isNavOpen ? "mt-32" : ""}`}>
               {/* if user is logged in display only dashboard and logout links.
               conditional home link rendered thru general nav */}
               {isLoggedIn ? (
@@ -110,13 +130,13 @@ function HamburgerMenu({ isLoggedIn }) {
         }
         .showMenuNav {
           display: block;
-          position: absolute;
+          position: fixed;
           width: 100%;
           height: 100vh;
           top: 0;
           left: 0;
           background: #05548B;
-          z-index: 10;
+          z-index: 1001;
           display: flex;
           flex-direction: column;
           justify-content: space-evenly;
