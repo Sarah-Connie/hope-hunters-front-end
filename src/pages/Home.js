@@ -163,7 +163,7 @@ export function Home() {
                     <p className="text-2xl pt-1">{report.fullName}</p>
                     <p>Current Age: {report.currentAge[0].number ? report.currentAge[0].number + ' ' + report.currentAge[0].type + ' old' : 'Unreported'}</p>
                     <p>Age at Reported Missing: {report.age[0].number ? report.age[0].number + ' ' + report.age[0].type + ' old' : 'Unreported'}</p>
-                    <p>Height: {report.height.number} {report.height.measurement[0]}</p>
+                    <p>Height: {report.height.number}cm</p>
                     <p>Weight: {report.weight.number} {report.weight.measurement[0]}</p>
                     <p>Date Last Seen: {report.dateLastSeen ? new Date(report.dateLastSeen).toISOString().split("T")[0] : 'Unreported'}</p>
                     <p className="py-2">Location Last Seen - </p>

@@ -33,57 +33,69 @@ export function UpdateMPForm({existingMPData}) {
             [childKey]: value,
           },
         }));
-      } else {
-        setFormValues((prevValues) => ({
-          ...prevValues,
-          [name]: type === "checkbox" ? checked : value,
-        }));
-      }
+    } else {
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        [name]: type === "checkbox" ? checked : value,
+      }));
+    }
   };
 
   const currentDate = new Date().toISOString().split("T")[0];
 
 
   const handleSubmit = async (event) => {
-  event.preventDefault();  
+    event.preventDefault();  
 
-  // Get the authentication token from session
-  const authToken = `Bearer ${sessionStorage.getItem("token")}`;
+    const formattedFormValues = {
+      ...formValues,
+      age: [{ number: formValues.ageNumber, type: formValues.ageMeasurement }],
+      currentAge: [
+        {
+          number: formValues.currentAgeNumber,
+          type: formValues.currentAgeMeasurement,
+        },
+      ],
+    };
 
-  // Get the reportId from the selectedReport object
-  const reportId = selectedReport._id;
+    // Get the authentication token from session
+    const authToken = `Bearer ${sessionStorage.getItem("token")}`;
 
-  // Send the updated missing person data to the backend for updating
-  try {
-    const response = await axios.put(`/missing/update/${reportId}`, formValues, {
-      headers: {
-        Authorization: authToken,
-      },
-    });
+    // Get the reportId from the selectedReport object
+    const reportId = selectedReport._id;
 
-    if (response.status === 200) {
-      // Form submission successful, render success message
-      setFormValues({});
-      setVerifySent(true);
-    } else if (response.status === 400) {
-      setError("Update could not be completed. Please try again later.");
-    } else {
-      console.error("Failed to update the report.");
-      setError("Updated details could not be saved. Please try again.");
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    if (error.response) {
-      // Handle server response errors
-      const responseData = error.response.data;
-      if (responseData && responseData.error) {
-        setError(responseData.error);
+    // Send the updated missing person data to the backend for updating
+    try {
+      const response = await axios.put(`/missing/update/${reportId}`, formattedFormValues, {
+        headers: {
+          Authorization: authToken,
+        },
+      });
+
+      if (response.status === 200) {
+        console.log(formValues);
+        // Form submission successful, render success message
+        setFormValues({});
+        setVerifySent(true);
+      } else if (response.status === 400) {
+        setError("Update could not be completed. Please try again later.");
+      } else {
+        console.error("Failed to update the report.");
+        setError("Updated details could not be saved. Please try again.");
       }
-    } else {
-      setError("An error occurred during the update. Please try again.");
+    } catch (error) {
+      console.error("Error:", error);
+      if (error.response) {
+        // Handle server response errors
+        const responseData = error.response.data;
+        if (responseData && responseData.error) {
+          setError(responseData.error);
+        }
+      } else {
+        setError("An error occurred during the update. Please try again.");
+      }
     }
-  }
-};
+  };
 
   const updateMPForm = () => {
     return (
@@ -259,6 +271,7 @@ export function UpdateMPForm({existingMPData}) {
             onChange={handleChange}
             minLength={4}
             maxLength={4}
+            required
           />
           <label className="text-gray-700 text-sm font-bold mb-1 lg:pl-4 flex lg:items-center mt-2 lg:mt-0"
           htmlFor="locationState">State Last Seen:</label>
@@ -351,7 +364,6 @@ export function UpdateMPForm({existingMPData}) {
             value={formValues.weight?.number || ""}
             min={1}
             onChange={handleChange}
-
           />
           <label className="text-gray-700 text-sm font-bold mb-1 mt-2 lg:mt-0 flex items-center"
           htmlFor="weightMeasurement">Unit:</label>
@@ -361,6 +373,7 @@ export function UpdateMPForm({existingMPData}) {
             name="weightMeasurement" 
             value={formValues.weightMeasurement || ""}  
             onChange={handleChange}
+            // disabled={formValues.weightMeasurement ? true : false}
             >
                 <option value="">Select an Option</option>
                 <option value="kilograms">Kilograms</option>
@@ -395,8 +408,10 @@ export function UpdateMPForm({existingMPData}) {
         )}
         <div className="flex items-center justify-center mt-2">
             <button 
-                className="bg-lightblue hover:bg-orange hover:scale-105 ease-out duration-200 text-white font-bold py-1 px-4 rounded focus:outline-none focus:shadow-outline w-96 h-16"
-                type="submit">Submit Report
+              className="bg-lightblue hover:bg-orange hover:scale-105 ease-out duration-200 text-white font-bold py-1 px-4 rounded focus:outline-none focus:shadow-outline w-96 h-16"
+              type="submit"
+              disabled={!!error}>
+                  Submit Report
             </button>
         </div>
         </form>

@@ -38,7 +38,7 @@ export function NewMPForm() {
     const newMissingPerson = {
       fullName: fullName,
       photoURL: photoURL,
-      age: ageNumber,
+      ageNumber: ageNumber,
       ageType: ageMeasurement,
       dateLastSeen: dateLastSeen,
       currentAgeNumber: currentAgeNumber,
@@ -57,7 +57,7 @@ export function NewMPForm() {
       weightMeasurement: weightMeasurement,
       gender: gender,
       distinctiveFeatures: distinctiveFeatures,
-      amberAlert
+      amberAlert: amberAlert
     };
 
     // TODO: Crosscheck route and server statuses 
@@ -296,6 +296,7 @@ export function NewMPForm() {
             onChange={(e) => setLocationPostcode(e.target.value)}
             minLength={4}
             maxLength={4}
+            required
           />
           <label className="text-gray-700 text-sm font-bold mb-1 lg:pl-4 flex lg:items-center mt-2 lg:mt-0"
           htmlFor="locationState">State Last Seen:</label>

@@ -8,6 +8,7 @@ import axios from "../api/axios";
 import ConfirmationWindow from "../components/ConfirmationWindow";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../components/AuthContext"
+import SuccessMsg from "../components/SuccessMsg";
 
 
 export function Dashboard() {
@@ -20,6 +21,7 @@ export function Dashboard() {
   const [showUpdateReportForm, setShowUpdateReportForm] = useState(false);
   const [showNewReportForm, setShowNewReportForm] = useState(isMdScreenOrLarger);
   const [deleteAccount, setDeleteAccount] = useState(false);
+  const [showDeleteReportConfirmation, setShowDeleteReportConfirmation] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [error, setError] = useState("");
   const [originalReports, setOriginalReports] = useState([]);
@@ -51,15 +53,25 @@ export function Dashboard() {
     }
   };
 
-  // run the api call on component mount
-  useEffect(() => {
-    fetchMissingPersonsData();
-  }, []);
+  // // run the api call on component mount
+  // useEffect(() => {
+  //   fetchMissingPersonsData();
+  // }, []);
 
-  // store the returned reports on mount
-  useEffect(() => {
-    setReports(reports);
-  }, []);
+  // // store the returned reports on mount
+  // useEffect(() => {
+  //   setReports(reports);
+  // }, []);
+
+    // run the api call when reports get updated
+    useEffect(() => {
+      fetchMissingPersonsData();
+    }, [reports]);
+  
+    // store the returned reports anytime the reports change
+    useEffect(() => {
+      setReports(reports);
+    }, [reports]);
 
   // determine which forms/buttons and report to show when 'update report' is clicked
   const handleUpdateReportButtonClick = (reportId) => {
@@ -72,18 +84,55 @@ export function Dashboard() {
     }
   };
 
-  // not functional yet as intended
-  // body for UI development
+
   const handleDeleteReportButtonClick = (reportId) => {
     const report = reports.find((report) => report._id === reportId);
     if (report) {
       setSelectedReport(report);
-
       setShowUpdateAccountForm(false);
-      setShowUpdateReportForm(true);
+      setShowUpdateReportForm(false);
       setShowNewReportForm(false);
+      setDeleteAccount(false);
+      setShowDeleteReportConfirmation(true); // Show the new confirmation window for deleting the report
+      setError(""); // Clear any previous errors
     }
   };
+
+  const handleConfirmDeleteReport = async () => {
+    try {
+      if (selectedReport) {
+        const reportId = selectedReport._id;
+        const authToken = `Bearer ${sessionStorage.getItem('token')}`;
+        const response = await axios.delete(`/missing/delete/${reportId}`, {
+        headers: {
+          Authorization: authToken,
+        },
+      });
+
+      if (response.status === 200) {
+        console.log("Report successfully deleted.")
+        setShowDeleteReportConfirmation(false);
+        setShowNewReportForm(true);
+        
+      } else if (response.status === 404){
+        // Handle deletion failure
+        setDeletionError("Deletion unsuccessful.")
+        console.error('Failed to delete account:', response.data.error);
+      }
+    } 
+  }
+    catch (error) {
+      setDeletionError("Unable to delete the report at this time. Please try again later.")
+      console.error('Error:', error);
+    }
+    // setShowDeleteReportConfirmation(false); // Close the new confirmation window regardless of success or failure
+  };
+  
+  const handleCancelDeleteReport = () => {
+    setShowDeleteReportConfirmation(false);
+    setShowNewReportForm(true);
+  };
+  
 
   // determine which forms/buttons to show when 'update report' is clicked
   const handleNewMPReportButtonClick = () => {
@@ -111,7 +160,7 @@ export function Dashboard() {
   };
 
   // api call to delete the account
-  const handleConfirmDelete = async () => {
+  const handleConfirmAccountDelete = async () => {
     try {
       // const authToken = `Bearer ${sessionStorage.getItem('token')}`;
       const response = await axios.delete('/users/delete', {
@@ -122,6 +171,7 @@ export function Dashboard() {
 
       if (response.status === 200) {
         // Account deleted successfully
+        console.log("Account successfully deleted.")
         //"log out" user using auth
         logout(user);
       } else if (response.status === 404){
@@ -139,7 +189,7 @@ export function Dashboard() {
   };
 
   // When user cancels account deletion
-  const handleCancelDelete = () => {
+  const handleCancelAccountDelete = () => {
     setShowConfirmation(false);
     setShowNewReportForm(true);
   };
@@ -179,9 +229,9 @@ export function Dashboard() {
                         </div>
                         <div className="flex flex-col space-y-.5 font-main text-md pl-5 w-4/6">
                             <p className="text-2xl pb-2 italic">{report.fullName}</p>
+                            <p>Current Age: {report.currentAge[0].number ? report.currentAge[0].number + ' ' + report.currentAge[0].type + ' old' : 'Unreported'}</p>
                             <p>Age at Reported Missing: {report.age[0].number ? report.age[0].number + ' ' + report.age[0].type + ' old' : 'Unreported'}</p>
                             <p>Date Last Seen: {report.dateLastSeen ? new Date(report.dateLastSeen).toISOString().split("T")[0] : 'Unreported'}</p>
-                            <p>Current Age: {report.currentAge[0].number ? report.currentAge[0].number + ' ' + report.currentAge[0].type + ' old' : 'Unreported'}</p>
                             <p className="py-2">Location Last Seen - </p>
                             <p>Address Last Seen: {report.locationLastSeen.address ? (report.locationLastSeen.address) : ("Unreported")}</p>
                             <p>City Last Seen: {report.locationLastSeen.city ? (report.locationLastSeen.city) : ("Unreported")}</p>
@@ -191,7 +241,7 @@ export function Dashboard() {
                       </div>
                       <div className="flex flex-col font-main text-md space-y-.5">
                           <p className="text-xl font-semibold pt-2">Key Details:</p>
-                          <p>Height: {report.height.number ? report.height.number + ' ' + report.height.measurement[0] : 'Unreported'}</p>
+                          <p>Height: {report.height.number ? report.height.number + 'cm' : 'Unreported'}</p>
                           <p>Weight: {report.weight.number ? report.weight.number + ' ' + report.weight.measurement[0] : 'Unreported'}</p>
                           <p>Hair Colour: {report.hairColour ? (report.hairColour) : ("Unreported")}</p>
                           <p>Eye Colour: {report.eyeColour ? (report.eyeColour) : ("Unreported")}</p>
@@ -239,11 +289,20 @@ export function Dashboard() {
                   {showConfirmation && (
                     <ConfirmationWindow
                       message="Are you sure you want to delete your account?"
-                      onConfirm={handleConfirmDelete}
-                      onCancel={handleCancelDelete}
+                      onConfirm={handleConfirmAccountDelete}
+                      onCancel={handleCancelAccountDelete}
                       error={deletionError}
                     />
                   )}
+
+                  {showDeleteReportConfirmation && (
+                    <ConfirmationWindow
+                      message="Are you sure you want to delete this report?"
+                      onConfirm={handleConfirmDeleteReport}
+                      onCancel={handleCancelDeleteReport}
+                      error={deletionError}
+                />
+              )}
                   </div>
                 </div>
                 </div>
@@ -329,8 +388,17 @@ export function Dashboard() {
               {showConfirmation && (
                 <ConfirmationWindow
                   message="Are you sure you want to delete your account?"
-                  onConfirm={handleConfirmDelete}
-                  onCancel={handleCancelDelete}
+                  onConfirm={handleConfirmAccountDelete}
+                  onCancel={handleCancelAccountDelete}
+                  error={deletionError}
+                />
+              )}
+
+              {showDeleteReportConfirmation && (
+                <ConfirmationWindow
+                  message="Are you sure you want to delete this report?"
+                  onConfirm={handleConfirmDeleteReport}
+                  onCancel={handleCancelDeleteReport}
                   error={deletionError}
                 />
               )}
