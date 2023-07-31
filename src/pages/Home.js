@@ -163,22 +163,22 @@ export function Home() {
                     <p className="text-2xl pt-1">{report.fullName}</p>
                     <p>Current Age: {report.currentAge[0].number ? report.currentAge[0].number + ' ' + report.currentAge[0].type + ' old' : 'Unreported'}</p>
                     <p>Age at Reported Missing: {report.age[0].number ? report.age[0].number + ' ' + report.age[0].type + ' old' : 'Unreported'}</p>
-                    <p>Height: {report.height.number}cm</p>
-                    <p>Weight: {report.weight.number} {report.weight.measurement[0]}</p>
                     <p>Date Last Seen: {report.dateLastSeen ? new Date(report.dateLastSeen).toISOString().split("T")[0] : 'Unreported'}</p>
-                    <p className="py-2">Location Last Seen - </p>
-                    <p>Address: {report.locationLastSeen.address ? (report.locationLastSeen.address) : ("Unreported")}</p>
-                    <p>City: {report.locationLastSeen.city ? (report.locationLastSeen.city) : ("Unreported")}</p>
-                    <p>State: {report.locationLastSeen.state ? (report.locationLastSeen.state) : ("Unreported")}</p>
+                    <p className="">Location Last Seen - </p>
+                    <p>{report.locationLastSeen.address ? ("Address: " + report.locationLastSeen.address) : ("Address: Unreported")}</p>
+                    {/* <p>{report.locationLastSeen.city ? ("City: " + report.locationLastSeen.city) : ("")}      Postcode: {report.locationLastSeen.postcode}</p>
+                    <p>State: {report.locationLastSeen.state ? (report.locationLastSeen.state) : ("Unreported")}</p> */}
+                    <p>{report.locationLastSeen.city ? ("City: " + report.locationLastSeen.city) : ("")}    </p>
+                    <p>{report.locationLastSeen.state ? (report.locationLastSeen.state) : ("")} {report.locationLastSeen.postcode}</p>
                     <p>Area Suspected To Be: {report.areaSuspectedToBe ? (report.areaSuspectedToBe) : ("Unreported")}</p>
-
+                    
                     <p className="text-lg font-semibold"><br/>Key Details:</p>
-                    <p>Hair Colour: {report.hairColour ? (report.hairColour) : ("Unreported")}</p>
-                    <p>Eye Colour: {report.eyeColour ? (report.eyeColour) : ("Unreported")}</p>
+                    <p>Height: {report.height.number ? report.height.number + 'cm' : 'Unreported'}, Weight: {report.weight.number ? report.weight.number + ' ' + report.weight.measurement[0] : 'Unreported'}</p>
+                    <p>Hair Colour: {report.hairColour ? (report.hairColour) : ("Unreported")}, Eye Colour: {report.eyeColour ? (report.eyeColour) : ("Unreported")}</p>
                     <p>Complexion: {report.complexion[0] ? (report.complexion[0]) : ("Unreported")}</p>
                     <p>Gender: {report.gender}</p>
-                    <p>Distinctive Features: {report.distinctiveFeatures}</p>
-                    <p>Amber Alert: {report.amberAlert ? "Yes" : "No"}</p>
+                    <p>{report.distinctiveFeatures ? ("Distinctive Features: " + report.distinctiveFeatures) : ("No Distinct Features")}</p>
+                    <p className="italic">{report.amberAlert ? "Active Amber Alert" : ""}</p>
                   </div>
                 </div>
               </div>
@@ -199,23 +199,21 @@ export function Home() {
                         <p>Current Age: {report.currentAge[0].number ? report.currentAge[0].number + ' ' + report.currentAge[0].type + ' old' : 'Unreported'}</p>
                         <p>Age at Reported Missing: {report.age[0].number ? report.age[0].number + ' ' + report.age[0].type + ' old' : 'Unreported'}</p>
                         <p>Date Last Seen: {report.dateLastSeen ? new Date(report.dateLastSeen).toISOString().split("T")[0] : 'Unreported'}</p>
-                        <p className="py-2">Location Last Seen - </p>
-                        <p>Address: {report.locationLastSeen.address ? (report.locationLastSeen.address) : ("Unreported")}</p>
-                        <p>City: {report.locationLastSeen.city ? (report.locationLastSeen.city) : ("Unreported")}</p>
-                        <p>State: {report.locationLastSeen.state ? (report.locationLastSeen.state) : ("Unreported")}</p>
+                        <p className="pt-1">Location Last Seen - </p>
+                        <p>{report.locationLastSeen.address ? ("Address: " + report.locationLastSeen.address) : ("")}</p>
+                        <p>{report.locationLastSeen.city ? ("City: " + report.locationLastSeen.city) : ("")}    </p>
+                        <p>{report.locationLastSeen.state ? (report.locationLastSeen.state) : ("")} {report.locationLastSeen.postcode}</p>
                         <p>Area Suspected To Be: {report.areaSuspectedToBe ? (report.areaSuspectedToBe) : ("Unreported")}</p>
                     </div>
                 </div>
                 <div className="flex flex-col font-main text-sm">
                     <p className="text-lg font-semibold pt-2">Key Details:</p>
-                    <p>Height: {report.height.number ? report.height.number + ' ' + report.height.measurement[0] : 'Unreported'}</p>
-                    <p>Weight: {report.weight.number ? report.weight.number[0] + ' ' + report.weight.measurement[0] : 'Unreported'}</p>
-                    <p>Hair Colour: {report.hairColour}</p>
-                    <p>Eye Colour: {report.eyeColour}</p>
+                    <p>Height: {report.height.number ? report.height.number + 'cm' : 'Unreported'}, Weight: {report.weight.number ? report.weight.number + ' ' + report.weight.measurement[0] : 'Unreported'}</p>
+                    <p>Hair Colour: {report.hairColour ? (report.hairColour) : ("Unreported")}, Eye Colour: {report.eyeColour ? (report.eyeColour) : ("Unreported")}</p>
                     <p>Complexion: {report.complexion[0]}</p>
                     <p>Gender: {report.gender}</p>
-                    <p>Distinctive Features: {report.distinctiveFeatures}</p>
-                    <p>Amber Alert: {report.amberAlert ? "Yes" : "No"}</p>
+                    <p>{report.distinctiveFeatures ? ("Distinctive Features: " + report.distinctiveFeatures) : ("No Distinct Features")}</p>
+                    <p className="italic">{report.amberAlert ? "Active Amber Alert" : ""}</p>
                 </div>
             </div>
         ))}
