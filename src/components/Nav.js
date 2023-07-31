@@ -19,7 +19,7 @@ export function Nav() {
         {isMdScreenOrLarger ? (
             <div className="">
                 {/* possibly change to 2xl depending on how other links render when loggedin */}
-                <ul className="text-3xl flex flex-row px-5 text-center">
+                <ul className="md:text-2xl lg:text-3xl flex flex-row px-5 text-center">
                     {/* Show home link when not on homepage */}
                     {!isHomePage && (
                     <li className={`mr-10 ${linkStyle}`}>

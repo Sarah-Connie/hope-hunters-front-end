@@ -224,11 +224,11 @@ export function Dashboard() {
                   key={report._id}
                   >
                     <div className={`flex flex-col p-5 mb-1 rounded ${report.amberAlert ? 'bg-orange' : 'border border-blue'}`} key={report._id}>
-                      <div className="flex flex-row">
+                      <div className="flex md:flex-col md:items-center lg:flex-row">
                       <div className="aspect-w-1 aspect-h-1 flex items-start flex-grow items-center">
-                            <img src={report.photoURL} alt="Missing Person" className="h-52 w-52 object-cover" />
+                            <img src={report.photoURL} alt="Missing Person" className="h-56 w-56 object-cover" />
                         </div>
-                        <div className="flex flex-col space-y-.5 font-main text-md pl-5 w-4/6">
+                        <div className="flex flex-col space-y-.5 font-main text-md lg:pl-5 w-full lg:w-4/6 items-center">
                             <p className="text-2xl pb-2 italic">{report.fullName}</p>
                             <p>Current Age: {report.currentAge[0].number ? report.currentAge[0].number + ' ' + report.currentAge[0].type + ' old' : 'Unreported'}</p>
                             <p>Age at Reported Missing: {report.age[0].number ? report.age[0].number + ' ' + report.age[0].type + ' old' : 'Unreported'}</p>
