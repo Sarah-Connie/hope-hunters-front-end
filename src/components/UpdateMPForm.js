@@ -14,13 +14,14 @@ export function UpdateMPForm({existingMPData}) {
   // added so that error reloads when the existing MP data changes
   useEffect(() => {
     setError();
+    // console.log(existingMPData)
   }, [existingMPData]);
 
   useEffect(() => {
     setFormValues(existingMPData);
   }, [existingMPData]);
 
-    const handleChange = (event) => {
+  const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
   
     if (name.includes(".")) {
@@ -335,8 +336,8 @@ export function UpdateMPForm({existingMPData}) {
             className="shadow appearance-none border rounded w-2/5 lg:w-20 py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="number"
             id="heightNumber"
-            name="heightNumber"
-            value={formValues.heightNumber || ""}
+            name="height.number"
+            value={formValues.height?.number || ""}
             min={1}
             onChange={handleChange}
           />
@@ -346,8 +347,8 @@ export function UpdateMPForm({existingMPData}) {
             className="shadow appearance-none border rounded w-2/5 lg:w-20 py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="number"
             id="weightNumber"
-            name="weightNumber"
-            value={formValues.weightNumber || ""}
+            name="weight.number"
+            value={formValues.weight?.number || ""}
             min={1}
             onChange={handleChange}
 

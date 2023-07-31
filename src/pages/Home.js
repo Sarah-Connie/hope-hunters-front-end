@@ -177,6 +177,7 @@ export function Home() {
                     <p>Eye Colour: {report.eyeColour ? (report.eyeColour) : ("Unreported")}</p>
                     <p>Complexion: {report.complexion[0] ? (report.complexion[0]) : ("Unreported")}</p>
                     <p>Gender: {report.gender}</p>
+                    <p>Distinctive Features: {report.distinctiveFeatures}</p>
                     <p>Amber Alert: {report.amberAlert ? "Yes" : "No"}</p>
                   </div>
                 </div>
@@ -190,7 +191,8 @@ export function Home() {
             <div className={`flex flex-col p-4 mb-5 rounded ${report.amberAlert ? 'bg-orange' : 'border border-blue'}`} key={report._id}>
                 <div className="flex flex-row">
                     <div className="aspect-w-1 aspect-h-1 flex items-start flex-grow items-center">
-                        <img src={report.photoURL} alt="Missing Person" className="h-28 w-28 object-cover" />
+                        <img src={report.photoURL ? (report.photoURL) : ("No Photo Provided")} alt="Missing Person" className="h-28 w-28 object-cover" 
+                        />
                     </div>
                     <div className="flex flex-col font-main text-sm pl-3 w-4/6">
                         <p className="text-lg italic pb-1">{report.fullName}</p>
@@ -212,6 +214,7 @@ export function Home() {
                     <p>Eye Colour: {report.eyeColour}</p>
                     <p>Complexion: {report.complexion[0]}</p>
                     <p>Gender: {report.gender}</p>
+                    <p>Distinctive Features: {report.distinctiveFeatures}</p>
                     <p>Amber Alert: {report.amberAlert ? "Yes" : "No"}</p>
                 </div>
             </div>

@@ -9,65 +9,6 @@ import ConfirmationWindow from "../components/ConfirmationWindow";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../components/AuthContext"
 
-// // mock data array
-// const data = [
-//   {
-//     reportId: 1,
-//     fullName: "Keira Janssen",
-//     photoURL:
-//       "https://media.istockphoto.com/id/1326417862/photo/young-woman-laughing-while-relaxing-at-home.jpg?s=1024x1024&w=is&k=20&c=Gb9C49IRPKG88Jahy5-QgyD34G9OEPwtBpr9LwT3KUw=",
-//     ageNumber: 28,
-//     ageMeasurement: "years",
-//     dateLastSeen: Date.now() - 2,
-//     // dateLastSeen: new Date().toISOString().split("T")[0],
-//     currentAgeNumber: 28,
-//     currentAgeMeasurement: "years",
-//     areaSuspectedToBe: "Mount Foster",
-//     locationLastSeen: {
-//       address: "84 Arthur Street",
-//       city: "Mount Foster",
-//       state: "NSW",
-//       postcode: "2824",
-//     },
-//     hairColour: "brown",
-//     eyeColour: "brown",
-//     complexion: "fair",
-//     heightNumber: 165,
-//     heightMeasurement: "centimeters",
-//     weightNumber: 75,
-//     weightMeasurement: "kilograms",
-//     gender: "female",
-//     amberAlert: true,
-//     distinctiveFeatures: "flower tattoo left shoulder",
-//   },
-//   {
-//     reportId: 2,
-//     fullName: "Holly Smith",
-//     photoURL:
-//       "https://media.istockphoto.com/id/1326417862/photo/young-woman-laughing-while-relaxing-at-home.jpg?s=1024x1024&w=is&k=20&c=Gb9C49IRPKG88Jahy5-QgyD34G9OEPwtBpr9LwT3KUw=",
-//     ageNumber: 28,
-//     ageMeasurement: "years",
-//     dateLastSeen: new Date().toISOString().split("T")[0],
-//     currentAgeNumber: 28,
-//     currentAgeMeasurement: "years",
-//     areaSuspectedToBe: "Mount Foster",
-//     locationLastSeen: {
-//       address: "84 Arthur Street",
-//       city: "Mount Foster",
-//       state: "NSW",
-//       postcode: "2824",
-//     },
-//     hairColour: "brown",
-//     eyeColour: "brown",
-//     complexion: "fair",
-//     heightNumber: 165,
-//     heightMeasurement: "centimeters",
-//     weightNumber: 75,
-//     weightMeasurement: "kilograms",
-//     gender: "female",
-//     distinctiveFeatures: "flower tattoo left shoulder",
-//   },
-// ];
 
 export function Dashboard() {
   const [reports, setReports] = useState([]);
@@ -110,7 +51,7 @@ export function Dashboard() {
     }
   };
 
-  // run on component mount
+  // run the api call on component mount
   useEffect(() => {
     fetchMissingPersonsData();
   }, []);
@@ -120,7 +61,7 @@ export function Dashboard() {
     setReports(reports);
   }, []);
 
-  // determine which forms/buttons to show when 'update report' is clicked
+  // determine which forms/buttons and report to show when 'update report' is clicked
   const handleUpdateReportButtonClick = (reportId) => {
     const report = reports.find((report) => report._id === reportId);
     if (report) {
@@ -251,22 +192,23 @@ export function Dashboard() {
                       <div className="flex flex-col font-main text-md space-y-.5">
                           <p className="text-xl font-semibold pt-2">Key Details:</p>
                           <p>Height: {report.height.number ? report.height.number + ' ' + report.height.measurement[0] : 'Unreported'}</p>
-                          <p>Weight: {report.weight.number ? report.weight.number[0] + ' ' + report.weight.measurement[0] : 'Unreported'}</p>
+                          <p>Weight: {report.weight.number ? report.weight.number + ' ' + report.weight.measurement[0] : 'Unreported'}</p>
                           <p>Hair Colour: {report.hairColour ? (report.hairColour) : ("Unreported")}</p>
                           <p>Eye Colour: {report.eyeColour ? (report.eyeColour) : ("Unreported")}</p>
                           <p>Complexion: {report.complexion[0] ? (report.complexion[0]) : ("Unreported")}</p>
                           <p>Gender: {report.gender}</p>
+                          <p>Distinctive Features: {report.distinctiveFeatures}</p>
                           <p>Amber Alert: {report.amberAlert ? "Yes" : "No"}</p>
                       </div>
                     </div>
                     {/* report buttons */}
                     <div className="flex space-x-4 pt-2">
                     <RenderFormButton
-                      onClick={() => handleUpdateReportButtonClick(report.reportId)}
+                      onClick={() => handleUpdateReportButtonClick(report._id)}
                       buttonText="Update Report"
                     />
                     <RenderFormButton
-                      onClick={() => handleDeleteReportButtonClick(report.reportId)}
+                      onClick={() => handleDeleteReportButtonClick(report._id)}
                       buttonText="Delete Report"
                     />
                     </div>
@@ -348,21 +290,22 @@ export function Dashboard() {
                 <div className="flex flex-col font-main text-sm">
                     <p className="text-lg font-semibold pt-2">Key Details:</p>
                     <p>Height: {report.height.number ? report.height.number + ' ' + report.height.measurement[0] : 'Unreported'}</p>
-                    <p>Weight: {report.weight.number ? report.weight.number[0] + ' ' + report.weight.measurement[0] : 'Unreported'}</p>
+                    <p>Weight: {report.weight.number ? report.weight.number + ' ' + report.weight.measurement[0] : 'Unreported'}</p>
                     <p>Hair Colour: {report.hairColour ? (report.hairColour) : ("Unreported")}</p>
                     <p>Eye Colour: {report.eyeColour ? (report.eyeColour) : ("Unreported")}</p>
                     <p>Complexion: {report.complexion[0] ? (report.complexion[0]) : ("Unreported")}</p>
                     <p>Gender: {report.gender}</p>
+                    <p>Distinctive Features: {report.distinctiveFeatures}</p>
                     <p>Amber Alert: {report.amberAlert ? "Yes" : "No"}</p>
                 </div>
             </div>
                   <div className="flex space-x-4 pb-3">
                     <RenderFormButton
-                      onClick={() => handleUpdateReportButtonClick(report.reportId)}
+                      onClick={() => handleUpdateReportButtonClick(report._id)}
                       buttonText="Update Report"
                     />
                     <RenderFormButton
-                      onClick={() => handleDeleteReportButtonClick(report.reportId)}
+                      onClick={() => handleDeleteReportButtonClick(report._id)}
                       buttonText="Delete Report"
                     />
                   </div>

@@ -65,7 +65,7 @@ function AmberAlertBanner() {
                   <div className="flex flex-row uppercase" key={alert._id}>
                     <span>{alert.fullName},</span>
                     <span className="ml-1">
-                      {alert.currentAge[0].number} {alert.currentAge[0].type} old,
+                      {alert.currentAge[0].number ? (alert.currentAge[0].number) : ("Unreported")} {alert.currentAge[0].type} old,
                     </span>
                     <span className="ml-1">
                       {alert.locationLastSeen.city}, {alert.locationLastSeen.state}
