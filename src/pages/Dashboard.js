@@ -20,6 +20,7 @@ export function Dashboard() {
   const [showUpdateAccountForm, setShowUpdateAccountForm] = useState(false);
   const [showUpdateReportForm, setShowUpdateReportForm] = useState(false);
   const [showNewReportForm, setShowNewReportForm] = useState(isMdScreenOrLarger);
+
   const [deleteAccount, setDeleteAccount] = useState(false);
   const [showDeleteReportConfirmation, setShowDeleteReportConfirmation] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -264,8 +265,8 @@ export function Dashboard() {
                 </div>
                 ))}
                 </div>
-                <div className="col-span-2 lg:col-start-2 p-2">
-                  <div className="flex flex-row space-x-4 md:justify-center">
+                <div className="col-span-2 lg:col-start-2 lg:pr-4">
+                  <div className="flex flex-row space-x-4 md:justify-center w-full">
                   {!showNewReportForm && (
                     <RenderFormButton
                       onClick={handleNewMPReportButtonClick}

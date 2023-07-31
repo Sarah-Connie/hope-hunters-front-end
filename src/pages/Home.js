@@ -153,7 +153,7 @@ export function Home() {
       {isMdScreenOrLarger ? (
         <div className="p-4 mt-5 lg:p-2 gap-4 w-full flex flex-wrap justify-center justify-around md:text-center">
           {reports.map((report) => (
-            <div className={`flex flex-col p-2 rounded ${report.amberAlert ? 'bg-orange' : 'border border-blue'}`} key={report._id}>
+            <div className={`flex flex-col p-2 rounded w-[350px] ${report.amberAlert ? 'bg-orange' : 'border border-blue'}`} key={report._id}>
               <div className="mt-5">
                 <div className="flex flex-col">
                   <div className="aspect-w-1 aspect-h-1 justify-center flex">
