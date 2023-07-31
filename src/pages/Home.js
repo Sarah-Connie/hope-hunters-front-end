@@ -161,17 +161,21 @@ export function Home() {
                   </div>
                   <div className="flex flex-col font-main p-2">
                     <p className="text-2xl pt-1">{report.fullName}</p>
-                    <p>Current Age: {report.currentAge[0].number} {report.currentAge[0].type} old</p>
-                    <p>Age at Reported Missing: {report.age[0].number} {report.age[0].type} old</p>
+                    <p>Current Age: {report.currentAge[0].number ? report.currentAge[0].number + ' ' + report.currentAge[0].type + ' old' : 'Unreported'}</p>
+                    <p>Age at Reported Missing: {report.age[0].number ? report.age[0].number + ' ' + report.age[0].type + ' old' : 'Unreported'}</p>
                     <p>Height: {report.height.number} {report.height.measurement[0]}</p>
                     <p>Weight: {report.weight.number} {report.weight.measurement[0]}</p>
-                    <p>Date Last Seen: {new Date(report.dateLastSeen).toISOString().split("T")[0]}</p>
-                    <p>Location Last Seen: {report.locationLastSeen.address}, <br/>{report.locationLastSeen.city}, {report.locationLastSeen.state}</p>
+                    <p>Date Last Seen: {report.dateLastSeen ? new Date(report.dateLastSeen).toISOString().split("T")[0] : 'Unreported'}</p>
+                    <p className="py-2">Location Last Seen - </p>
+                    <p>Address: {report.locationLastSeen.address ? (report.locationLastSeen.address) : ("Unreported")}</p>
+                    <p>City: {report.locationLastSeen.city ? (report.locationLastSeen.city) : ("Unreported")}</p>
+                    <p>State: {report.locationLastSeen.state ? (report.locationLastSeen.state) : ("Unreported")}</p>
+                    <p>Area Suspected To Be: {report.areaSuspectedToBe ? (report.areaSuspectedToBe) : ("Unreported")}</p>
+
                     <p className="text-lg font-semibold"><br/>Key Details:</p>
-                    <p>Area Suspected To Be: {report.areaSuspectedToBe}</p>
-                    <p>Hair Colour: {report.hairColour}</p>
-                    <p>Eye Colour: {report.eyeColour}</p>
-                    <p>Complexion: {report.complexion[0]}</p>
+                    <p>Hair Colour: {report.hairColour ? (report.hairColour) : ("Unreported")}</p>
+                    <p>Eye Colour: {report.eyeColour ? (report.eyeColour) : ("Unreported")}</p>
+                    <p>Complexion: {report.complexion[0] ? (report.complexion[0]) : ("Unreported")}</p>
                     <p>Gender: {report.gender}</p>
                     <p>Amber Alert: {report.amberAlert ? "Yes" : "No"}</p>
                   </div>
@@ -183,22 +187,27 @@ export function Home() {
       ) : (
         <div className="p-4 mt-2 w-full flex flex-wrap justify-center">
             {reports.map((report) => (
-            <div className={`flex flex-col p-2 mb-5 rounded ${report.amberAlert ? 'bg-orange' : 'border border-blue'}`} key={report._id}>
+            <div className={`flex flex-col p-4 mb-5 rounded ${report.amberAlert ? 'bg-orange' : 'border border-blue'}`} key={report._id}>
                 <div className="flex flex-row">
                     <div className="aspect-w-1 aspect-h-1 flex items-start flex-grow items-center">
                         <img src={report.photoURL} alt="Missing Person" className="h-28 w-28 object-cover" />
                     </div>
-                    <div className="flex flex-col font-main text-sm pl-2 w-4/6">
-                        <p className="text-lg">{report.fullName}</p>
-                        <p>Current Age: {report.currentAge[0].number} {report.currentAge[0].type} old</p>
-                        <p>Age at Reported Missing: {report.age[0].number} {report.age[0].type} old</p>
-                        <p>Date Last Seen: {new Date(report.dateLastSeen).toISOString().split("T")[0]}</p>
-                        <p>Location Last Seen: {report.locationLastSeen.address}, {report.locationLastSeen.city}, {report.locationLastSeen.state}</p>
+                    <div className="flex flex-col font-main text-sm pl-3 w-4/6">
+                        <p className="text-lg italic pb-1">{report.fullName}</p>
+                        <p>Current Age: {report.currentAge[0].number ? report.currentAge[0].number + ' ' + report.currentAge[0].type + ' old' : 'Unreported'}</p>
+                        <p>Age at Reported Missing: {report.age[0].number ? report.age[0].number + ' ' + report.age[0].type + ' old' : 'Unreported'}</p>
+                        <p>Date Last Seen: {report.dateLastSeen ? new Date(report.dateLastSeen).toISOString().split("T")[0] : 'Unreported'}</p>
+                        <p className="py-2">Location Last Seen - </p>
+                        <p>Address: {report.locationLastSeen.address ? (report.locationLastSeen.address) : ("Unreported")}</p>
+                        <p>City: {report.locationLastSeen.city ? (report.locationLastSeen.city) : ("Unreported")}</p>
+                        <p>State: {report.locationLastSeen.state ? (report.locationLastSeen.state) : ("Unreported")}</p>
+                        <p>Area Suspected To Be: {report.areaSuspectedToBe ? (report.areaSuspectedToBe) : ("Unreported")}</p>
                     </div>
                 </div>
                 <div className="flex flex-col font-main text-sm">
                     <p className="text-lg font-semibold pt-2">Key Details:</p>
-                    <p>Area Suspected To Be: {report.areaSuspectedToBe}</p>
+                    <p>Height: {report.height.number ? report.height.number + ' ' + report.height.measurement[0] : 'Unreported'}</p>
+                    <p>Weight: {report.weight.number ? report.weight.number[0] + ' ' + report.weight.measurement[0] : 'Unreported'}</p>
                     <p>Hair Colour: {report.hairColour}</p>
                     <p>Eye Colour: {report.eyeColour}</p>
                     <p>Complexion: {report.complexion[0]}</p>

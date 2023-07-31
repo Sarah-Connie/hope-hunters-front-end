@@ -44,7 +44,7 @@ function HamburgerMenu() {
           {/* styling for the hamburger "icon" */}
           <div
             className={`space-y-2 transition-all duration-300 relative ${
-              isScrolled ? "z-50 bg-yellow rounded-full h-full w-full p-3" : ""
+              isScrolled ? "z-50 bg-orange rounded-full h-full w-full p-3" : ""
             }`}
             onClick={() => setIsNavOpen((prev) => !prev)}
           >

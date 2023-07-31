@@ -122,7 +122,7 @@ export function Dashboard() {
 
   // determine which forms/buttons to show when 'update report' is clicked
   const handleUpdateReportButtonClick = (reportId) => {
-    const report = reports.find((report) => report.reportId === reportId);
+    const report = reports.find((report) => report._id === reportId);
     if (report) {
       setSelectedReport(report);
       setShowUpdateAccountForm(false);
@@ -134,7 +134,7 @@ export function Dashboard() {
   // not functional yet as intended
   // body for UI development
   const handleDeleteReportButtonClick = (reportId) => {
-    const report = reports.find((report) => report.reportId === reportId);
+    const report = reports.find((report) => report._id === reportId);
     if (report) {
       setSelectedReport(report);
 
@@ -205,39 +205,61 @@ export function Dashboard() {
 
 
   return (
-    <div>
+    <div className={`${isMdScreenOrLarger ? ("p-3") : ("")}`}>
       <div className="pt-10 flex justify-center text-center font-main font-bold text-2xl md:text-3xl">
         {/* Hi {existingMPData.fullName},<br /> welcome back.*/}
         Hi, welcome back.
       </div>
 
       {isMdScreenOrLarger ? (
-        <div className="p-4 mt-5 lg:p-2 grid grid-cols-2 gap-4 space-x-5">
+        // page container
+        <div className="p-2 mt-5lg:p-2 grid grid-cols-2 gap-4 space-x-5">
+          {/* forms container */}
           <div id="#">
             {showUpdateAccountForm && <UpdateUserForm />}
             {showUpdateReportForm && <UpdateMPForm existingMPData={selectedReport} />}
             {showNewReportForm && <NewMPForm />}
           </div>
-          <div className="flex flex-col p-2">
+          {/* reports container */}
+          <div className="flex flex-col">
           <p className="flex justify-center font-main font-semibold text-3xl pt-3">Your Active Reports</p>
-          {error && (
+            {error && (
                 <p className="mt-10 flex justify-center text-center italic text-red-500 text-xl mb-4">{error}</p>
             )}
+            {/* report rendering */}
                 {reports.map((report) => (
-                  <div className="mt-5" 
-                  key={report.reportId}
+                  <div className="mt-5 mb-3"  
+                  key={report._id}
                   >
-                    <div className="flex flex-row">
-                        <div className="aspect-w-1 aspect-h-1">
-                          <img src={report.photoURL} alt="Missing Person" className="h-52 w-52 object-cover" />
+                    <div className={`flex flex-col p-5 mb-1 rounded ${report.amberAlert ? 'bg-orange' : 'border border-blue'}`} key={report._id}>
+                      <div className="flex flex-row">
+                      <div className="aspect-w-1 aspect-h-1 flex items-start flex-grow items-center">
+                            <img src={report.photoURL} alt="Missing Person" className="h-52 w-52 object-cover" />
                         </div>
-                        <div className="flex flex-col font-main pl-4">
-                            <p className="text-2xl">{report.fullName}</p>
-                            <p>{report.ageNumber} {report.ageMeasurement} old</p>
-                            <p>Last Seen: {new Date (report.dateLastSeen).toISOString().split("T")[0]}</p>
-                            <p>Location Last Seen: {report.locationLastSeen.address}</p>
+                        <div className="flex flex-col space-y-.5 font-main text-md pl-5 w-4/6">
+                            <p className="text-2xl pb-2 italic">{report.fullName}</p>
+                            <p>Age at Reported Missing: {report.age[0].number ? report.age[0].number + ' ' + report.age[0].type + ' old' : 'Unreported'}</p>
+                            <p>Date Last Seen: {report.dateLastSeen ? new Date(report.dateLastSeen).toISOString().split("T")[0] : 'Unreported'}</p>
+                            <p>Current Age: {report.currentAge[0].number ? report.currentAge[0].number + ' ' + report.currentAge[0].type + ' old' : 'Unreported'}</p>
+                            <p className="py-2">Location Last Seen - </p>
+                            <p>Address Last Seen: {report.locationLastSeen.address ? (report.locationLastSeen.address) : ("Unreported")}</p>
+                            <p>City Last Seen: {report.locationLastSeen.city ? (report.locationLastSeen.city) : ("Unreported")}</p>
+                            <p>State Last Seen: {report.locationLastSeen.state ? (report.locationLastSeen.state) : ("Unreported")}</p>
+                            <p>Area Suspected To Be: {report.areaSuspectedToBe ? (report.areaSuspectedToBe) : ("Unreported")}</p>
                         </div>
+                      </div>
+                      <div className="flex flex-col font-main text-md space-y-.5">
+                          <p className="text-xl font-semibold pt-2">Key Details:</p>
+                          <p>Height: {report.height.number ? report.height.number + ' ' + report.height.measurement[0] : 'Unreported'}</p>
+                          <p>Weight: {report.weight.number ? report.weight.number[0] + ' ' + report.weight.measurement[0] : 'Unreported'}</p>
+                          <p>Hair Colour: {report.hairColour ? (report.hairColour) : ("Unreported")}</p>
+                          <p>Eye Colour: {report.eyeColour ? (report.eyeColour) : ("Unreported")}</p>
+                          <p>Complexion: {report.complexion[0] ? (report.complexion[0]) : ("Unreported")}</p>
+                          <p>Gender: {report.gender}</p>
+                          <p>Amber Alert: {report.amberAlert ? "Yes" : "No"}</p>
+                      </div>
                     </div>
+                    {/* report buttons */}
                     <div className="flex space-x-4 pt-2">
                     <RenderFormButton
                       onClick={() => handleUpdateReportButtonClick(report.reportId)}
@@ -248,7 +270,7 @@ export function Dashboard() {
                       buttonText="Delete Report"
                     />
                     </div>
-                  </div>
+                </div>
                 ))}
                 </div>
                 <div className="col-span-2 lg:col-start-2 p-2">
@@ -284,7 +306,7 @@ export function Dashboard() {
                 </div>
                 </div>
       ) : (
-        <div className="p-4">
+        <div className="p-2">
           <div className="flex w-1/2 space-x-1 p-2">
             {!showNewReportForm && (
               <RenderFormButton
@@ -302,22 +324,39 @@ export function Dashboard() {
             <div className="flex flex-col p-2">
               <p className="flex justify-center font-main font-semibold text-2xl pt-3">Your Active Reports</p>
               {error && (
-                <p className="mt-10 mb-5 flex justify-center italic text-red-500 text-lg md:text-xl text-center">{error}</p>
+                <p className="mt-10 mb-5 flex justify-center italic text-red-500 text-lg text-center">{error}</p>
               )}
               {reports.map((report) => (
-                <div className="mt-5" key={report.reportId}>
+                <div className="mt-5" key={report._id}>
+                  <div className={`flex flex-col p-2 mb-3 rounded ${report.amberAlert ? 'bg-orange' : 'border border-blue'}`} key={report._id}>
                   <div className="flex flex-row">
-                    <div className="aspect-w-1 aspect-h-1">
-                      <img src={report.photoURL} alt="Missing Person" className="h-52 w-52 object-cover" />
+                    <div className="aspect-w-1 aspect-h-1 flex items-start flex-grow items-center">
+                        <img src={report.photoURL} alt="Missing Person" className="h-28 w-28 object-cover" />
                     </div>
-                    <div className="flex flex-col font-main pl-4 text-sm">
-                      <p className="text-lg">{report.fullName}</p>
-                      <p>{report.ageNumber} {report.ageMeasurement} old</p>
-                      <p>Last Seen: {new Date(report.dateLastSeen).toISOString().split("T")[0]}</p>
-                      <p>Location Last Seen: {report.locationLastSeen.address}</p>
+                    <div className="flex flex-col font-main text-sm pl-4 w-4/6">
+                        <p className="text-lg pb-1">{report.fullName}</p>
+                        <p>Age at Reported Missing: {report.age[0].number ? report.age[0].number + ' ' + report.age[0].type + ' old' : 'Unreported'}</p>
+                        <p>Date Last Seen: {report.dateLastSeen ? new Date(report.dateLastSeen).toISOString().split("T")[0] : 'Unreported'}</p>
+                        <p>Current Age: {report.currentAge[0].number ? report.currentAge[0].number + ' ' + report.currentAge[0].type + ' old' : 'Unreported'}</p>
+                        <p className="py-2">Location Last Seen - </p>
+                        <p>Address Last Seen: {report.locationLastSeen.address ? (report.locationLastSeen.address) : ("Unreported")}</p>
+                        <p>City Last Seen: {report.locationLastSeen.city ? (report.locationLastSeen.city) : ("Unreported")}</p>
+                        <p>State Last Seen: {report.locationLastSeen.state ? (report.locationLastSeen.state) : ("Unreported")}</p>                   
+                        <p>Area Suspected To Be: {report.areaSuspectedToBe ? (report.areaSuspectedToBe) : ("Unreported")}</p>
                     </div>
-                  </div>
-                  <div className="flex space-x-4 pt-2">
+                </div>
+                <div className="flex flex-col font-main text-sm">
+                    <p className="text-lg font-semibold pt-2">Key Details:</p>
+                    <p>Height: {report.height.number ? report.height.number + ' ' + report.height.measurement[0] : 'Unreported'}</p>
+                    <p>Weight: {report.weight.number ? report.weight.number[0] + ' ' + report.weight.measurement[0] : 'Unreported'}</p>
+                    <p>Hair Colour: {report.hairColour ? (report.hairColour) : ("Unreported")}</p>
+                    <p>Eye Colour: {report.eyeColour ? (report.eyeColour) : ("Unreported")}</p>
+                    <p>Complexion: {report.complexion[0] ? (report.complexion[0]) : ("Unreported")}</p>
+                    <p>Gender: {report.gender}</p>
+                    <p>Amber Alert: {report.amberAlert ? "Yes" : "No"}</p>
+                </div>
+            </div>
+                  <div className="flex space-x-4 pb-3">
                     <RenderFormButton
                       onClick={() => handleUpdateReportButtonClick(report.reportId)}
                       buttonText="Update Report"
