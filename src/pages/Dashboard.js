@@ -58,6 +58,7 @@ export function Dashboard() {
         console.error("Error fetching missing persons data:", error);
       }
     }
+
   };
 
   // // run the api call on component mount
@@ -76,9 +77,10 @@ export function Dashboard() {
     }, []);
   
     // store the returned reports anytime the reports change
-    useEffect(() => {
-      setReports(reports);
-    }, [reports]);
+    // useEffect(() => {
+    //   setReports(reports);
+    //   setOriginalReports(reports)
+    // }, [reports]);
 
   // determine which forms/buttons and report to show when 'update report' is clicked
   const handleUpdateReportButtonClick = (reportId) => {
@@ -226,8 +228,13 @@ export function Dashboard() {
         <div className="p-2 mt-5lg:p-2 grid grid-cols-2 gap-4 space-x-5">
           {/* forms container */}
           <div id="#">
-          <DashboardSearchBar onSearchResult={handleSearchResult} reports={reports} />
-
+            {originalReports.length >= 4 && (
+                <DashboardSearchBar
+                  onSearchResult={handleSearchResult}
+                  reports={reports}
+                  originalReports={originalReports}
+                />
+            )}
             {showUpdateAccountForm && <UpdateUserForm />}
             {showUpdateReportForm && <UpdateMPForm existingMPData={selectedReport} />}
             {showNewReportForm && <NewMPForm />}
@@ -237,6 +244,11 @@ export function Dashboard() {
           <p className="flex justify-center font-main font-semibold text-3xl pt-3">Your Active Reports</p>
             {error && (
                 <p className="mt-10 flex justify-center text-center italic text-red-500 text-xl mb-4">{error}</p>
+            )}
+            {reports.length === 0 && !error && (
+              <p className="m-5 w-full flex justify-center text-blue text-xl md:text-2xl ml-3 italic">
+                No missing persons reports found.
+              </p>
             )}
             {/* report rendering */}
                 {reports.map((report) => (
@@ -336,6 +348,15 @@ export function Dashboard() {
               />
             )}
           </div>
+          {originalReports.length >= 4 && (
+            <div className="m-0">
+              <DashboardSearchBar
+                onSearchResult={handleSearchResult}
+                reports={reports}
+                originalReports={originalReports}
+              />
+            </div>
+          )}
           <div>
             {showUpdateAccountForm && <UpdateUserForm />}
             {showUpdateReportForm && <UpdateMPForm existingMPData={selectedReport} />}
@@ -346,6 +367,11 @@ export function Dashboard() {
               <p className="flex justify-center font-main font-semibold text-2xl pt-3">Your Active Reports</p>
               {error && (
                 <p className="mt-10 mb-5 flex justify-center italic text-red-500 text-lg text-center">{error}</p>
+              )}
+              {reports.length === 0 && !error && (
+                <p className="m-5 w-full flex justify-center text-blue text-xl md:text-2xl ml-3 italic">
+                  No missing persons reports found.
+                </p>
               )}
               {reports.map((report) => (
                 <div className="mt-5" key={report._id}>

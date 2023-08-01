@@ -90,11 +90,13 @@ import { useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "../api/axios";
+import useAuth from "./AuthContext";
 
 const EmailVerification = () => {
   const navigate = useNavigate();
   const isMdScreenOrLarger = useMediaQuery({ minWidth: 768 });
   const { userEmail } = useParams();
+  const { user } = useAuth();
 
   useEffect(() => {
     // Check if email matches the required domain
@@ -103,8 +105,8 @@ const EmailVerification = () => {
 
     // Make the API call to the backend based on the email domain
     const apiRoute = isPoliceUser
-      ? `/signup/police/confirmation/${userEmail}`
-      : `/signup/general/confirmation/${userEmail}`;
+      ? `users/signup/police/confirmation/${userEmail}`
+      : `users/signup/general/confirmation/${userEmail}`;
 
     axios
       .put(apiRoute)

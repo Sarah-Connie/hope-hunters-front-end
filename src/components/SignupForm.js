@@ -259,7 +259,7 @@ export function SignupForm() {
       if (verificationSent===true) {
       return (
         <div className="font-main flex justify-center text-center text-lg md:text-2xl">
-            <p className="">A verification link has been sent to your email! Please confirm to verify your account.</p>
+            <p className="w-[300px]">A verification link has been sent to your email! Please confirm to verify your account.</p>
         </div>
         );
       }

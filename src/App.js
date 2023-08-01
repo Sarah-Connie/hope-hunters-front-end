@@ -26,7 +26,7 @@ function App() {
               <Dashboard />
             </PrivateRoute>} 
             />
-            <Route path ="/verified" element={<EmailVerification/>}/>          
+            <Route path ="/verified/:userEmail" element={<EmailVerification/>}/>          
           </Route>
         </Routes>
     </BrowserRouter>
