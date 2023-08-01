@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import SuccessMsg from "./SuccessMsg";
 import axios from "../api/axios";
 
-export function NewMPForm() {
+export function NewMPForm({ fetchAllReports }) {
   const [fullName, setFullName] = useState("");
   const [photoURL, setPhotoURL] = useState("");
   const [ageNumber, setAgeNumber] = useState("");
@@ -99,6 +99,7 @@ export function NewMPForm() {
         setGender("");
         setDistinctiveFeatures("");
         setAmberAlert(false);
+        fetchAllReports();
 
       } else if (response.status === 400) {
         setError("Report could not be saved. Please try again later.");

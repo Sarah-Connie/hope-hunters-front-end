@@ -4,7 +4,7 @@ import axios from "../api/axios";
 import { useAuth } from "./AuthContext";
 import { Navigate, useNavigate } from "react-router-dom";
 
-export function UpdateMPForm({existingMPData}) {
+export function UpdateMPForm({ existingMPData, fetchAllReports }) {
   const [formValues, setFormValues] = useState(existingMPData);
   const [verifySent, setVerifySent] = useState(false);
   const [selectedReport, setSelectedReport] = useState(existingMPData);
@@ -79,6 +79,7 @@ export function UpdateMPForm({existingMPData}) {
         // Form submission successful, render success message
         setFormValues({});
         setVerifySent(true);
+        fetchAllReports();
       } else if (response.status === 400) {
         setError("Update could not be completed. Please try again later.");
       } else {
