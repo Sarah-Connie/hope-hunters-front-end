@@ -43,7 +43,8 @@ const AuthProvider = ({ children, location, history }) => {
     }
     console.log("User:", user);
   
-  }, [user]);
+  }, []);
+  // removed user from dependency array 
 
 
   const loginUser = async (userData) => {
@@ -60,13 +61,13 @@ const AuthProvider = ({ children, location, history }) => {
             admin: admin,
             police: police,
           };
-          setUser(user);
+          // setUser(user);
           setAuthData(user);
           console.log('Setting user:', user); 
   
           setIsLoggedIn(true);
           sessionStorage.setItem("loggedInStatus", "true");
-  
+          
           // Refresh the token 
           await refreshAuthToken();
         
@@ -89,9 +90,6 @@ const AuthProvider = ({ children, location, history }) => {
         } else if (status === 404) {
           setError(errorMessage);
         }
-        // } else if (status === 401) {
-        //   refreshAuthToken();
-        // } 
         else {
           setError("An error occurred during login. Please try again.");
         }
@@ -135,7 +133,7 @@ const AuthProvider = ({ children, location, history }) => {
     } catch (error) {
       console.error("Error while refreshing token:", error);
       setError('An error occurred while refreshing the token.');
-      throw error; // Throw the error here
+      throw error;
     }
   };
   
@@ -146,7 +144,6 @@ const AuthProvider = ({ children, location, history }) => {
     setIsLoggedIn(false);
     sessionStorage.removeItem('token');
     sessionStorage.setItem('loggedInStatus', 'false');
-
     console.log("Logout successful");
   };
 

@@ -71,17 +71,8 @@ export function UpdateUserForm() {
           return;
       }
       
-
+      console.log(user);
       try {
-          // updated user details object
-          // const updatedUserDetails = {
-          // name: userName,
-          // // email: newEmail ? newEmail : userEmail,
-          // password: confirmPassword,
-          // stationName: stationName,
-          // policeAreaCommand: policeAreaCommand,
-          // policeDistrict: policeDistrict,
-          // };
 
           // set userDetails as an empty array and conditionally populate
           // to send the data to the backend to avoid overwriting as null

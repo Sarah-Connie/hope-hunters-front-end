@@ -7,7 +7,8 @@ export function LoginForm() {
   const [userPassword, setUserPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { login, refreshAuthToken } = useAuth();
+  const { login, refreshAuthToken, user } = useAuth();
+
 
 
   const handleSubmit = async (event) => {

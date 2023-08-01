@@ -60,11 +60,6 @@ export function NewMPForm() {
       amberAlert: amberAlert
     };
 
-    // TODO: Crosscheck route and server statuses 
-    // Send the newMissingPerson object to the backend for saving
-    // add db url
-    // Get the authentication token from session
-
     // Send the updated missing person data to the backend for updating
     try {
       const authToken = `Bearer ${sessionStorage.getItem("token")}`;
@@ -237,6 +232,7 @@ export function NewMPForm() {
             id="currentAgeMeasurement"
             value={currentAgeMeasurement}
             onChange={(e) => setCurrentAgeMeasurement(e.target.value)}
+            required={currentAgeNumber !== ''}
           >
             <option value="">Select an option</option>
             <option value="hour">hour</option>
@@ -386,7 +382,11 @@ export function NewMPForm() {
           htmlFor="weightMeasurement">Unit:</label>
             <select 
             className="shadow appearance-none border rounded w-54 py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="weightMeasurement" value={weightMeasurement}  onChange={(e) => setWeightMeasurement(e.target.value)}>
+            id="weightMeasurement" 
+            value={weightMeasurement}  
+            onChange={(e) => setWeightMeasurement(e.target.value)}
+            required={weightNumber !== ''}
+            >
                 <option value="">Select an Option</option>
                 <option value="kilograms">Kilograms</option>
                 <option value="grams">Grams</option>

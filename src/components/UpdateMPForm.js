@@ -205,6 +205,8 @@ export function UpdateMPForm({existingMPData}) {
             name="currentAgeMeasurement"
             value={formValues.currentAgeMeasurement || ""}
             onChange={handleChange}
+            required={formValues.currentAge !== ''}
+
           >
             <option value="">Select an option</option>
             <option value="hour">hour</option>
@@ -373,7 +375,7 @@ export function UpdateMPForm({existingMPData}) {
             name="weightMeasurement" 
             value={formValues.weightMeasurement || ""}  
             onChange={handleChange}
-            // disabled={formValues.weightMeasurement ? true : false}
+            required={formValues.weight.number !== ''}
             >
                 <option value="">Select an Option</option>
                 <option value="kilograms">Kilograms</option>
