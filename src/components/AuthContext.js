@@ -17,8 +17,15 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children, location, history }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   const [error, setError] = useState("");
+
+  const userJSON = sessionStorage.getItem('user');
+  const initialUser = userJSON ? JSON.parse(userJSON) : null;
+
+  const [user, setUser] = useState(initialUser);
+  
+
   // const [user, setUser] = useState({ police: false });
 
   // // persist the login status 
@@ -38,13 +45,13 @@ const AuthProvider = ({ children, location, history }) => {
   
     if (token && loggedInStatus === 'true') {
       setIsLoggedIn(true);
+      setUser(initialUser);
     } else {
       logout();
     }
     console.log("User:", user);
   
-  }, []);
-  // removed user from dependency array 
+  }, [isLoggedIn]);
 
 
   const loginUser = async (userData) => {
@@ -56,26 +63,26 @@ const AuthProvider = ({ children, location, history }) => {
   
         if (responseData && responseData.token) {
           const { token, admin, police } = responseData;
-          const user = { 
+          const user = {
             token: responseData.token,
             admin: admin,
             police: police,
           };
-          // setUser(user);
-          setAuthData(user);
-          console.log('Setting user:', user); 
   
+          setAuthData(user);
           setIsLoggedIn(true);
-          sessionStorage.setItem("loggedInStatus", "true");
-          
-          // Refresh the token 
+          sessionStorage.setItem('loggedInStatus', 'true');
+  
+          // Refresh the token
           await refreshAuthToken();
-        
-          // Setting the original token
-          sessionStorage.setItem('token', token);
-          console.log("Original token prior to refresh:", token)
+  
+          // Setting the original token and other user details in session storage
+          sessionStorage.setItem('token', user.token);
+          sessionStorage.setItem('user', JSON.stringify(user));
+  
+          console.log('Login successful. User details:', user);
+        }
       }
-    }
   }
     catch (error) {
       console.log(error);
@@ -140,10 +147,11 @@ const AuthProvider = ({ children, location, history }) => {
 
 
   const logout = () => {
-    setAuthData(null);
+    setUser(null);
     setIsLoggedIn(false);
     sessionStorage.removeItem('token');
     sessionStorage.setItem('loggedInStatus', 'false');
+    sessionStorage.removeItem('user');
     console.log("Logout successful");
   };
 

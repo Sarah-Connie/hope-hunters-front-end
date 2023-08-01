@@ -9,6 +9,7 @@ import ConfirmationWindow from "../components/ConfirmationWindow";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../components/AuthContext"
 import SuccessMsg from "../components/SuccessMsg";
+import DashboardSearchBar from "../components/DashboardSearchbar";
 
 
 export function Dashboard() {
@@ -28,6 +29,11 @@ export function Dashboard() {
   const [originalReports, setOriginalReports] = useState([]);
 
   const { logout, user } = useAuth();
+  // const isPoliceUser = sessionStorage.getItem(user.police);
+  // const isAdmin = sessionStorage.getItem(user.admin);
+  const userType = user && (!user.police && !user.admin) ? 'general' : 'police/admin';
+  const apiEndpoint = userType === 'general' ? '/users/search' : '/missing/search';
+  
    
   const [deletionError, setDeletionError] = useState("");
   const navigate = useNavigate();
@@ -67,7 +73,7 @@ export function Dashboard() {
     // run the api call when reports get updated
     useEffect(() => {
       fetchMissingPersonsData();
-    }, [reports]);
+    }, []);
   
     // store the returned reports anytime the reports change
     useEffect(() => {
@@ -195,6 +201,18 @@ export function Dashboard() {
     setShowNewReportForm(true);
   };
 
+  // Callback function to update reports based on search result
+  const handleSearchResult = (searchResult) => {
+    setReports(searchResult);
+    setError(''); // Clear the search error when a new search is performed
+  };
+
+  const handleClearSearch = () => {
+    // Set the "reports" state back to the original list from api call
+    setReports(originalReports);
+    setError('');
+  };
+
 
   return (
     <div className={`${isMdScreenOrLarger ? ("p-3") : ("")}`}>
@@ -208,6 +226,8 @@ export function Dashboard() {
         <div className="p-2 mt-5lg:p-2 grid grid-cols-2 gap-4 space-x-5">
           {/* forms container */}
           <div id="#">
+          <DashboardSearchBar onSearchResult={handleSearchResult} reports={reports} />
+
             {showUpdateAccountForm && <UpdateUserForm />}
             {showUpdateReportForm && <UpdateMPForm existingMPData={selectedReport} />}
             {showNewReportForm && <NewMPForm />}
