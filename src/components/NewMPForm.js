@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SuccessMsg from "./SuccessMsg";
 import axios from "../api/axios";
 
@@ -301,6 +301,7 @@ export function NewMPForm() {
             id="locationState"
             value={locationState}
             onChange={(e) => setLocationState(e.target.value)}
+            required
           >
             <option value="">Select a State</option>
             <option value="NSW">NSW</option>
@@ -433,6 +434,23 @@ export function NewMPForm() {
   //     </div>
   //     );
   //     };
+
+  // const resetVerifySent = () => {
+  //   setVerifySent(false);
+  // };
+
+  // timer to render default dash when form has been sent, after success msg shown
+  useEffect(() => {
+    let timer;
+    if (verifySent) {
+      timer = setTimeout(() => {
+        setVerifySent(false);
+      }, 2000);
+    }
+
+    // Clear the timer when the component unmounts or when verifySent changes
+    return () => clearTimeout(timer);
+  }, [verifySent]);
 
   return (
       <div>

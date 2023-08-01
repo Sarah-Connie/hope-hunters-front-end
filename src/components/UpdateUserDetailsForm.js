@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "../api/axios";
 import SuccessMsg from "./SuccessMsg";
 import { useAuth } from "./AuthContext";
@@ -275,6 +275,21 @@ const updateDetailsForm = () => {
 //     </div>
 //     );
 //     };
+
+
+// timer to render default dash when form has been sent, after success msg shown
+useEffect(() => {
+  let timer;
+  if (verifySent) {
+    timer = setTimeout(() => {
+      setVerifySent(false);
+    }, 2000);
+  }
+
+  // Clear the timer when the component unmounts or when verifySent changes
+  return () => clearTimeout(timer);
+}, [verifySent]);
+
 
 return (
     <div>

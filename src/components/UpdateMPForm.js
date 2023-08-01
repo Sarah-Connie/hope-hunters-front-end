@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import SuccessMsg from "./SuccessMsg";
 import axios from "../api/axios";
 import { useAuth } from "./AuthContext";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export function UpdateMPForm({existingMPData}) {
   const [formValues, setFormValues] = useState(existingMPData);
   const [verifySent, setVerifySent] = useState(false);
   const [selectedReport, setSelectedReport] = useState(existingMPData);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   // const { user } = useAuth();
   
@@ -192,7 +194,7 @@ export function UpdateMPForm({existingMPData}) {
             type="number"
             id="currentAgeNumber"
             name="currentAgeNumber"
-            value={formValues.currentAgeNumber}
+            value={formValues.currentAgeNumber || ""}
             min={1}
             max={110}
             onChange={handleChange}
@@ -283,6 +285,7 @@ export function UpdateMPForm({existingMPData}) {
             name="locationLastSeen.state"
             value={formValues.locationLastSeen.state || ""}
             onChange={handleChange}
+            required
           >
             <option value="">Select a State</option>
             <option value="NSW">NSW</option>
