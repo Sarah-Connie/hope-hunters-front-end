@@ -47,7 +47,7 @@ export function Dashboard() {
           Authorization: authToken,
         },
       });
-  
+
       setReports(response.data);
       setOriginalReports(response.data);
     } catch (error) {
@@ -58,29 +58,25 @@ export function Dashboard() {
         console.error("Error fetching missing persons data:", error);
       }
     }
-
   };
 
-  // // run the api call on component mount
-  // useEffect(() => {
-  //   fetchMissingPersonsData();
-  // }, []);
+  // run the api call when reports get updated
+   useEffect(() => {
+    fetchMissingPersonsData();
+  }, []);
 
   // // store the returned reports on mount
   // useEffect(() => {
   //   setReports(reports);
   // }, []);
 
-    // run the api call when reports get updated
-    useEffect(() => {
-      fetchMissingPersonsData();
-    }, []);
-  
-    // store the returned reports anytime the reports change
-    // useEffect(() => {
-    //   setReports(reports);
-    //   setOriginalReports(reports)
-    // }, [reports]);
+
+  // // store the returned reports anytime the reports change
+  // // will show live when a user adds, deletes, or updates a report
+  // useEffect(() => {
+  //   setReports(reports);
+  //   // setOriginalReports(reports)
+  // }, [reports]);
 
   // determine which forms/buttons and report to show when 'update report' is clicked
   const handleUpdateReportButtonClick = (reportId) => {
@@ -122,6 +118,7 @@ export function Dashboard() {
         console.log("Report successfully deleted.")
         setShowDeleteReportConfirmation(false);
         setShowNewReportForm(true);
+        fetchMissingPersonsData();
         
       } else if (response.status === 404){
         // Handle deletion failure
@@ -228,7 +225,14 @@ export function Dashboard() {
         <div className="p-2 mt-5lg:p-2 grid grid-cols-2 gap-4 space-x-5">
           {/* forms container */}
           <div id="#">
-            {originalReports.length >= 4 && (
+            {originalReports.length >= 4 && userType === "general" && (
+                <DashboardSearchBar
+                  onSearchResult={handleSearchResult}
+                  reports={reports}
+                  originalReports={originalReports}
+                />
+            )}
+            {userType !== "general" && (
                 <DashboardSearchBar
                   onSearchResult={handleSearchResult}
                   reports={reports}
@@ -348,15 +352,20 @@ export function Dashboard() {
               />
             )}
           </div>
-          {originalReports.length >= 4 && (
-            <div className="m-0">
-              <DashboardSearchBar
-                onSearchResult={handleSearchResult}
-                reports={reports}
-                originalReports={originalReports}
-              />
-            </div>
-          )}
+          {originalReports.length >= 4 && userType === "general" && (
+                <DashboardSearchBar
+                  onSearchResult={handleSearchResult}
+                  reports={reports}
+                  originalReports={originalReports}
+                />
+            )}
+            {userType !== "general" && (
+                <DashboardSearchBar
+                  onSearchResult={handleSearchResult}
+                  reports={reports}
+                  originalReports={originalReports}
+                />
+            )}
           <div>
             {showUpdateAccountForm && <UpdateUserForm />}
             {showUpdateReportForm && <UpdateMPForm existingMPData={selectedReport} />}

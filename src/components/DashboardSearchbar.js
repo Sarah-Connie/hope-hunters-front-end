@@ -7,7 +7,9 @@ const DashboardSearchBar = ({ onSearchResult, reports, originalReports }) => {
   const [searchError, setSearchError] = useState('');
   const { user } = useAuth;
 
-  const general = (user && !user.police && !user.admin);
+  const userType = user && (!user.police && !user.admin) ? 'general' : 'police/admin';
+  const apiEndpoint = userType === 'general' ? '/users/missing/search' : '/missing/search';
+
     
   const handleSearch = async () => {
     try {
@@ -40,7 +42,7 @@ const DashboardSearchBar = ({ onSearchResult, reports, originalReports }) => {
 
         const authToken = `Bearer ${sessionStorage.getItem('token')}`;
         
-        const response = await axios.get(`/missing/users/search/${searchTerm}`, 
+        const response = await axios.get(`${apiEndpoint}/${searchTerm}`, 
         {
         headers: {
             Authorization: authToken,
@@ -48,8 +50,6 @@ const DashboardSearchBar = ({ onSearchResult, reports, originalReports }) => {
         }
     
     );
-
-
       // Update the reports state in the Dashboard component with the search results
       onSearchResult(response.data);
 
