@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import { useEffect } from 'react';
 import { PageLayout } from './pages/PageLayout';
 import Home from './pages/Home';
 import { ReportPage } from './pages/ReportPage';
@@ -8,7 +7,6 @@ import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import { Dashboard } from './pages/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
-import PersistLogin from './components/PersistLogin';
 import EmailVerification from './components/SignupVerification';
 
 

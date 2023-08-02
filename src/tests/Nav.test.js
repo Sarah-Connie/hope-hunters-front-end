@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { useMediaQuery } from 'react-responsive';
 import userEvent from '@testing-library/user-event';
 import Nav from '../components/Nav';
-import HamburgerMenu from '../components/HamburgerMenu';
+import AuthProvider from '../components/AuthContext';
 
 jest.mock('react-responsive', () => ({
     useMediaQuery: jest.fn(),
@@ -17,7 +17,9 @@ describe('Nav Component Rendering Tests', () => {
     test('renders login, sign up, and home links on small screens only', () => {
         render(
         <MemoryRouter>
+          <AuthProvider>
             <Nav />
+          </AuthProvider>
         </MemoryRouter>
         );
     
@@ -36,7 +38,9 @@ describe('Nav Component Rendering Tests', () => {
         
         render(
         <MemoryRouter initialEntries={['/']}>
+          <AuthProvider>
             <Nav />
+          </AuthProvider>
         </MemoryRouter>
         );
     
@@ -52,7 +56,9 @@ describe('Nav Component Rendering Tests', () => {
     test('renders home link when not on home page (applicable to md/lg screens only)', () => {
         render(
             <MemoryRouter initialEntries={["/other"]}>
-              <Nav />
+              <AuthProvider>
+                <Nav />
+              </AuthProvider>
             </MemoryRouter>
           );
         
@@ -66,7 +72,9 @@ describe('Nav Component Rendering Tests', () => {
 
         render(
             <MemoryRouter>
-              <Nav isLoggedIn={true}/>
+              <AuthProvider>
+                <Nav isLoggedIn={true}/>
+              </AuthProvider>
             </MemoryRouter>
           );
         
@@ -81,8 +89,10 @@ describe('Nav Component Rendering Tests', () => {
         useMediaQuery.mockReturnValueOnce(true); 
 
         render(
-        <MemoryRouter>
-            <Nav isLoggedIn={false} />
+          <MemoryRouter>
+          <AuthProvider>
+            <Nav isLoggedIn={false}/>
+          </AuthProvider>
         </MemoryRouter>
         );
         const loginLink = screen.getByRole('link', { href: '/login' });
@@ -97,9 +107,11 @@ describe('Nav Component Rendering Tests', () => {
         useMediaQuery.mockReturnValueOnce(true); 
 
         render(
-        <MemoryRouter>
-            <Nav isLoggedIn={true} />
-        </MemoryRouter>
+          <MemoryRouter>
+            <AuthProvider>
+              <Nav isLoggedIn={true}/>
+            </AuthProvider>
+          </MemoryRouter>
         );
     
         const loginLink = screen.queryByText("Login");
@@ -120,7 +132,9 @@ describe('Nav Component Link to Path Tests', () => {
 
         render(
         <Router>
-          <Nav />
+          <AuthProvider>
+            <Nav />
+          </AuthProvider>
         </Router>
         );
       
@@ -135,7 +149,9 @@ describe('Nav Component Link to Path Tests', () => {
 
         render(
         <Router>
-          <Nav isLoggedIn={true}/>
+          <AuthProvider>
+            <Nav isLoggedIn={true}/>
+          </AuthProvider>
         </Router>
         );
       
@@ -149,9 +165,11 @@ describe('Nav Component Link to Path Tests', () => {
         useMediaQuery.mockReturnValueOnce(true); 
 
         render(
-        <Router>
-          <Nav isLoggedIn={true}/>
-        </Router>
+          <Router>
+            <AuthProvider>
+              <Nav isLoggedIn={true}/>
+            </AuthProvider>
+          </Router>
         );
       
         const link = screen.getByText(/dashboard/i);
@@ -165,7 +183,9 @@ describe('Nav Component Link to Path Tests', () => {
 
         render(
         <Router>
-          <Nav isLoggedIn={true}/>
+          <AuthProvider>
+            <Nav isLoggedIn={true}/>
+          </AuthProvider>
         </Router>
         );
       

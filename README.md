@@ -38,14 +38,23 @@ Please see a large version of the purposefully designed logo for the Hope Helper
 
 - ##### Dashboard
     >
-    Original Prototype:
-    >
-    ![desktop proto](./src/assets/images/desktop-dash-proto.png)
-    >
-    Once in the process of developing, the original design for the dashboard on larger screens, specifically the 'Active Reports' section, became too cramped and busy. In order to preserve visual importance and clarity for the user, the design was modified to feature a single column of reports rather than two columns. 
-    >
-    In making this modification, the images and related missing person information remain at a size promoting readability for users of all ages to better understand visually. The layout is neater and more succinct in directing the user to the intended action whilst remaining neat.
-    >
-    Please see below for the final layout.
-    >
-    
+    - Desktop
+        >
+        Original Prototype:
+        >
+        ![desktop proto](./src/assets/images/desktop-dash-proto.png)
+        >
+        Once in the process of developing, the original design for the dashboard on larger screens, specifically the 'Active Reports' section, became too cramped and busy. In order to preserve visual importance and clarity for the user, the design was modified to feature a single column of reports rather than two columns. 
+        >
+        In making this modification, the images and related missing person information remain at a size promoting readability for users of all ages to better understand visually. The layout is neater and more succinct in directing the user to the intended action whilst remaining neat.
+        >
+        Please see below for the final layout.
+        >
+        ![dash final](./src/assets/images/dash-final.png)
+        > 
+        The header navigation links were also modified to render a link back to 'home' for navigational convenience.
+        > 
+    - Mobile 
+        >
+        the position of the searchbar and 'File New Report' form were also slightly changed. This was due to the fact that the buttons for forms are connected, meaning when one button is clicked, the others are manipulated to show whatever text to access whatever form is not displayed.
+        >

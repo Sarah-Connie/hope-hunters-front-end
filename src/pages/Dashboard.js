@@ -427,7 +427,7 @@ export function Dashboard() {
                 </div>
               ))}
             </div>
-            <div className="flex flex-row relative space-x-4 p-2">
+            <div className="flex flex-row space-x-4 p-2">
               {!showUpdateAccountForm && (
                 <RenderFormButton
                   onClick={handleUpdateDetailsButtonClick}

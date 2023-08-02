@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import SortMenu from '../components/SortingMenu';
-import axios from '../api/axios';
 
 // Mock the axios module
 jest.mock('../api/axios', () => ({

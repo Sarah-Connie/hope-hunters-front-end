@@ -3,6 +3,8 @@ import { render, screen, waitFor } from '@testing-library/react';
 import axios from '../api/axios';
 import { act } from 'react-dom/test-utils';
 import AmberAlertBanner from '../components/AmberBanner';
+import { BrowserRouter } from 'react-router-dom';
+import AuthProvider from '../components/AuthContext';
 
 jest.mock('../api/axios', () => ({
   get: jest.fn(() => Promise.resolve({ data: [] })),
@@ -13,7 +15,13 @@ describe('AmberAlert Banner Component Tests', () => {
     const mockAmberAlerts = [];
 
     axios.get.mockResolvedValueOnce({ data: mockAmberAlerts });
-    render(<AmberAlertBanner />);
+    render(
+    <BrowserRouter>
+      <AuthProvider>
+        <AmberAlertBanner />
+      </AuthProvider>
+    </BrowserRouter>
+    );
 
     await waitFor(() => {
       expect(screen.getByText('No Active Amber Alerts')).toBeInTheDocument();
@@ -23,7 +31,13 @@ describe('AmberAlert Banner Component Tests', () => {
   test('displays "Amber Alerts currently unavailable" when API call fails', async () => {
     axios.get.mockRejectedValueOnce(new Error('API error'));
 
-    render(<AmberAlertBanner />);
+    render(
+    <BrowserRouter>
+      <AuthProvider>
+        <AmberAlertBanner />
+      </AuthProvider>
+    </BrowserRouter>
+    );
 
     await waitFor(() => {
       expect(screen.getByText('Amber Alerts currently unavailable')).toBeInTheDocument();
@@ -48,7 +62,13 @@ describe('AmberAlert Banner Component Tests', () => {
 
     axios.get.mockResolvedValueOnce({ data: mockAmberAlerts });
 
-    render(<AmberAlertBanner />);
+    render(
+    <BrowserRouter>
+      <AuthProvider>
+        <AmberAlertBanner />
+      </AuthProvider>
+    </BrowserRouter>
+    );
 
     // Wait for the animation to start (2s delay)
     await act(async () => {
@@ -59,11 +79,13 @@ describe('AmberAlert Banner Component Tests', () => {
     expect(screen.getByText('Active Amber Alerts')).toBeInTheDocument();
 
     // Ensure that the alert details are displayed
-    expect(screen.getByText('John Doe,')).toBeInTheDocument();
-    expect(screen.getByText('10 years old,')).toBeInTheDocument();
-    expect(screen.getByText('City 1, State 1')).toBeInTheDocument();
-    expect(screen.getByText('Jane Smith,')).toBeInTheDocument();
-    expect(screen.getByText('7 years old,')).toBeInTheDocument();
-    expect(screen.getByText('City 2, State 2')).toBeInTheDocument();
+    expect(screen.getByText('John Doe')).toBeInTheDocument();
+    expect(screen.getByText('10 years old')).toBeInTheDocument();
+    expect(screen.getByText('City 1')).toBeInTheDocument();
+    expect(screen.getByText('State 1')).toBeInTheDocument();
+    expect(screen.getByText('Jane Smith')).toBeInTheDocument();
+    expect(screen.getByText('7 years old')).toBeInTheDocument();
+    expect(screen.getByText('City 2')).toBeInTheDocument();
+    expect(screen.getByText('State 2')).toBeInTheDocument();
   });
 });

@@ -2,12 +2,15 @@ import { render, screen } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import { Header } from "../components/Header"
+import AuthProvider from "../components/AuthContext";
 
 describe("Header Component Rendering Tests", () => {
   test("renders the Hope Helpers header element", () => {
     render(
       <Router>
-        <Header />
+        <AuthProvider>
+          <Header />
+        </AuthProvider>
       </Router>
     );
 
@@ -17,9 +20,11 @@ describe("Header Component Rendering Tests", () => {
 
   test("renders the Nav component in the Header component", () => {
     render(
-      <Router>
+    <Router>
+      <AuthProvider>
         <Header />
-      </Router>
+      </AuthProvider>
+    </Router>
     );
 
     const navElement = screen.getByRole("navigation");
@@ -28,9 +33,11 @@ describe("Header Component Rendering Tests", () => {
 
   it("displays the correct navigational link in the Header component", () => {
     render(
-      <Router>
+    <Router>
+      <AuthProvider>
         <Header />
-      </Router>
+      </AuthProvider>
+    </Router>
     );
 
     const homeLink = screen.getByRole("link", { name: /Hope Helpers/i });
@@ -39,9 +46,11 @@ describe("Header Component Rendering Tests", () => {
 
   test("navigates to the homepage when clicking the Hope Helpers wording", () => {
     render(
-      <Router>
+    <Router>
+      <AuthProvider>
         <Header />
-      </Router>
+      </AuthProvider>
+    </Router>
     );
 
     const headerElement = screen.getByText(/Hope Helpers/i);

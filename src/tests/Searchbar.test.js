@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom/extend-expect';
 import SearchBar from '../components/Searchbar';
 import axios from '../api/axios';
+import AuthProvider from '../components/AuthContext';
 
 // Mock the axios module
 jest.mock('../api/axios', () => ({
@@ -13,7 +14,9 @@ describe('SearchBar Component Rendering Tests', () => {
   test('renders search bar elements', () => {
     render(
       <BrowserRouter>
-        <SearchBar onSearchResult={() => {}} />
+        <AuthProvider>
+          <SearchBar onSearchResult={() => {}} />
+        </AuthProvider>
       </BrowserRouter>
     );
 
@@ -32,7 +35,9 @@ describe('SearchBar Component Rendering Tests', () => {
   test('handles search term change and API call', () => {
     render(
       <BrowserRouter>
-        <SearchBar onSearchResult={() => {}} />
+        <AuthProvider>
+          <SearchBar onSearchResult={() => {}} />
+        </AuthProvider>
       </BrowserRouter>
     );
 
@@ -54,10 +59,12 @@ describe('SearchBar Component Rendering Tests', () => {
 
     render(
       <BrowserRouter>
-        <SearchBar
-          onSearchResult={onSearchResultMock}
-          onSortChange={onSortChangeMock}
-        />
+        <AuthProvider>
+          <SearchBar
+            onSearchResult={onSearchResultMock}
+            onSortChange={onSortChangeMock}
+          />
+        </AuthProvider>
       </BrowserRouter>
     );
 
@@ -74,7 +81,9 @@ describe('SearchBar Component Rendering Tests', () => {
   test('displays search error for invalid search term', () => {
     render(
       <BrowserRouter>
-        <SearchBar onSearchResult={() => {}} />
+        <AuthProvider>
+          <SearchBar onSearchResult={() => {}} />
+        </AuthProvider>
       </BrowserRouter>
     );
 
@@ -90,7 +99,9 @@ describe('SearchBar Component Rendering Tests', () => {
   test('updates search term when typing', () => {
     render(
       <BrowserRouter>
-        <SearchBar onSearchResult={() => {}} />
+        <AuthProvider>
+          <SearchBar onSearchResult={() => {}} />
+        </AuthProvider>
       </BrowserRouter>
     );
 
@@ -109,7 +120,9 @@ describe('Searchbar URL Handling Tests', () => {
 
     render(
       <BrowserRouter>
-        <SearchBar onSearchResult={onSearchResultMock} />
+        <AuthProvider>
+          <SearchBar onSearchResult={onSearchResultMock} />
+        </AuthProvider>
       </BrowserRouter>
     );
 
@@ -127,7 +140,9 @@ describe('Searchbar URL Handling Tests', () => {
   test('updates URL when changing the search term', () => {
     render(
       <BrowserRouter>
-        <SearchBar onSearchResult={() => {}} />
+        <AuthProvider>
+          <SearchBar onSearchResult={() => {}} />
+        </AuthProvider>
       </BrowserRouter>
     );
 
@@ -144,7 +159,9 @@ describe('Searchbar URL Handling Tests', () => {
   test('updates URL when clearing the search term', () => {
     render(
       <BrowserRouter>
-        <SearchBar onSearchResult={() => {}} originalReports={[]} onSortChange={() => {}} />
+        <AuthProvider>
+          <SearchBar onSearchResult={() => {}} originalReports={[]} onSortChange={() => {}} />
+        </AuthProvider>
       </BrowserRouter>
     );
 
@@ -167,7 +184,9 @@ describe('Searchbar URL Handling Tests', () => {
 
     render(
       <BrowserRouter>
-        <SearchBar onSearchResult={() => {}} />
+        <AuthProvider>
+          <SearchBar onSearchResult={() => {}} />
+        </AuthProvider>
       </BrowserRouter>
     );
 
@@ -183,7 +202,9 @@ describe('Searchbar URL Handling Tests', () => {
 
     const { unmount } = render(
       <BrowserRouter>
-        <SearchBar onSearchResult={() => {}} />
+        <AuthProvider>
+          <SearchBar onSearchResult={() => {}} />
+        </AuthProvider>
       </BrowserRouter>
     );
 
@@ -205,13 +226,15 @@ describe('SearchBar Error Handling Tests', () => {
 
     render(
       <BrowserRouter>
-        <SearchBar
-          onSearchResult={onSearchResultMock}
-          originalReports={[]}
-          onSortChange={onSortChangeMock}
-          sortError={sortErrorMock}
-          hasSortError={hasSortErrorMock}
-        />
+      <AuthProvider>
+          <SearchBar
+            onSearchResult={onSearchResultMock}
+            originalReports={[]}
+            onSortChange={onSortChangeMock}
+            sortError={sortErrorMock}
+            hasSortError={hasSortErrorMock}
+          />
+        </AuthProvider>
       </BrowserRouter>
     );
 
@@ -222,7 +245,9 @@ describe('SearchBar Error Handling Tests', () => {
   test('displays search error for invalid search term', () => {
     render(
       <BrowserRouter>
-        <SearchBar onSearchResult={() => {}} />
+        <AuthProvider>
+          <SearchBar onSearchResult={() => {}} />
+        </AuthProvider>
       </BrowserRouter>
     );
 
@@ -238,7 +263,9 @@ describe('SearchBar Error Handling Tests', () => {
   test('displays search error for incomplete search term', () => {
     render(
       <BrowserRouter>
-        <SearchBar onSearchResult={() => {}} />
+        <AuthProvider>
+          <SearchBar onSearchResult={() => {}} />
+        </AuthProvider>
       </BrowserRouter>
     );
 
