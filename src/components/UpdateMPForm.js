@@ -208,6 +208,7 @@ export function UpdateMPForm({ existingMPData, fetchAllReports }) {
             min={1}
             max={110}
             onChange={handleChange}
+            required={formValues.amberAlert === true}
           />
           <label className="text-gray-700 text-sm font-bold mb-1 mt-2 lg:mt-0"
           htmlFor="currentAgeMeasurement">Unit of Time:</label>
