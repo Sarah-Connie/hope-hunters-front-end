@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 
 function HamburgerMenu() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isHome, setIsHome] = useState(false);
+
+  const location = useLocation();
 
   const { isLoggedIn, logout } = useAuth();
 
@@ -16,6 +19,10 @@ function HamburgerMenu() {
       document.body.style.overflow = "auto";
     }
   }, [isNavOpen]);
+
+  useEffect(() => {
+    setIsHome(location.pathname === "/");
+  }, [location]);
 
   const handleLinkClick = () => {
     setIsNavOpen(false);
@@ -72,7 +79,7 @@ function HamburgerMenu() {
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </div>
-            <ul className={`flex flex-col items-center justify-between min-h-[250px] text-xl text-white ${isScrolled && isNavOpen ? "mt-32" : ""}`}>
+            <ul className={`flex flex-col items-center justify-between min-h-[250px] text-xl text-white ${isScrolled && isNavOpen && isHome ? "mt-32 z-50" : "z-50"}`}>
               {/* if user is logged in display only dashboard and logout links.
               conditional home link rendered thru general nav */}
               {isLoggedIn ? (

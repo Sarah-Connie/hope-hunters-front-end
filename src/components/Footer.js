@@ -13,6 +13,7 @@ export function Footer() {
         <div className="flex items-center justify-between h-full">
             <div>
                 <p className="text-xs">If this is an emergency, please call 000 immediately.</p>
+                <p className="text-xs pt-2">Contact us at hopehelpersaus@gmail.com</p>            
             </div>
             {/* render logo as a navlink back to homepage */}
             <div>
@@ -28,6 +29,7 @@ export function Footer() {
         // on small screens, orient vertically 
         <div className="flex flex-col items-center justify-center">
             <p className="text-xs pt-2">If this is an emergency, please call 000 immediately.</p>
+            <p className="text-xs pt-2">Contact us at hopehelpersaus@gmail.com</p>
             {/* render logo as a navlink back to homepage */}
             <div className="">
                 <NavLink to="/" className="text-xl text-semibold">
