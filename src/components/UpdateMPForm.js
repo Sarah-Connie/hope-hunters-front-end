@@ -3,11 +3,13 @@ import SuccessMsg from "./SuccessMsg";
 import axios from "../api/axios";
 import { useAuth } from "./AuthContext";
 import { Navigate, useNavigate } from "react-router-dom";
+import NewMPForm from "./NewMPForm";
 
 export function UpdateMPForm({ existingMPData, fetchAllReports }) {
   const [formValues, setFormValues] = useState(existingMPData);
   const [verifySent, setVerifySent] = useState(false);
   const [selectedReport, setSelectedReport] = useState(existingMPData);
+  const [showNewMPForm, setShowNewMPForm] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -80,6 +82,13 @@ export function UpdateMPForm({ existingMPData, fetchAllReports }) {
         setFormValues({});
         setVerifySent(true);
         fetchAllReports();
+
+        setTimeout(() => {
+          setVerifySent(false);
+          setShowNewMPForm(true);
+
+        }, 3000);
+  
       } else if (response.status === 400) {
         setError("Update could not be completed. Please try again later.");
       } else {
@@ -429,6 +438,8 @@ export function UpdateMPForm({ existingMPData, fetchAllReports }) {
     <div>
       {verifySent ? (
         <SuccessMsg message={"Thank you. Your missing person report has been successfully updated."} />
+      ) : showNewMPForm ? (
+        <NewMPForm /> // Show the NewMPForm instead of the SuccessMsg
       ) : (
         updateMPForm()
       )}

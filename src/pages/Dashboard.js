@@ -368,8 +368,8 @@ export function Dashboard() {
             )}
           <div>
             {showUpdateAccountForm && <UpdateUserForm />}
-            {showUpdateReportForm && <UpdateMPForm existingMPData={selectedReport} />}
-            {showNewReportForm && <NewMPForm />}
+            {showUpdateReportForm && <UpdateMPForm existingMPData={selectedReport} fetchAllReports={fetchMissingPersonsData}/>}
+            {showNewReportForm && <NewMPForm fetchAllReports={fetchMissingPersonsData}/>}
           </div>
           <div>
             <div className="flex flex-col p-2">

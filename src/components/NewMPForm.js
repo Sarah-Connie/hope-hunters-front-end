@@ -75,6 +75,7 @@ export function NewMPForm({ fetchAllReports }) {
       if (response.status === 200) {
         // Form submission successful, render success message
         setVerifySent(true);
+        fetchAllReports();
 
         // Reset the form fields
         setFullName("");
@@ -99,7 +100,6 @@ export function NewMPForm({ fetchAllReports }) {
         setGender("");
         setDistinctiveFeatures("");
         setAmberAlert(false);
-        fetchAllReports();
 
       } else if (response.status === 400) {
         setError("Report could not be saved. Please try again later.");
