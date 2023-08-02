@@ -41,23 +41,34 @@ const EmailVerification = () => {
           const errorMessage = error.response.data.error;
           if (errorMessage === "User account could not be verified") {
             // Show error message and redirect to the signup page again
-            setError("User account could not be verified. Please try again.");
-            if (isMdScreenOrLarger) {
-              navigate("/report");
-            } else {
-              navigate("/signup");
-            }
+            setError("User account could not be verified. Please try again. Rerouting now...");
+            // if (isMdScreenOrLarger) {
+            //   navigate("/report");
+            // } else {
+            //   navigate("/signup");
+            // }
           } else if (errorMessage === "Unable to find user document.") {
-            setError("Account not found, please sign up instead.");
-            if (isMdScreenOrLarger) {
-              navigate("/report");
-            } else {
-              navigate("/signup");
-            }
+            setError("Account not found, please sign up instead. Rerouting now...");
+            // if (isMdScreenOrLarger) {
+            //   navigate("/report");
+            // } else {
+            //   navigate("/signup");
+            // }
           }
         } else {
-          setError("Unable to verify your account. Please try again later.");
+          setError("Unable to verify your account. Please try again later. Rerouting now...");
         }
+
+        // Set a timer to navigate after 5 seconds
+        const timer = setTimeout(() => {
+          if (isMdScreenOrLarger) {
+            navigate("/report");
+          } else {
+            navigate("/signup");
+          }
+        }, 5000);
+
+        return () => clearTimeout(timer);
       }
     };
 
@@ -66,7 +77,7 @@ const EmailVerification = () => {
 
   if (error) {
     // Render the error message if there is one
-    return <p className="m-5 w-full flex justify-center text-red-500 text-xl md:text-2xl ml-3 italic">{error}</p>;
+    return <p className="m-5 w-[500px] flex justify-center text-red-500 text-xl md:text-2xl ml-3 italic">{error}</p>;
   }
 
   return null;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 
+
 import axios from '../api/axios';
 const SIGNUP_URL = '/users/signup';
 
@@ -16,6 +17,7 @@ export function SignupForm() {
   const [policeDistrict, setPoliceDistrict] = useState("");
 
   const [verificationSent, setVerificationSent] = useState(false);
+  // const hashedPassword = bcrypt.hashSync(userPassword, 15);
 
 
   const handleEmailChange = (event) => {
@@ -259,7 +261,7 @@ export function SignupForm() {
       if (verificationSent===true) {
       return (
         <div className="font-main flex justify-center text-center text-lg md:text-2xl">
-            <p className="w-[300px]">A verification link has been sent to your email! Please confirm to verify your account.</p>
+            <p className="w-[300px] pb-5">A verification link has been sent to your email! Please confirm to verify your account.</p>
         </div>
         );
       }

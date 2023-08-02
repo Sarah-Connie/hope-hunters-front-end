@@ -90,7 +90,6 @@ const AuthProvider = ({ children, location, history }) => {
         const status = error.response.status;
         const errorMessage = error.response.data.error;
         if (status === 400) {
-          // Access the error message from the Axios error response
           setError(errorMessage); 
         } else if (status === 401) {
           setError(errorMessage);
