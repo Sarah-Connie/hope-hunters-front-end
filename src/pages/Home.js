@@ -3,6 +3,7 @@ import { useMediaQuery } from "react-responsive";
 import axios from "../api/axios";
 import SearchBar from "../components/Searchbar";
 import AmberAlertBanner from "../components/AmberBanner";
+import ShareButtons from "../components/SocialShares";
 
 export function Home() {
   const [reports, setReports] = useState([]);
@@ -153,10 +154,11 @@ export function Home() {
       {isMdScreenOrLarger ? (
         <div className="p-4 mt-5 lg:p-2 gap-4 w-full flex flex-wrap justify-center justify-around md:text-center">
           {reports.map((report) => (
-            // 350-400px is optimal
-            <div className={`flex flex-col p-2 rounded w-[400px] ${report.amberAlert ? 'bg-orange' : 'border border-blue'}`} key={report._id}>
+            <div className={`flex flex-col p-2 rounded md:w-[350px] lg:w-[400px] ${report.amberAlert ? 'bg-orange' : 'border border-blue'}`} key={report._id}>
               <div className="mt-5">
+                <ShareButtons report={report} />
                 <div className="flex flex-col">
+                 
                   <div className="aspect-w-1 aspect-h-1 justify-center flex">
                     <img src={report.photoURL} alt="Missing Person" className="md:h-52 md:w-52 lg:h-64 lg:w-64 object-cover" />
                   </div>
@@ -190,6 +192,7 @@ export function Home() {
         <div className="p-4 mt-2 w-full flex flex-wrap justify-center">
             {reports.map((report) => (
             <div className={`flex flex-col p-4 mb-5 rounded ${report.amberAlert ? 'bg-orange' : 'border border-blue'}`} key={report._id}>
+                <ShareButtons report={report} />
                 <div className="flex flex-row">
                     <div className="aspect-w-1 aspect-h-1 flex items-start flex-grow items-center">
                         <img src={report.photoURL ? (report.photoURL) : ("No Photo Provided")} alt="Missing Person" className="h-28 w-28 object-cover" 

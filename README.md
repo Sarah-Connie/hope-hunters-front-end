@@ -52,9 +52,18 @@ Please see a large version of the purposefully designed logo for the Hope Helper
         >
         ![dash final](./src/assets/images/dash-final.png)
         > 
-        The header navigation links were also modified to render a link back to 'home' for navigational convenience.
+        The header navigation links were also modified to render a link back to home `/` when not on the `/` route for navigational convenience.
         > 
     - Mobile 
         >
-        the position of the searchbar and 'File New Report' form were also slightly changed. This was due to the fact that the buttons for forms are connected, meaning when one button is clicked, the others are manipulated to show whatever text to access whatever form is not displayed.
+        The position of the searchbar and 'File New Report' form were also slightly changed. This was due to the fact that the buttons for forms are connected, meaning when one button is clicked, the others are manipulated to show whatever text to access whatever form is not displayed.
         >
+        ![mobile dash proto](./src/assets/images/mobile-dash-proto.png)
+        >
+        Rather than position them side by side, continuity was chosen between the main page and the dashboard, in terms of the layout. On the dashboard, the searchbar is conditionally rendered if the user has more than 4 reports, or if they're admin/police users. A layout that suited when the searchbar wasn't rendered without leaving a gaping space in the UI was required.
+        >
+        It was also important that the search bar input was no cut off, so it was moved to sit under the 'File New Report' button whose position is static regardless of the searchbar rendering.
+        >
+         ![mobile dash final](./src/assets/images/mobile-dash-final.png)
+        >
+        Lastly, for the mobile dashboard, no form is rendered on mount in order to allow the user to view the full UI and reports prior to opening up a report form. The report form sits in the planned location, under the 'File New Report' button/searchbar and above the active reports on file.
