@@ -222,7 +222,7 @@ export function Dashboard() {
 
       {isMdScreenOrLarger ? (
         // page container
-        <div className="p-2 mt-5lg:p-2 grid grid-cols-2 gap-4 space-x-5">
+        <div className="p-2 mt-5 lg:p-2 grid grid-cols-2 gap-4 space-x-5">
           {/* forms container */}
           <div id="#">
             {originalReports.length >= 4 && userType === "general" && (

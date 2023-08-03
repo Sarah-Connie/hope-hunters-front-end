@@ -112,8 +112,8 @@ export function UpdateMPForm({ existingMPData, fetchAllReports }) {
   const updateMPForm = () => {
     return (
       <div>
-        <p className="flex justify-center w-full font-main font-semibold text-2xl my-4 md:ml-5">Update Missing Person Report</p>
-        <form className="flex flex-col w-full font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-2 mb-4 md:ml-5" onSubmit={handleSubmit}>
+        <p className="flex justify-center w-full font-main font-semibold text-2xl my-4">Update Missing Person Report</p>
+        <form className="flex flex-col w-full font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-2 mb-4 lg:ml-3" onSubmit={handleSubmit}>
           <div className="mb-2 md:mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-1 md:mb-2" htmlFor="fullName">Full Name:</label>
             <input

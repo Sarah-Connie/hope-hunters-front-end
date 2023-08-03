@@ -131,7 +131,7 @@ const updateDetailsForm = () => {
         <p className="flex justify-center w-full font-main font-semibold text-2xl lg:ml-5 my-4">
             Update Account Details
         </p>
-        <form className="flex flex-col w-full font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4 lg:ml-5"
+        <form className="flex flex-col w-full font-main bg-yellow border-8 solid shadow-md rounded px-8 pt-8 pb-10 mb-4 lg:ml-3"
         onSubmit={handleSubmit}>
            <div className="flex justify-center font-main italic text-xl mb-4">Enter your details below.</div>
         {/* disable ability to change account name for police users */}
