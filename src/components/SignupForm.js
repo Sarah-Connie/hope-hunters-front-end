@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-
-
+import bcrypt from 'bcryptjs'
 import axios from '../api/axios';
 const SIGNUP_URL = '/users/signup';
 
@@ -12,12 +11,15 @@ export function SignupForm() {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const [confirmedPassword, setConfirmedPassword] = useState("");
   const [stationName, setStationName] = useState("");
   const [policeAreaCommand, setPoliceAreaCommand] = useState("");
   const [policeDistrict, setPoliceDistrict] = useState("");
 
   const [verificationSent, setVerificationSent] = useState(false);
-  // const hashedPassword = bcrypt.hashSync(userPassword, 15);
+  
+  const salt = bcrypt.genSaltSync(10)
+  const hashedPassword = bcrypt.hashSync(confirmedPassword, salt);
 
 
   const handleEmailChange = (event) => {
@@ -52,21 +54,28 @@ export function SignupForm() {
     if (userPassword.length < 8) {
       setError("Password must be at least 8 characters long.");
     }
+
+    if (userPassword !== confirmedPassword) {
+      setError("Passwords do not match. Please try again.");
+    }
+
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     validateEmail();
 
-    if (emailError || userPassword.length < 8) {
+    if (emailError || userPassword.length < 8 || (userPassword!==confirmedPassword)) {
       setVerificationSent(false);
       return;
     }
 
+
     const formData = {
       fullName: userName,
       email: userEmail,
-      password: userPassword,
+      password: hashedPassword,
+      // password: confirmedPassword,
       stationName: stationName,
       policeAreaCommand: policeAreaCommand,
       policeDistrict: policeDistrict,
@@ -106,7 +115,7 @@ export function SignupForm() {
   // Reset the error state whenever the form fields change + reenable submit button
   useEffect(() => {
     setError("");
-  }, [userName, userEmail, userPassword, stationName, policeAreaCommand, policeDistrict]);
+  }, [userName, userEmail, userPassword, confirmedPassword, stationName, policeAreaCommand, policeDistrict]);
 
   const renderPoliceFields = () => {
     if (selectedOption === "police_user") {
@@ -207,6 +216,19 @@ export function SignupForm() {
                 type="password"
                 name="password"
                 onChange={(e) => setUserPassword(e.target.value)}
+                required
+            />
+            </div>
+            <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+                Confirm Password:
+            </label>
+            <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="confirmedPassword"
+                type="password"
+                name="confirmedPassword"
+                onChange={(e) => setConfirmedPassword(e.target.value)}
                 required
             />
             </div>
