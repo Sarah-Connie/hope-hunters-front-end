@@ -1,9 +1,15 @@
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+import { useAuth } from "./AuthContext";
 
-function HamburgerMenu({ isLoggedIn }) {
+function HamburgerMenu() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isHome, setIsHome] = useState(false);
+
+  const location = useLocation();
+
+  const { isLoggedIn, logout } = useAuth();
 
 
   useEffect(() => {
@@ -13,6 +19,10 @@ function HamburgerMenu({ isLoggedIn }) {
       document.body.style.overflow = "auto";
     }
   }, [isNavOpen]);
+
+  useEffect(() => {
+    setIsHome(location.pathname === "/");
+  }, [location]);
 
   const handleLinkClick = () => {
     setIsNavOpen(false);
@@ -41,7 +51,7 @@ function HamburgerMenu({ isLoggedIn }) {
           {/* styling for the hamburger "icon" */}
           <div
             className={`space-y-2 transition-all duration-300 relative ${
-              isScrolled ? "z-50 bg-yellow rounded-full h-full w-full p-3" : ""
+              isScrolled ? "z-50 bg-orange border-4 border-lightblue rounded-full h-full w-full p-2.5" : ""
             }`}
             onClick={() => setIsNavOpen((prev) => !prev)}
           >
@@ -69,12 +79,20 @@ function HamburgerMenu({ isLoggedIn }) {
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </div>
-            <ul className={`flex flex-col items-center justify-between min-h-[250px] text-xl text-white ${isScrolled && isNavOpen ? "mt-32" : ""}`}>
+            <ul className={`flex flex-col items-center justify-between min-h-[250px] text-xl text-white ${isScrolled && isNavOpen && isHome ? "mt-32 z-50" : ""}`}>
               {/* if user is logged in display only dashboard and logout links.
               conditional home link rendered thru general nav */}
               {isLoggedIn ? (
                 <>
-                  <li className="border-b border-white mb-8 uppercase">
+                 <li className="border-b border-white mb-8 uppercase">
+                    <NavLink
+                      to="/"
+                      onClick={handleLinkClick}
+                    >
+                      Home
+                    </NavLink>
+                  </li>
+                  <li className="border-b border-white my-8 uppercase">
                     <NavLink
                       to="/dashboard"
                       onClick={handleLinkClick}
@@ -83,12 +101,13 @@ function HamburgerMenu({ isLoggedIn }) {
                     </NavLink>
                   </li>
                   <li className="border-b border-white my-8 uppercase">
-                    <NavLink
-                      to="/"
-                      onClick={handleLinkClick}
+                  <NavLink to="/" 
+                    onClick={() => { 
+                      setIsNavOpen(false); 
+                      logout(); }}
                     >
-                      Logout
-                    </NavLink>
+                    Logout
+                  </NavLink>
                   </li>
                 </>
               ) : (

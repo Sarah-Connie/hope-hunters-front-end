@@ -1,13 +1,16 @@
 import { NavLink } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useMediaQuery } from 'react-responsive';
+import { useAuth } from "./AuthContext";
 import HamburgerMenu from "./HamburgerMenu";
 
-export function Nav({isLoggedIn}) {
+
+export function Nav() {
   const location = useLocation();
+  const { isLoggedIn, logout } = useAuth();
   const isMdScreenOrLarger = useMediaQuery({ minWidth: 768 });
 
-  const linkStyle = "p-2 border hover:scale-105 transition-transform duration-300"
+  const linkStyle = "flex items-center p-2 border hover:scale-105 transition-transform duration-300"
   const isHomePage = location.pathname === "/";
 
   return (
@@ -16,7 +19,7 @@ export function Nav({isLoggedIn}) {
         {isMdScreenOrLarger ? (
             <div className="">
                 {/* possibly change to 2xl depending on how other links render when loggedin */}
-                <ul className="text-3xl flex flex-row px-5">
+                <ul className="md:text-2xl lg:text-3xl flex flex-row px-5 text-center">
                     {/* Show home link when not on homepage */}
                     {!isHomePage && (
                     <li className={`mr-10 ${linkStyle}`}>
@@ -33,7 +36,7 @@ export function Nav({isLoggedIn}) {
                     {/* add adjustment to appropriately log user out but direct to homepage 
                     need to wait until login functionality is coded */}
                     <li className={`${linkStyle}`}>
-                    <NavLink to="/">Logout</NavLink>
+                    <NavLink to="/" onClick={logout}>Logout</NavLink>
                     </li>
                 </>
                 ) : (
