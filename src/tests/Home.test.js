@@ -179,4 +179,71 @@ describe('Home Component Tests', () => {
       ).toBeInTheDocument();
     });
   });
+
+  test('End-to-End Test for Home component, fetch and render reports', async () => {
+    // Sample data for testing
+    const mockReports = [
+      {
+        _id: '1',
+        fullName: 'John Doe',
+        currentAge: [{ number: 30, type: 'years' }],
+        age: [{ number: 25, type: 'years' }],
+        dateLastSeen: '2023-07-01',
+        locationLastSeen: {
+          address: '123 Main St',
+          city: 'Sydney',
+          state: 'NSW',
+          postcode: '2000',
+        },
+        areaSuspectedToBe: 'City',
+        height: { number: 180, measurement: ['cm'] },
+        weight: { number: 70, measurement: ['kg'] },
+        hairColour: 'Black',
+        eyeColour: 'Brown',
+        complexion: ['Light'],
+        gender: 'Male',
+        distinctiveFeatures: 'Tattoo on arm',
+        amberAlert: false,
+        photoURL: 'https://example.com/photo.jpg',
+      },
+    ];
+
+    // Mock the API response
+    axios.get.mockResolvedValueOnce({ data: mockReports });
+
+    // Render the Home component
+    render(<Home />);
+
+    // Wait for the API call to be resolved and data to be loaded
+    await waitFor(() => {
+      // Check if the component renders the reports correctly
+      mockReports.forEach((report) => {
+        expect(screen.getByText(report.fullName)).toBeInTheDocument();
+        expect(screen.getByText(`Current Age: ${report.currentAge[0].number} ${report.currentAge[0].type} old`)).toBeInTheDocument();
+        
+        expect(screen.getByText(`Age at Reported Missing: ${report.age[0].number} ${report.age[0].type} old`)).toBeInTheDocument();
+
+        // Check date last seen
+        expect(screen.getByText(`Date Last Seen: ${report.dateLastSeen}`)).toBeInTheDocument();
+
+        // Check location last seen
+        expect(screen.getByText(`City: ${report.locationLastSeen.city}`)).toBeInTheDocument();
+
+        // Check area suspected to be
+        expect(screen.getByText(`Area Suspected To Be: ${report.areaSuspectedToBe}`)).toBeInTheDocument();
+
+        // // Check complexion, gender, and distinctive features
+        expect(screen.getByText(`Complexion: ${report.complexion[0]}`)).toBeInTheDocument();
+        expect(screen.getByText(`Gender: ${report.gender}`)).toBeInTheDocument();
+        expect(screen.getByText(`Distinctive Features: ${report.distinctiveFeatures}`)).toBeInTheDocument();
+
+        // Check for image rendering
+        expect(screen.getByAltText('Missing Person')).toBeInTheDocument();
+      });
+
+      // Check if there are no error messages displayed
+      expect(screen.queryByText(/Error/i)).toBeNull();
+    });
+  });
+
 });
