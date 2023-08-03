@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SuccessMsg from "./SuccessMsg";
 import axios from "../api/axios";
-import { useAuth } from "./AuthContext";
-import { Navigate, useNavigate } from "react-router-dom";
 import NewMPForm from "./NewMPForm";
 
 export function UpdateMPForm({ existingMPData, fetchAllReports }) {
@@ -11,14 +9,11 @@ export function UpdateMPForm({ existingMPData, fetchAllReports }) {
   const [selectedReport, setSelectedReport] = useState(existingMPData);
   const [showNewMPForm, setShowNewMPForm] = useState(false);
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
-  // const { user } = useAuth();
   
   // added so that error reloads when the existing MP data changes
   useEffect(() => {
     setError();
-    // console.log(existingMPData)
   }, [existingMPData]);
 
   useEffect(() => {
@@ -77,7 +72,6 @@ export function UpdateMPForm({ existingMPData, fetchAllReports }) {
       });
 
       if (response.status === 200) {
-        console.log(formValues);
         // Form submission successful, render success message
         setFormValues({});
         setVerifySent(true);

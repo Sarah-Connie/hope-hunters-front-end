@@ -105,7 +105,6 @@ export function NewMPForm({ fetchAllReports }) {
         setError("Report could not be saved. Please try again later.");
         setVerifySent(false);
       } else {
-        console.error("Failed to save the report to the system.");
         setError("Updated details could not be saved. Please try again.");
         setVerifySent(false);
       }
@@ -124,10 +123,6 @@ export function NewMPForm({ fetchAllReports }) {
       }
     }
 
-    // // delay so render appears after form has been successfully "sent" to backend
-    // setTimeout(() => {
-    //   setVerifySent(true);
-    // }, 2000);
   
   };
 
@@ -429,17 +424,6 @@ export function NewMPForm({ fetchAllReports }) {
     </div>
   )}
 
-  // const renderSuccessMessage = () => {
-  //     return (
-  //     <div className="font-main flex justify-center text-center text-lg md:text-2xl">
-  //         <p className="w-1/2">Thank you. <br/><br/> Your missing person report has successfully been submitted.</p>
-  //     </div>
-  //     );
-  //     };
-
-  // const resetVerifySent = () => {
-  //   setVerifySent(false);
-  // };
 
   // timer to render default dash when form has been sent, after success msg shown
   useEffect(() => {

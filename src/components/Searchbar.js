@@ -99,6 +99,8 @@ const SearchBar = ({ onSearchResult, originalReports, onSortChange, sortError, h
         // reset the selected option in the dropdown if applicable
         setSelectedOption("")
         }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchTerm]);
 
 

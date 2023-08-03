@@ -7,7 +7,7 @@ export function LoginForm() {
   const [userPassword, setUserPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { login, refreshAuthToken, user } = useAuth();
+  const { login, refreshAuthToken } = useAuth();
 
 
 
@@ -34,7 +34,6 @@ export function LoginForm() {
       if (error.response && error.response.data && error.response.data.error) {
         setError(error.response.data.error);
       } else {
-        console.log(error)
         setError("An error occurred during login. Please try again.");
       }
     

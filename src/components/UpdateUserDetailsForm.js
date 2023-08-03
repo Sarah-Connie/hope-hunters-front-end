@@ -4,15 +4,11 @@ import axios from "../api/axios";
 import SuccessMsg from "./SuccessMsg";
 import { useAuth } from "./AuthContext";
 
-
 export function UpdateUserForm() {
-    const [emailError, setEmailError] = useState("");
     const [error, setError] = useState("");
     const [verifySent, setVerifySent] = useState(false);
 
     const [userName, setUserName] = useState("");
-    // const [userEmail, setUserEmail] = useState("");
-    // const [newEmail, setUserNewEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [stationName, setStationName] = useState("");
@@ -32,15 +28,6 @@ export function UpdateUserForm() {
   const userNameUpdate = (event) => {
     setUserName(event.target.value);
   };
-
-  // const userEmailUpdate = (event) => {
-  //   setUserEmail(event.target.value);
-  // };
-
-  // const userNewEmailUpdate = (event) => {
-  //   setUserNewEmail(event.target.value);
-  // };
-
 
   const passwordUpdate = (event) => {
     setUserPassword(event.target.value);
@@ -150,33 +137,6 @@ const updateDetailsForm = () => {
             />
           </div>
         )}
-          {/* <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="email">
-                Current Email:
-            </label>
-            <input className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-            type="email" 
-            id="email" 
-            name="email" 
-            value={userEmail}
-            onChange={userEmailUpdate}
-            required
-             />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="email">
-                New Email:
-            </label>
-            <input className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-            type="email" 
-            id="newEmail" 
-            name="newEmail" 
-            value={newEmail}
-            onChange={userNewEmailUpdate}
-             />
-          </div> */}
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="password">
@@ -267,14 +227,6 @@ const updateDetailsForm = () => {
     </div>
   );
 }
-
-// const renderSuccessMessage = () => {
-//     return (
-//     <div className="font-main flex justify-center text-center text-lg md:text-2xl">
-//         <p className="w-1/2">Thank you. <br/><br/> Your account details have successfully been updated.</p>
-//     </div>
-//     );
-//     };
 
 
 // timer to render default dash when form has been sent, after success msg shown

@@ -35,25 +35,14 @@ const EmailVerification = () => {
           setError("")
         }
       } catch (error) {
-        // Handle error response
         if (error.response && error.response.data && error.response.data.error) {
-          // Check if there's an error message in the response data
+
           const errorMessage = error.response.data.error;
+
           if (errorMessage === "User account could not be verified") {
-            // Show error message and redirect to the signup page again
             setError("User account could not be verified. Please try again. Rerouting now...");
-            // if (isMdScreenOrLarger) {
-            //   navigate("/report");
-            // } else {
-            //   navigate("/signup");
-            // }
           } else if (errorMessage === "Unable to find user document.") {
             setError("Account not found, please sign up instead. Rerouting now...");
-            // if (isMdScreenOrLarger) {
-            //   navigate("/report");
-            // } else {
-            //   navigate("/signup");
-            // }
           }
         } else {
           setError("Unable to verify your account. Please try again later. Rerouting now...");
