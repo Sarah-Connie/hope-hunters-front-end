@@ -117,7 +117,7 @@ const DashboardSearchBar = ({ onSearchResult, reports, originalReports }) => {
   return (
     <div className={`flex flex-col p-2 md:p-4`}>
         <div className={`flex flex-col w-full items-center font-main justify-evenly`}>
-            <div className={`flex md:flex-row w-full items-center font-main justify-center`}>
+            <div className={`flex md:flex-row w-full items-center font-main justify-between md:justify-center`}>
             <input
                 className={`w-3/6 text-xs md:text-md lg:text-base md:w-5/6 h-8 md:h-10 mr-2 md:m-3 mb-0 p-1 md:p-3 border border-blue rounded`}
                 type="text"
@@ -137,7 +137,7 @@ const DashboardSearchBar = ({ onSearchResult, reports, originalReports }) => {
                 Search
                 </button>
                 <button
-                className={`bg-lightblue rounded h-8 w-15 md:h-12 ml-2 p-3 md:p-6 flex items-center hover:bg-yellow hover:scale-105 ease-out duration-200 text-white`}
+                className={`bg-lightblue rounded h-8 w-15 md:h-12 md:ml-2 p-3 md:p-6 flex items-center hover:bg-yellow hover:scale-105 ease-out duration-200 text-white`}
                 onClick={handleClear}
                 >
                 Clear
