@@ -1,17 +1,15 @@
-import { useState, useEffect } from "react";
-
 function SortMenu({ onSortChange, selectedOption }) {
-  const [sortError, setSortError] = useState("");
+  // const [sortError, setSortError] = useState();
 
   const handleSortChange = (event) => {
     const selectedValue = event.target.value;
-    setSortError(""); // clear the sortError when a new option is selected
+    // setSortError(""); // clear the sortError when a new option is selected
     onSortChange(selectedValue);
   };
 
-  useEffect(() => {
-    setSortError(""); // clear the sortError when component mounts or receives new props
-  }, []);
+  // useEffect(() => {
+  //   setSortError(""); // clear the sortError when component mounts or receives new props
+  // }, []);
 
   return (
     <div className="flex flex-row items-center font-main justify-center w-full">

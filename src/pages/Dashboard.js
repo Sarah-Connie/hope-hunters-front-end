@@ -6,9 +6,7 @@ import NewMPForm from "../components/NewMPForm";
 import { useMediaQuery } from "react-responsive";
 import axios from "../api/axios";
 import ConfirmationWindow from "../components/ConfirmationWindow";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../components/AuthContext"
-import SuccessMsg from "../components/SuccessMsg";
 import DashboardSearchBar from "../components/DashboardSearchbar";
 
 
@@ -32,11 +30,8 @@ export function Dashboard() {
   // const isPoliceUser = sessionStorage.getItem(user.police);
   // const isAdmin = sessionStorage.getItem(user.admin);
   const userType = user && (!user.police && !user.admin) ? 'general' : 'police/admin';
-  const apiEndpoint = userType === 'general' ? '/users/search' : '/missing/search';
   
-   
   const [deletionError, setDeletionError] = useState("");
-  const navigate = useNavigate();
   const authToken = `Bearer ${sessionStorage.getItem("token")}`;
 
   // api call to get all of the logged-in user's MP reports
@@ -55,7 +50,6 @@ export function Dashboard() {
         setError("Your report data is unavailable at this time.");
       } else {
         setError("Error fetching missing persons data. Please try again later.");
-        console.error("Error fetching missing persons data:", error);
       }
     }
   };
@@ -63,20 +57,9 @@ export function Dashboard() {
   // run the api call when reports get updated
    useEffect(() => {
     fetchMissingPersonsData();
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // // store the returned reports on mount
-  // useEffect(() => {
-  //   setReports(reports);
-  // }, []);
-
-
-  // // store the returned reports anytime the reports change
-  // // will show live when a user adds, deletes, or updates a report
-  // useEffect(() => {
-  //   setReports(reports);
-  //   // setOriginalReports(reports)
-  // }, [reports]);
 
   // determine which forms/buttons and report to show when 'update report' is clicked
   const handleUpdateReportButtonClick = (reportId) => {
@@ -121,15 +104,12 @@ export function Dashboard() {
         fetchMissingPersonsData();
         
       } else if (response.status === 404){
-        // Handle deletion failure
         setDeletionError("Deletion unsuccessful.")
-        console.error('Failed to delete account:', response.data.error);
       }
     } 
   }
     catch (error) {
       setDeletionError("Unable to delete the report at this time. Please try again later.")
-      console.error('Error:', error);
     }
     // setShowDeleteReportConfirmation(false); // Close the new confirmation window regardless of success or failure
   };
@@ -168,7 +148,6 @@ export function Dashboard() {
   // api call to delete the account
   const handleConfirmAccountDelete = async () => {
     try {
-      // const authToken = `Bearer ${sessionStorage.getItem('token')}`;
       const response = await axios.delete('/users/delete', {
         headers: {
           Authorization: authToken,
@@ -183,11 +162,9 @@ export function Dashboard() {
       } else if (response.status === 404){
         // Handle deletion failure
         setDeletionError("Deletion unsuccessful.")
-        console.error('Failed to delete account:', response.data.error);
       }
     } catch (error) {
       setDeletionError("Unable to delete your account at this time. Please try again later.")
-      console.error('Error:', error);
     }
 
     // Close the confirmation window regardless of success or failure
@@ -204,12 +181,6 @@ export function Dashboard() {
   const handleSearchResult = (searchResult) => {
     setReports(searchResult);
     setError(''); // Clear the search error when a new search is performed
-  };
-
-  const handleClearSearch = () => {
-    // Set the "reports" state back to the original list from api call
-    setReports(originalReports);
-    setError('');
   };
 
 

@@ -9,7 +9,6 @@ jest.mock("../components/SearchBar", () => () => <div data-testid="mocked-search
 jest.mock("../components/AmberBanner", () => () => <div data-testid="mocked-amberbanner" />);
 jest.mock("../components/SocialShares", () => ({ report }) => (
   <div data-testid="mocked-socialshares">
-    {/* You can access the report object here if needed */}
   </div>
 ));
 jest.mock('../api/axios', () => ({

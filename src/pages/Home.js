@@ -40,7 +40,6 @@ export function Home() {
         setError("General report data unavailable. Please try the search or filter instead.");
       } else {
         setError("Error fetching missing persons data. Please try again later.");
-        console.error("Error fetching missing persons data:", error);
       }
     }
   };
@@ -61,7 +60,6 @@ export function Home() {
       setSortError("Unable to sort at this time.");
       setHasSortError(true);
       setReports(originalReports)
-
     }
   };
 

@@ -29,16 +29,9 @@ function AmberAlertBanner() {
     };
 
     fetchAmberAlerts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-    // useEffect(() => {
-    //     if (amberAlerts.length === 0) {
-    //     setError("No Active Amber Alerts");
-    //     setStartAnimation(false);
-    //     } else {
-    //     setStartAnimation(true);
-    //     }
-    // }, [amberAlerts]);
 
   return (
     <div className="h-12 bg-amber flex justify-end overflow-hidden">

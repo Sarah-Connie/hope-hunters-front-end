@@ -43,13 +43,13 @@ const DashboardSearchBar = ({ onSearchResult, reports, originalReports }) => {
         const authToken = `Bearer ${sessionStorage.getItem('token')}`;
         
         const response = await axios.get(`${apiEndpoint}/${searchTerm}`, 
-        {
-        headers: {
-            Authorization: authToken,
-        },
-        }
-    
-    );
+          {
+            headers: {
+                Authorization: authToken,
+            },
+          }
+        );
+        
       // Update the reports state in the Dashboard component with the search results
       onSearchResult(response.data);
 
@@ -70,9 +70,10 @@ const DashboardSearchBar = ({ onSearchResult, reports, originalReports }) => {
     // When the search term becomes empty, show the original reports again
     // empty searchbar means no search has been made or new search is desired
     if (searchTerm === '') {
-    onSearchResult(originalReports);
-    setSearchError('');
+      onSearchResult(originalReports);
+      setSearchError('');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm]);
 
   useEffect(() => {
@@ -92,12 +93,12 @@ const DashboardSearchBar = ({ onSearchResult, reports, originalReports }) => {
 
     // Update the URL to reflect the search term as it changes
     if (event.target.value === '' && JSON.stringify(originalReports)) {
-    const newUrl = '/';
-    window.history.replaceState(null, '', newUrl);
+      const newUrl = '/';
+      window.history.replaceState(null, '', newUrl);
     } else {
-    const searchParams = new URLSearchParams({ searchQuery: event.target.value });
-    const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
-    window.history.replaceState(null, '', newUrl);
+      const searchParams = new URLSearchParams({ searchQuery: event.target.value });
+      const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
+      window.history.replaceState(null, '', newUrl);
     }
   };
 

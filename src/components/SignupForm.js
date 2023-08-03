@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import bcrypt from 'bcryptjs'
 import axios from '../api/axios';
 const SIGNUP_URL = '/users/signup';
 
@@ -17,9 +16,6 @@ export function SignupForm() {
   const [policeDistrict, setPoliceDistrict] = useState("");
 
   const [verificationSent, setVerificationSent] = useState(false);
-  
-  const salt = bcrypt.genSaltSync(10)
-  const hashedPassword = bcrypt.hashSync(confirmedPassword, salt);
 
 
   const handleEmailChange = (event) => {
@@ -34,6 +30,7 @@ export function SignupForm() {
 
   useEffect(() => {
     validateEmail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userEmail, selectedOption]);
 
   const handleOptionChange = (event) => {
@@ -74,15 +71,13 @@ export function SignupForm() {
     const formData = {
       fullName: userName,
       email: userEmail,
-      password: hashedPassword,
-      // password: confirmedPassword,
+      password: confirmedPassword,
       stationName: stationName,
       policeAreaCommand: policeAreaCommand,
       policeDistrict: policeDistrict,
     };
 
     
-    //add db url
     try {
       const response = await axios.post(SIGNUP_URL, formData, {
         headers: { 'Content-Type': 'application/json' },
@@ -289,6 +284,8 @@ export function SignupForm() {
       }
       return null;
     };
+
+    
 
     return (
         <div className="p-4">

@@ -2,22 +2,9 @@ import { createContext, useContext, useEffect, useState} from 'react';
 import axios from '../api/axios';
 
 const AuthContext = createContext();
-// const AuthContext = createContext({
-//   isLoggedIn: false,
-//   user: {
-//     email: "",
-//     token: "",
-//     admin: false,
-//     police: false,
-//   },
-//   login: () => {},
-//   logout: () => {},
-//   error: "",
-// });
 
 const AuthProvider = ({ children, location, history }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const [user, setUser] = useState(null);
   const [error, setError] = useState("");
 
   const userJSON = sessionStorage.getItem('user');
@@ -25,18 +12,6 @@ const AuthProvider = ({ children, location, history }) => {
 
   const [user, setUser] = useState(initialUser);
   
-
-  // const [user, setUser] = useState({ police: false });
-
-  // // persist the login status 
-  // useEffect(() => {
-  //   const token = sessionStorage.getItem('token');
-  //   const loggedInStatus = sessionStorage.getItem("loggedInStatus")
-
-  //   if (token && loggedInStatus === 'true') {
-  //     setIsLoggedIn(true)
-  //   } else logout();
-  // }, []);
   
   // persist the login status 
   useEffect(() => {
@@ -49,8 +24,7 @@ const AuthProvider = ({ children, location, history }) => {
     } else {
       logout();
     }
-    console.log("User:", user);
-  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn]);
 
 
@@ -62,7 +36,7 @@ const AuthProvider = ({ children, location, history }) => {
         const responseData = response.data;
   
         if (responseData && responseData.token) {
-          const { token, admin, police } = responseData;
+          const { admin, police } = responseData;
           const user = {
             token: responseData.token,
             admin: admin,
@@ -80,12 +54,11 @@ const AuthProvider = ({ children, location, history }) => {
           sessionStorage.setItem('token', user.token);
           sessionStorage.setItem('user', JSON.stringify(user));
   
-          console.log('Login successful. User details:', user);
+          console.log('Login successful');
         }
       }
   }
     catch (error) {
-      console.log(error);
       if (error.response) {
         const status = error.response.status;
         const errorMessage = error.response.data.error;
@@ -126,10 +99,8 @@ const AuthProvider = ({ children, location, history }) => {
           if (responseData && responseData.token) {
             sessionStorage.setItem('token', responseData.token);
             console.log('Token refreshed successfully');
-            console.log('New Token:', responseData.token);
             
             setUser((user) => ({ ...user, token: responseData.token }));
-            // console.log ("setting new user", user)
             return responseData.token; 
           }
         } else {
@@ -137,7 +108,6 @@ const AuthProvider = ({ children, location, history }) => {
         }
       }
     } catch (error) {
-      console.error("Error while refreshing token:", error);
       setError('An error occurred while refreshing the token.');
       throw error;
     }
