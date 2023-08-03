@@ -172,7 +172,7 @@ export function SignupForm() {
           Enter your details below to signup.
           </p>
             <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fullName">
                 Name:
             </label>
             <input
@@ -185,7 +185,7 @@ export function SignupForm() {
             />
             </div>
             <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
                 Email:
             </label>
             <input
@@ -202,7 +202,7 @@ export function SignupForm() {
             )}
             </div>
             <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                 Password:
             </label>
             <input
@@ -215,7 +215,7 @@ export function SignupForm() {
             />
             </div>
             <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="confirmedPassword">
                 Confirm Password:
             </label>
             <input
@@ -228,7 +228,7 @@ export function SignupForm() {
             />
             </div>
             <div className="mb-4 flex flex-row justify-evenly">
-            <label className="block text-gray-700 text-sm font-bold">
+            <label className="block text-gray-700 text-sm font-bold" htmlFor="police">
                 Police Account?
             </label>
             <div>
@@ -245,7 +245,7 @@ export function SignupForm() {
                 </label>
             </div>
             <div>
-                <label>
+                <label htmlFor="general">
                 <input
                     type="radio"
                     id="general"

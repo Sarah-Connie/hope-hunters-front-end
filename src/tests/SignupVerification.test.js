@@ -1,9 +1,7 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { useMediaQuery } from 'react-responsive';
-import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 import EmailVerification from '../components/SignupVerification';
-import { useParams } from 'react-router-dom';
 
 jest.mock('react-responsive', () => ({
   useMediaQuery: jest.fn(),
