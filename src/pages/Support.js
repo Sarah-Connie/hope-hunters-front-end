@@ -2,9 +2,9 @@ import React from "react";
 
 const SupportPage = () => {
   return (
-    <div className="container mx-auto py-8 font-main">
-      <h1 className="text-3xl font-semibold mb-4">Support and Resources</h1>
-      <div className="grid lg:grid-cols-3 gap-4">
+    <div className="container mx-auto py-8 font-main px-5">
+      <h1 className="text-2xl md:text-3xl font-semibold mb-6">Support and Resources</h1>
+      <div className="grid lg:grid-cols-3 gap-6">
 
         {/* Suicide Prevention Hotline */}
         <div className="bg-gray-100 p-4 rounded-md">
