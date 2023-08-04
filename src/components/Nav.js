@@ -19,18 +19,22 @@ export function Nav() {
         {isMdScreenOrLarger ? (
             <div className="">
                 {/* possibly change to 2xl depending on how other links render when loggedin */}
-                <ul className="md:text-2xl lg:text-3xl flex flex-row px-5 text-center">
+                <ul className="md:text-lg lg:text-3xl flex flex-row md:px-5 text-center">
                     {/* Show home link when not on homepage */}
                     {!isHomePage && (
-                    <li className={`mr-10 ${linkStyle}`}>
+                    <li className={`mr-4 lg:mr-8 ${linkStyle}`}>
                         <NavLink to="/">Home</NavLink>
                     </li>
                     )}
 
-                    {/* if user is logged in, show dashboard, logout, and/or home link from above */}
-                    {isLoggedIn ? (
+                    <li className={`mr-4 lg:mr-8 ${linkStyle}`}>
+                        <NavLink to="/support">Support</NavLink>
+                    </li>
+
+                {/* if user is logged in, show dashboard, logout, and/or home link from above */}
+                {isLoggedIn ? (
                 <>
-                    <li className={`mr-10 ${linkStyle}`}>
+                    <li className={`mr-4 lg:mr-8 ${linkStyle}`}>
                     <NavLink to="/dashboard">Dashboard</NavLink>
                     </li>
                     {/* add adjustment to appropriately log user out but direct to homepage 
@@ -42,9 +46,9 @@ export function Nav() {
                 ) : (
                     // else if user is a public user, show below link
                     // /report route directs to page with login and signup forms
-                <li className={`${linkStyle}`}>
-                    <NavLink to="/report">Report Missing Person</NavLink>
-                </li>
+                    <li className={`md:text-base lg:text-2xl ${linkStyle}`}>
+                        <NavLink to="/report">Report Missing Person</NavLink>
+                    </li>
                 )}
                 </ul>
             </div>
