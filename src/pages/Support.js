@@ -2,16 +2,15 @@ import React from "react";
 
 const SupportPage = () => {
   return (
-    <div className="container mx-auto py-8 font-main px-5">
-      <h1 className="text-2xl md:text-3xl font-semibold mb-6">Support and Resources</h1>
+    <div className="container mx-auto py-8 px-5 font-main lg:px-3 pt-10">
+      <h1 className="text-2xl md:text-3xl font-semibold mb-6 md:mb-16">Support and Resources</h1>
       <div className="grid lg:grid-cols-3 gap-6">
 
         {/* Suicide Prevention Hotline */}
         <div className="bg-gray-100 p-4 rounded-md">
           <h2 className="text-lg font-semibold mb-2">Suicide Prevention Hotline</h2>
           <span className="text-sm">
-            <p>If you or someone you know is struggling with suicidal thoughts, call Lifeline Australia at 13 11 14 for 24/7 support.</p>
-            <p>You are not alone, Lifeline Australia will listen.</p>
+            <p>If you or someone you know is struggling with suicidal thoughts, call Lifeline Australia at 13 11 14 for 24/7 support. You are not alone, Lifeline Australia will listen.</p>
             <br/>
             <p>Please visit <a href="https://www.lifeline.org.au/" className="italic font-semibold">Lifeline Australia</a> for more information.</p>
           </span>
