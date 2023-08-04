@@ -19,6 +19,7 @@ function App() {
             <Route path="/report" element={<ReportPage />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/signup" element={<SignupForm />} />
+            <Route path="/support" element="" />
             <Route path="/dashboard" element=
             {<PrivateRoute>
               <Dashboard />
