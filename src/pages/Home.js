@@ -156,10 +156,14 @@ export function Home() {
               <div className="mt-5">
                 <ShareButtons report={report} />
                 <div className="flex flex-col">
-                 
+                {report.photoURL ? (
                   <div className="aspect-w-1 aspect-h-1 justify-center flex">
                     <img src={report.photoURL} alt="Missing Person" className="md:h-52 md:w-52 lg:h-64 lg:w-64 object-cover" />
-                  </div>
+                  </div>) : (
+                    <div className="aspect-w-1 aspect-h-1 justify-center flex">
+                      <p className="flex font-main italic text-sm items-center justify-center md:h-52 md:w-52 lg:h-64 lg:w-64 object-cover border border-yellow">No photo provided</p>
+                    </div>
+                  )}
                   <div className="flex flex-col font-main p-2">
                     <p className="text-2xl pt-1">{report.fullName}</p>
                     <p>Current Age: {report.currentAge[0].number ? report.currentAge[0].number + ' ' + report.currentAge[0].type + ' old' : 'Unreported'}</p>
@@ -192,21 +196,26 @@ export function Home() {
             <div className={`flex flex-col p-4 mb-5 rounded ${report.amberAlert ? 'bg-orange' : 'border border-blue'}`} key={report._id}>
                 <ShareButtons report={report} />
                 <div className="flex flex-row">
+                  {report.photoURL ? (
                     <div className="aspect-w-1 aspect-h-1 flex items-start flex-grow items-center">
-                        <img src={report.photoURL ? (report.photoURL) : ("No Photo Provided")} alt="Missing Person" className="h-28 w-28 object-cover" 
-                        />
+                      <img src={report.photoURL} alt="Missing Person" className="h-28 w-28 object-cover" />
                     </div>
-                    <div className="flex flex-col font-main text-sm pl-3 w-4/6">
-                        <p className="text-lg italic pb-1">{report.fullName}</p>
-                        <p>Current Age: {report.currentAge[0].number ? report.currentAge[0].number + ' ' + report.currentAge[0].type + ' old' : 'Unreported'}</p>
-                        <p>Age at Reported Missing: {report.age[0].number ? report.age[0].number + ' ' + report.age[0].type + ' old' : 'Unreported'}</p>
-                        <p>Date Last Seen: {report.dateLastSeen ? new Date(report.dateLastSeen).toISOString().split("T")[0] : 'Unreported'}</p>
-                        <p className="pt-1">Location Last Seen - </p>
-                        <p>{report.locationLastSeen.address ? ("Address: " + report.locationLastSeen.address) : ("")}</p>
-                        <p>{report.locationLastSeen.city ? ("City: " + report.locationLastSeen.city) : ("")}    </p>
-                        <p>{report.locationLastSeen.state ? (report.locationLastSeen.state) : ("")} {report.locationLastSeen.postcode}</p>
-                        <p>Area Suspected To Be: {report.areaSuspectedToBe ? (report.areaSuspectedToBe) : ("Unreported")}</p>
+                    ) : (
+                    <div className="aspect-w-1 aspect-h-1 flex items-start flex-grow items-center">
+                      <p className="flex font-main italic text-xs items-center justify-center h-28 w-28 object-cover border border-yellow">No photo provided</p>
                     </div>
+                  )}
+                  <div className="flex flex-col font-main text-sm pl-3 w-4/6">
+                      <p className="text-lg italic pb-1">{report.fullName}</p>
+                      <p>Current Age: {report.currentAge[0].number ? report.currentAge[0].number + ' ' + report.currentAge[0].type + ' old' : 'Unreported'}</p>
+                      <p>Age at Reported Missing: {report.age[0].number ? report.age[0].number + ' ' + report.age[0].type + ' old' : 'Unreported'}</p>
+                      <p>Date Last Seen: {report.dateLastSeen ? new Date(report.dateLastSeen).toISOString().split("T")[0] : 'Unreported'}</p>
+                      <p className="pt-1">Location Last Seen - </p>
+                      <p>{report.locationLastSeen.address ? ("Address: " + report.locationLastSeen.address) : ("")}</p>
+                      <p>{report.locationLastSeen.city ? ("City: " + report.locationLastSeen.city) : ("")}    </p>
+                      <p>{report.locationLastSeen.state ? (report.locationLastSeen.state) : ("")} {report.locationLastSeen.postcode}</p>
+                      <p>Area Suspected To Be: {report.areaSuspectedToBe ? (report.areaSuspectedToBe) : ("Unreported")}</p>
+                  </div>
                 </div>
                 <div className="flex flex-col font-main text-sm">
                     <p className="text-lg font-semibold pt-2">Key Details:</p>
