@@ -101,6 +101,14 @@ function HamburgerMenu() {
                     </NavLink>
                   </li>
                   <li className="border-b border-white my-8 uppercase">
+                    <NavLink
+                      to="/support"
+                      onClick={handleLinkClick}
+                    >
+                      Support
+                    </NavLink>
+                  </li>
+                  <li className="border-b border-white my-8 uppercase">
                   <NavLink to="/" 
                     onClick={() => { 
                       setIsNavOpen(false); 
@@ -127,6 +135,14 @@ function HamburgerMenu() {
                       onClick={handleLinkClick}
                     >
                       Sign Up
+                    </NavLink>
+                  </li>
+                  <li className="border-b border-white my-8 uppercase">
+                    <NavLink
+                      to="/support"
+                      onClick={handleLinkClick}
+                    >
+                      Support
                     </NavLink>
                   </li>
                   <li className="border-b border-white my-8 uppercase">
