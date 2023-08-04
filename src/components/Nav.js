@@ -46,7 +46,7 @@ export function Nav() {
                 ) : (
                     // else if user is a public user, show below link
                     // /report route directs to page with login and signup forms
-                    <li className={`md:text-base lg:text-2xl ${linkStyle}`}>
+                    <li className={`md:text-base lg:text-3xl ${linkStyle}`}>
                         <NavLink to="/report">Report Missing Person</NavLink>
                     </li>
                 )}
