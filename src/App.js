@@ -8,6 +8,7 @@ import SignupForm from './components/SignupForm';
 import { Dashboard } from './pages/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
 import EmailVerification from './components/SignupVerification';
+import SupportPage from './pages/Support';
 
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
             <Route path="/report" element={<ReportPage />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/signup" element={<SignupForm />} />
-            <Route path="/support" element="" />
+            <Route path="/support" element={<SupportPage />} />
             <Route path="/dashboard" element=
             {<PrivateRoute>
               <Dashboard />
