@@ -1,6 +1,6 @@
 {
-  "name": "hope-hunters-front-end",
   "homepage": "https://hope-helpers.netlify.app",
+  "name": "hope-hunters-front-end",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
