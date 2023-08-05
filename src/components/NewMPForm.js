@@ -63,7 +63,6 @@ export function NewMPForm({ fetchAllReports }) {
     // Send the updated missing person data to the backend for updating
     try {
       const authToken = `Bearer ${sessionStorage.getItem("token")}`;
-      console.log("auth Token:", authToken);
 
       const response = await axios.post("/missing/new", newMissingPerson, {
         headers: {
@@ -109,7 +108,6 @@ export function NewMPForm({ fetchAllReports }) {
         setVerifySent(false);
       }
     } catch (error) {
-      console.error("Error:", error);
       if (error.response) {
         // Handle server response errors
         const responseData = error.response.data;
