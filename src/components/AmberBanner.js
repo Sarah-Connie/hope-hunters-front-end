@@ -53,18 +53,20 @@ function AmberAlertBanner() {
             {/* When start animation is true, pull info from the endpoint and render */}
             {startAnimation && (
               <>
-                <div className="font-main font-bold uppercase mr-4">Active Amber Alerts</div>
-                {amberAlerts.map((alert) => (
-                  <div className="flex flex-row uppercase" key={alert._id}>
-                    <span>{alert.fullName},</span>
-                    <span className="ml-1">
-                      {alert.currentAge[0].number ? (alert.currentAge[0].number) : ("Unreported")} {alert.currentAge[0].type} old,
-                    </span>
-                    <span className="ml-1">
-                      {alert.locationLastSeen.city ? (alert.locationLastSeen.city) : (alert.locationLastSeen.postcode)} {alert.locationLastSeen.state}
-                    </span>
-                  </div>
-                ))}
+                <div className="font-main font-bold uppercase mr-16">Active Amber Alerts</div>
+                <div className="flex justify-evenly space-x-10">
+                  {amberAlerts.map((alert) => (
+                    <div className="flex flex-row uppercase" key={alert._id}>
+                      <span>{alert.fullName},</span>
+                      <span className="ml-1">
+                        {alert.currentAge[0].number ? (alert.currentAge[0].number) : ("Unreported")} {alert.currentAge[0].type} old,
+                      </span>
+                      <span className="ml-1">
+                        {alert.locationLastSeen.city ? (alert.locationLastSeen.city) : (alert.locationLastSeen.postcode)} {alert.locationLastSeen.state}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </>
             )}
           </>

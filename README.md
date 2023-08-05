@@ -148,7 +148,7 @@ Please see a large version of the purposefully designed logo for the Hope Helper
         >
         ![mobile support final](./src/assets/images/mobile-support-final.png)
         >
-        The third feature with a slightly modified design from the prelimary planning is the social media share buttons. Originally designed to be arrows, but changed to represent the actual sharing outlet instead. This was done to improve clarity for the user and reduce clicks, as with an arrow, another click would've been required to select which social media outlet the user wished to push to.
+        The third feature with a slightly modified design from the preliminary planning is the social media share buttons. Originally designed to be arrows, but changed to represent the actual sharing outlet instead. This was done to improve clarity for the user and reduce clicks, as with an arrow, another click would've been required to select which social media outlet the user wished to push to.
         >
         These three features enhance the user's experience and aid in facilitating easy access to a wider breadth of information. 
         >
@@ -234,7 +234,7 @@ Please see a large version of the purposefully designed logo for the Hope Helper
         >
 - ##### Login and Signup (mobile only) / Report
     > 
-    No changes were made the general design or layout of the login and signup forms however a field was added to the signup form to allow the user to confirm their password.
+    No changes were made to the general design or layout of the login and signup forms however a field was added to the signup form to allow the user to confirm their password.
 
 
 

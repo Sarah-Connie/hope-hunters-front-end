@@ -176,6 +176,7 @@ export function Home() {
                     <p>{report.locationLastSeen.city ? ("City: " + report.locationLastSeen.city) : ("")}    </p>
                     <p>{report.locationLastSeen.state ? (report.locationLastSeen.state) : ("")} {report.locationLastSeen.postcode}</p>
                     <p>Area Suspected To Be: {report.areaSuspectedToBe ? (report.areaSuspectedToBe) : ("Unreported")}</p>
+                    <p>{report.policeDistrict ? ("Police District: " + report.policeDistrict) : ("")}</p>
                     
                     <p className="text-lg font-semibold"><br/>Key Details:</p>
                     <p>Height: {report.height.number ? report.height.number + 'cm' : 'Unreported'}, Weight: {report.weight.number ? report.weight.number + ' ' + report.weight.measurement[0] : 'Unreported'}</p>
@@ -215,6 +216,7 @@ export function Home() {
                       <p>{report.locationLastSeen.city ? ("City: " + report.locationLastSeen.city) : ("")}    </p>
                       <p>{report.locationLastSeen.state ? (report.locationLastSeen.state) : ("")} {report.locationLastSeen.postcode}</p>
                       <p>Area Suspected To Be: {report.areaSuspectedToBe ? (report.areaSuspectedToBe) : ("Unreported")}</p>
+                      <p>{report.policeDistrict ? ("Police District: " + report.policeDistrict) : ("")}</p>
                   </div>
                 </div>
                 <div className="flex flex-col font-main text-sm">

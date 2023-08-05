@@ -250,6 +250,7 @@ export function Dashboard() {
                             {/* <p>State Last Seen: {report.locationLastSeen.state ? (report.locationLastSeen.state) : ("Unreported")}</p> */}
                             <p>{report.locationLastSeen.state ? (report.locationLastSeen.state) : ("")} {report.locationLastSeen.postcode}</p>
                             <p>Area Suspected To Be: {report.areaSuspectedToBe ? (report.areaSuspectedToBe) : ("Unreported")}</p>
+                            <p>{report.policeDistrict ? ("Police District: " + report.policeDistrict) : ("")}</p>
                         </div>
                       </div>
                       <div className="flex flex-col font-main text-md space-y-.5">
@@ -378,6 +379,7 @@ export function Dashboard() {
                         <p>City Last Seen: {report.locationLastSeen.city ? (report.locationLastSeen.city) : ("Unreported")}</p>
                         <p>{report.locationLastSeen.state ? (report.locationLastSeen.state) : ("")} {report.locationLastSeen.postcode}</p>         
                         <p>Area Suspected To Be: {report.areaSuspectedToBe ? (report.areaSuspectedToBe) : ("Unreported")}</p>
+                        <p>{report.policeDistrict ? ("Police District: " + report.policeDistrict) : ("")}</p>
                    
                 <div className="flex flex-col font-main text-sm w-full">
                     <p className="text-lg font-semibold pt-2">Key Details:</p>
