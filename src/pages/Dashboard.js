@@ -319,7 +319,7 @@ export function Dashboard() {
                 </div>
       ) : (
         <div className="p-3">
-          <div className="flex w-1/2 space-x-1 p-2">
+          <div className="flex w-full space-x-1 p-2">
             {!showNewReportForm && (
               <RenderFormButton
                 onClick={() => setShowNewReportForm(true)}
